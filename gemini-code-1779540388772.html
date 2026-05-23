@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suara Pemuda RESPEK - Portal Aduan</title>
+    <style>
+        :root {
+            /* Palet Warna Utama */
+            --hitam: #111111;
+            --mahogany: #8B4513; 
+            --cream: #F5F5F0;
+            --dark-grey: #4A4A4A;
+            --border: #E0E0E0;
+            --putih: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--cream);
+            color: var(--hitam);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--hitam);
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            color: var(--dark-grey);
+            font-size: 15px;
+        }
+
+        .form-card {
+            background-color: var(--putih);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-top: 5px solid var(--mahogany);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--hitam);
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.2s;
+            background-color: #FAFAFA;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--mahogany);
+            background-color: var(--putih);
+        }
+
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 10px 0;
+            font-size: 14px;
+            color: var(--dark-grey);
+        }
+
+        small {
+            display: block;
+            margin-top: 4px;
+            color: var(--dark-grey);
+            font-size: 12px;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+            gap: 10px;
+        }
+
+        .form-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--mahogany);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--hitam);
+            color: var(--putih);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--dark-grey);
+        }
+
+        /* Penyesuaian responsif untuk layar HP */
+        @media (max-width: 480px) {
+            .form-card {
+                padding: 20px;
+            }
+            .container {
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Suara Pemuda</h1>
+            <p>Sampaikan kritik, saran, dan laporan untuk kemajuan pemuda RESPEK secara transparan.</p>
+        </header>
+
+        <main class="form-card">
+            <form id="formAduan">
+                <div class="form-group">
+                    <label for="judul">Judul Laporan</label>
+                    <input type="text" id="judul" placeholder="Contoh: Fasilitas olahraga di Alun-Alun Kajen rusak" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="kategori">Kategori</label>
+                    <select id="kategori" required>
+                        <option value="">-- Pilih Kategori --</option>
+                        <option value="Infrastruktur">Infrastruktur & Fasilitas Umum</option>
+                        <option value="Lingkungan">Lingkungan & Kebersihan</option>
+                        <option value="Keamanan">Ketertiban & Keamanan</option>
+                        <option value="Lainnya">Kritik & Saran Lainnya</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="deskripsi">Deskripsi Detail</label>
+                    <textarea id="deskripsi" rows="5" placeholder="Jelaskan detail lokasi dan masalahnya di sini..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="foto">Unggah Bukti Foto</label>
+                    <input type="file" id="foto" accept="image/*">
+                    <small>Format yang diizinkan: JPG, PNG (Opsional)</small>
+                </div>
+
+                <div class="form-checkbox">
+                    <input type="checkbox" id="anonim">
+                    <label for="anonim">Kirim sebagai Anonim (Sembunyikan identitas saya)</label>
+                </div>
+
+                <button type="submit" class="btn-submit" id="btnKirim">Kirim Laporan</button>
+            </form>
+        </main>
+    </div>
+
+    <!-- Menghubungkan logika JavaScript Supabase langsung di dalam file HTML -->
+    <script type="module">
+        // 1. Import Supabase Client dari CDN (ES Modules)
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+        // 2. Konfigurasi Database Supabase Anda
+        const supabaseUrl = 'https://omqxookhwflcmwvqmwyv.supabase.co';
+        const supabaseKey = 'sb_publishable_VqZJB-MLy7-f2lqyX3kZig_BVMSkIKX';
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        const formAduan = document.getElementById('formAduan');
+        const btnKirim = document.getElementById('btnKirim');
+
+        formAduan.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Ubah status tombol saat memproses data
+            btnKirim.disabled = true;
+            btnKirim.innerText = "Mengirim Laporan...";
+
+            // Ambil nilai dari input form HTML
+            const judul = document.getElementById('judul').value;
+            const kategori = document.getElementById('kategori').value;
+            const deskripsi = document.getElementById('deskripsi').value;
+            const fotoFile = document.getElementById('foto').files[0];
+            const isAnonim = document.getElementById('anonim').checked;
+
+            const namaPelapor = isAnonim ? "Anonim" : "Pemuda RESPEK";
+            let imageUrl = "";
+
+            try {
+                // 3. Logika Unggah Foto ke Storage (Jika pengguna melampirkan file)
+                if (fotoFile) {
+                    // Membersihkan nama file dari spasi agar tidak error di URL
+                    const namaFileBersih = fotoFile.name.replace(/\s+/g, '-');
+                    const namaFileUnik = `laporan_${Date.now()}_${namaFileBersih}`;
+                    
+                    // Upload ke bucket 'foto-bukti'
+                    const { data: uploadData, error: uploadError } = await supabase
+                        .storage
+                        .from('foto-bukti')
+                        .upload(namaFileUnik, fotoFile);
+
+                    if (uploadError) throw uploadError;
+
+                    // Dapatkan URL publik dari foto yang baru diunggah
+                    const { data: publicUrlData } = supabase
+                        .storage
+                        .from('foto-bukti')
+                        .getPublicUrl(namaFileUnik);
+
+                    imageUrl = publicUrlData.publicUrl;
+                }
+
+                // 4. Simpan Data Teks dan Tautan URL Foto ke Tabel 'reports'
+                const { data, error } = await supabase
+                    .from('reports')
+                    .insert([
+                        {
+                            title: judul,
+                            category: kategori,
+                            description: deskripsi,
+                            image_url: imageUrl,
+                            status: "Menunggu",
+                            upvotes: 0,
+                            author_name: namaPelapor
+                        }
+                    ]);
+
+                if (error) throw error;
+
+                // Berhasil! Tampilkan alert dan kosongkan form
+                alert("Laporan berhasil dikirim! Terima kasih atas partisipasi Anda.");
+                formAduan.reset();
+
+            } catch (error) {
+                console.error("Gagal:", error.message);
+                alert(`Gagal mengirim laporan: ${error.message}`);
+            } finally {
+                // Kembalikan tombol ke keadaan semula
+                btnKirim.disabled = false;
+                btnKirim.innerText = "Kirim Laporan";
+            }
+        });
+    </script>
+</body>
+</html>
