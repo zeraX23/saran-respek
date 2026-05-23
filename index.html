@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suara Pemuda RESPEK - Portal Aduan</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>">
     <style>
         :root {
-            /* Palet Warna Utama */
             --hitam: #111111;
-            --mahogany: #8B4513; 
+            --mahogany: #A62122; /* Disesuaikan sedikit agar lebih menyatu dengan warna merah logo RESPEK */
             --cream: #F5F5F0;
             --dark-grey: #4A4A4A;
             --border: #E0E0E0;
@@ -27,11 +27,16 @@
             color: var(--hitam);
             line-height: 1.6;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         .container {
             max-width: 600px;
-            margin: 40px auto;
+            margin: 30px auto;
+            flex: 1;
+            width: 100%;
         }
 
         header {
@@ -39,8 +44,16 @@
             margin-bottom: 30px;
         }
 
+        /* Tambahan: Styling untuk Logo */
+        .brand-logo {
+            max-width: 220px; /* Ukuran proporsional logo */
+            height: auto;
+            margin: 0 auto 10px auto;
+            display: block;
+        }
+
         header h1 {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 700;
             margin-bottom: 8px;
             color: var(--hitam);
@@ -58,6 +71,7 @@
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             border-top: 5px solid var(--mahogany);
+            position: relative;
         }
 
         .form-group {
@@ -137,29 +151,63 @@
             background-color: var(--dark-grey);
         }
 
-        /* Penyesuaian responsif untuk layar HP */
+        .btn-submit:disabled {
+            background-color: #CCCCCC;
+            cursor: not-allowed;
+            color: #666666;
+        }
+
+        #alertBox {
+            display: none;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .alert-success { background-color: #D4EDDA; color: #155724; border: 1px solid #C3E6CB; }
+        .alert-error { background-color: #F8D7DA; color: #721C24; border: 1px solid #F5C6CB; }
+
+        .honeypot-field {
+            display: none !important;
+            visibility: hidden;
+        }
+
+        .app-footer {
+            text-align: center;
+            padding: 20px 0;
+            color: var(--dark-grey);
+            font-size: 13px;
+        }
+
         @media (max-width: 480px) {
-            .form-card {
-                padding: 20px;
-            }
-            .container {
-                margin: 10px auto;
-            }
+            .form-card { padding: 20px; }
+            .container { margin: 10px auto; }
+            .brand-logo { max-width: 180px; } /* Logo mengecil sedikit di layar HP */
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Suara Pemuda</h1>
+            <!-- Pemanggilan gambar logo RESPEK -->
+            <img src="logo.png" alt="Logo Pemuda RESPEK" class="brand-logo">
+            
+            <h1>Portal Aduan & Aspirasi</h1>
             <p>Sampaikan kritik, saran, dan laporan untuk kemajuan pemuda RESPEK secara transparan.</p>
         </header>
 
         <main class="form-card">
+            <div id="alertBox"></div>
+
             <form id="formAduan">
+                <!-- ANTI-SPAM Honeypot -->
+                <input type="text" id="perangkapBot" class="honeypot-field" autocomplete="off" tabindex="-1">
+
                 <div class="form-group">
                     <label for="judul">Judul Laporan</label>
-                    <input type="text" id="judul" placeholder="Contoh: Fasilitas olahraga di Alun-Alun Kajen rusak" required>
+                    <input type="text" id="judul" placeholder="Contoh: Fasilitas penerangan jalan utama mati" required>
                 </div>
 
                 <div class="form-group">
@@ -169,13 +217,14 @@
                         <option value="Infrastruktur">Infrastruktur & Fasilitas Umum</option>
                         <option value="Lingkungan">Lingkungan & Kebersihan</option>
                         <option value="Keamanan">Ketertiban & Keamanan</option>
+                        <option value="Program">Ide Program & Kegiatan</option>
                         <option value="Lainnya">Kritik & Saran Lainnya</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="deskripsi">Deskripsi Detail</label>
-                    <textarea id="deskripsi" rows="5" placeholder="Jelaskan detail lokasi dan masalahnya di sini..." required></textarea>
+                    <textarea id="deskripsi" rows="5" minlength="20" placeholder="Ceritakan detail keluhan atau gagasan inovatif Anda di sini (minimal 20 karakter)..." required></textarea>
                 </div>
 
                 <div class="form-group">
@@ -194,44 +243,73 @@
         </main>
     </div>
 
-    <!-- Menghubungkan logika JavaScript Supabase langsung di dalam file HTML -->
+    <footer class="app-footer">
+        &copy; 2026 Pemuda RESPEK (Revolusi Pemuda Kepuh)
+    </footer>
+
     <script type="module">
-        // 1. Import Supabase Client dari CDN (ES Modules)
         import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-        // 2. Konfigurasi Database Supabase Anda
         const supabaseUrl = 'https://omqxookhwflcmwvqmwyv.supabase.co';
         const supabaseKey = 'sb_publishable_VqZJB-MLy7-f2lqyX3kZig_BVMSkIKX';
         const supabase = createClient(supabaseUrl, supabaseKey);
 
         const formAduan = document.getElementById('formAduan');
         const btnKirim = document.getElementById('btnKirim');
+        const alertBox = document.getElementById('alertBox');
+
+        function showAlert(message, type) {
+            alertBox.textContent = message;
+            alertBox.className = type === 'success' ? 'alert-success' : 'alert-error';
+            alertBox.style.display = 'block';
+            
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 6000); 
+        }
 
         formAduan.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            // ANTI-SPAM 1: Honeypot
+            const botTrap = document.getElementById('perangkapBot').value;
+            if (botTrap !== "") {
+                showAlert("Laporan berhasil dikirim!", "success");
+                formAduan.reset();
+                return;
+            }
+
+            // ANTI-SPAM 2: Cooldown Timer
+            const waktuTerakhirKirim = localStorage.getItem('lastReportTime');
+            if (waktuTerakhirKirim) {
+                const selisihWaktu = Date.now() - parseInt(waktuTerakhirKirim);
+                const jedaTunggu = 3 * 60 * 1000; 
+
+                if (selisihWaktu < jedaTunggu) {
+                    const sisaDetik = Math.ceil((jedaTunggu - selisihWaktu) / 1000);
+                    showAlert(`Harap tunggu ${sisaDetik} detik lagi sebelum mengirim laporan baru.`, "error");
+                    return;
+                }
+            }
             
-            // Ubah status tombol saat memproses data
             btnKirim.disabled = true;
             btnKirim.innerText = "Mengirim Laporan...";
+            alertBox.style.display = 'none';
 
-            // Ambil nilai dari input form HTML
             const judul = document.getElementById('judul').value;
             const kategori = document.getElementById('kategori').value;
             const deskripsi = document.getElementById('deskripsi').value;
             const fotoFile = document.getElementById('foto').files[0];
             const isAnonim = document.getElementById('anonim').checked;
 
-            const namaPelapor = isAnonim ? "Anonim" : "Pemuda RESPEK";
+            const namaPelapor = isAnonim ? "Anonim" : "Warga Kepuh";
             let imageUrl = "";
 
             try {
-                // 3. Logika Unggah Foto ke Storage (Jika pengguna melampirkan file)
                 if (fotoFile) {
-                    // Membersihkan nama file dari spasi agar tidak error di URL
                     const namaFileBersih = fotoFile.name.replace(/\s+/g, '-');
                     const namaFileUnik = `laporan_${Date.now()}_${namaFileBersih}`;
                     
-                    // Upload ke bucket 'foto-bukti'
                     const { data: uploadData, error: uploadError } = await supabase
                         .storage
                         .from('foto-bukti')
@@ -239,7 +317,6 @@
 
                     if (uploadError) throw uploadError;
 
-                    // Dapatkan URL publik dari foto yang baru diunggah
                     const { data: publicUrlData } = supabase
                         .storage
                         .from('foto-bukti')
@@ -248,7 +325,6 @@
                     imageUrl = publicUrlData.publicUrl;
                 }
 
-                // 4. Simpan Data Teks dan Tautan URL Foto ke Tabel 'reports'
                 const { data, error } = await supabase
                     .from('reports')
                     .insert([
@@ -265,15 +341,15 @@
 
                 if (error) throw error;
 
-                // Berhasil! Tampilkan alert dan kosongkan form
-                alert("Laporan berhasil dikirim! Terima kasih atas partisipasi Anda.");
+                localStorage.setItem('lastReportTime', Date.now());
+
+                showAlert("Laporan berhasil dikirim! Terima kasih atas partisipasi Anda untuk kemajuan desa.", "success");
                 formAduan.reset();
 
             } catch (error) {
                 console.error("Gagal:", error.message);
-                alert(`Gagal mengirim laporan: ${error.message}`);
+                showAlert(`Gagal mengirim laporan. Pastikan koneksi stabil dan ukuran foto tidak terlalu besar.`, "error");
             } finally {
-                // Kembalikan tombol ke keadaan semula
                 btnKirim.disabled = false;
                 btnKirim.innerText = "Kirim Laporan";
             }
