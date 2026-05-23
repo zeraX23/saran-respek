@@ -49,7 +49,7 @@
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .brand-logo {
@@ -70,6 +70,34 @@
         header p {
             color: var(--dark-grey);
             font-size: 14px;
+        }
+
+        /* --- STYLING TEKS BERJALAN --- */
+        .ticker-wrap {
+            width: 100%;
+            background-color: var(--mahogany);
+            padding: 10px 0;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(166, 33, 34, 0.2);
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .ticker-text {
+            display: inline-block;
+            color: var(--putih);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            padding-left: 100%; /* Memulai teks dari ujung kanan */
+            animation: ticker 15s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
         }
 
         /* --- STYLING FORMULIR --- */
@@ -261,6 +289,13 @@
             <p>Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.</p>
         </header>
 
+        <!-- FITUR BARU: TEKS BERJALAN -->
+        <div class="ticker-wrap">
+            <div class="ticker-text">
+                "Hidup itu harus mempunyai prinsip, Bukan dari kata orang"
+            </div>
+        </div>
+
         <!-- AREA 1: FORMULIR PENGIRIMAN -->
         <main class="form-card">
             <div id="alertBox"></div>
@@ -292,6 +327,8 @@
                 <div class="form-group">
                     <label for="foto">Unggah Bukti Foto</label>
                     <input type="file" id="foto" accept="image/*">
+                    <!-- FOTO PREVIEW -->
+                    <img id="previewFoto" style="display:none; width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin-top: 15px;">
                     <small>Sistem akan otomatis mengecilkan ukuran foto agar hemat kuota.</small>
                 </div>
 
@@ -334,6 +371,28 @@
         const btnKirim = document.getElementById('btnKirim');
         const alertBox = document.getElementById('alertBox');
         const daftarLaporanContainer = document.getElementById('daftarLaporan');
+
+        // FITUR BARU: FUNGSI PREVIEW FOTO
+        document.getElementById('foto').addEventListener('change', function() {
+            const preview = document.getElementById('previewFoto');
+            if (this.files && this.files[0]) {
+                preview.src = URL.createObjectURL(this.files[0]);
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+                preview.src = "";
+            }
+        });
+
+        // FITUR BARU: FUNGSI ANTI-HACKER (XSS Protection)
+        function bersihkanTeks(str) {
+            if (!str) return "";
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+                }[tag])
+            );
+        }
 
         // Fitur 1: Fungsi Kompresi Gambar Otomatis menggunakan Canvas HTML5
         async function compressImage(file) {
@@ -404,14 +463,14 @@
                     htmlContent += `
                         <div class="report-item">
                             <div class="report-header">
-                                <span class="report-title">${report.title}</span>
+                                <span class="report-title">${bersihkanTeks(report.title)}</span>
                                 <span class="status-badge" style="background-color: ${statusColor}">${report.status}</span>
                             </div>
                             <div class="report-meta">
-                                👤 ${report.author_name} &nbsp;|&nbsp; 🏷️ ${report.category} <br> 🕒 ${tgl}
+                                👤 ${bersihkanTeks(report.author_name)} &nbsp;|&nbsp; 🏷️ ${report.category} <br> 🕒 ${tgl}
                             </div>
                             <div class="report-desc">
-                                "${report.description}"
+                                "${bersihkanTeks(report.description)}"
                             </div>
                             ${report.image_url ? `<img src="${report.image_url}" class="report-image" alt="Bukti Foto">` : ''}
                         </div>
@@ -494,7 +553,10 @@
 
                 localStorage.setItem('lastReportTime', Date.now());
                 showAlert("Laporan berhasil dikirim dan akan segera tampil di papan publik!", "success");
+                
+                // Reset Formulir dan Sembunyikan Preview Foto
                 formAduan.reset();
+                document.getElementById('previewFoto').style.display = 'none';
                 
                 // Segarkan papan daftar laporan secara otomatis setelah sukses kirim
                 fetchLaporan();
