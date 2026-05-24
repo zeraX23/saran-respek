@@ -100,6 +100,27 @@
         .btn-upvote:hover { background-color: var(--error-bg); color: var(--primary); border-color: #FECACA; }
         .btn-upvote.sudah-dukung { background-color: #E5E7EB; color: #9CA3AF; cursor: not-allowed; border-color: #E5E7EB; }
 
+        .btn-komen { display: inline-flex; align-items: center; gap: 6px; background-color: #F3F4F6; color: var(--text-main); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; margin-top: 10px; margin-left: 8px; }
+        .btn-komen:hover { background-color: #EFF6FF; color: #2563EB; border-color: #BFDBFE; }
+        .btn-komen.aktif { background-color: #EFF6FF; color: #2563EB; border-color: #BFDBFE; }
+
+        .komen-section { display: none; margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; animation: fadeIn 0.25s ease; }
+        .komen-section.terbuka { display: block; }
+
+        .komen-list { margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
+        .komen-item { background: var(--input-bg); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+        .komen-nama { font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 3px; }
+        .komen-isi { font-size: 13px; color: #4B5563; line-height: 1.5; }
+        .komen-waktu { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+        .komen-kosong { text-align: center; color: var(--text-muted); font-size: 13px; padding: 10px 0; }
+
+        .komen-form { display: flex; flex-direction: column; gap: 8px; }
+        .komen-form input[type="text"] { padding: 9px 12px; font-size: 13px; border-radius: 10px; }
+        .komen-form textarea { padding: 9px 12px; font-size: 13px; border-radius: 10px; resize: none; }
+        .btn-kirim-komen { align-self: flex-end; background: var(--primary); color: #fff; border: none; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.2s; }
+        .btn-kirim-komen:hover { background: var(--primary-hover); }
+        .btn-kirim-komen:disabled { background: #D1D5DB; cursor: not-allowed; }
+
         .honeypot-field { display: none !important; }
         #alertBox { display: none; padding: 16px; margin-bottom: 24px; border-radius: var(--radius-md); font-size: 14px; font-weight: 600; text-align: center; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
@@ -141,9 +162,9 @@
 <body>
     <div class="container">
         <header>
-            <img src="fotosampul.png" alt="Foto Sampul Portal RESPEK" class="cover-photo">
+            <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/fotosampul.png" alt="Foto Sampul Portal RESPEK" class="cover-photo">
             
-            <img src="logo.png" alt="Logo Pemuda RESPEK" class="brand-logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>'">
+            <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/logo.png" alt="Logo Pemuda RESPEK" class="brand-logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>'">
             <h1>Portal Aduan & Aspirasi</h1>
             <p>Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.</p>
         </header>
@@ -393,6 +414,19 @@
                                 <button class="btn-upvote ${cekDukung}" onclick="dukungAspirasi('${report.id}', ${report.upvotes || 0})">
                                     ${teksTombol} (${report.upvotes || 0})
                                 </button>
+                                <button class="btn-komen" id="btnKomen-${report.id}" onclick="toggleKomen('${report.id}')">
+                                    💬 Komentar
+                                </button>
+                            </div>
+                            <div class="komen-section" id="komen-${report.id}">
+                                <div class="komen-list" id="listKomen-${report.id}">
+                                    <p class="komen-kosong">Memuat komentar...</p>
+                                </div>
+                                <div class="komen-form">
+                                    <input type="text" id="namaKomen-${report.id}" placeholder="Nama kamu (kosongkan jika anonim)" maxlength="50">
+                                    <textarea id="isiKomen-${report.id}" rows="2" placeholder="Tulis komentarmu..." maxlength="300" required></textarea>
+                                    <button class="btn-kirim-komen" id="btnKirimKomen-${report.id}" onclick="kirimKomen('${report.id}')">Kirim</button>
+                                </div>
                             </div>
                         </div>`;
                 });
@@ -442,6 +476,62 @@
                 fetchLaporan();
                 fetchLeaderboard();
             } catch (error) { alert("Gagal mengirim dukungan, periksa jaringan kamu."); }
+        }
+
+        window.toggleKomen = async function(reportId) {
+            const section = document.getElementById(`komen-${reportId}`);
+            const btn = document.getElementById(`btnKomen-${reportId}`);
+            const sudahTerbuka = section.classList.contains('terbuka');
+            if (sudahTerbuka) {
+                section.classList.remove('terbuka');
+                btn.classList.remove('aktif');
+            } else {
+                section.classList.add('terbuka');
+                btn.classList.add('aktif');
+                await fetchKomentar(reportId);
+            }
+        }
+
+        async function fetchKomentar(reportId) {
+            const list = document.getElementById(`listKomen-${reportId}`);
+            try {
+                const { data, error } = await supabase.from('comments').select('*').eq('report_id', reportId).order('created_at', { ascending: true });
+                if (error) throw error;
+                if (!data || data.length === 0) {
+                    list.innerHTML = '<p class="komen-kosong">Belum ada komentar. Jadilah yang pertama! 👇</p>';
+                    return;
+                }
+                list.innerHTML = data.map(k => {
+                    const waktu = new Date(k.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    return `<div class="komen-item">
+                        <div class="komen-nama">👤 ${bersihkanTeks(k.author_name || 'Anonim')}</div>
+                        <div class="komen-isi">${bersihkanTeks(k.content)}</div>
+                        <div class="komen-waktu">🕒 ${waktu}</div>
+                    </div>`;
+                }).join('');
+            } catch (error) {
+                list.innerHTML = '<p class="komen-kosong">Gagal memuat komentar.</p>';
+            }
+        }
+
+        window.kirimKomen = async function(reportId) {
+            const namaEl = document.getElementById(`namaKomen-${reportId}`);
+            const isiEl = document.getElementById(`isiKomen-${reportId}`);
+            const btnEl = document.getElementById(`btnKirimKomen-${reportId}`);
+            const isi = isiEl.value.trim();
+            if (!isi) { alert("Isi komentar tidak boleh kosong!"); return; }
+            btnEl.disabled = true; btnEl.textContent = 'Mengirim...';
+            try {
+                const { error } = await supabase.from('comments').insert([{
+                    report_id: reportId,
+                    author_name: namaEl.value.trim() || 'Anonim',
+                    content: isi
+                }]);
+                if (error) throw error;
+                namaEl.value = ''; isiEl.value = '';
+                await fetchKomentar(reportId);
+            } catch (error) { alert("Gagal mengirim komentar, periksa jaringan kamu."); }
+            finally { btnEl.disabled = false; btnEl.textContent = 'Kirim'; }
         }
 
         async function fetchPengembanganDiri() {
