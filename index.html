@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#A62122">
     <title>Suara Pemuda RESPEK - Portal Aduan</title>
-    <!-- Pengaturan agar terlihat seperti aplikasi saat disimpan di layar utama HP -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>">
     <link rel="manifest" href="manifest.json">
     
-    <!-- Font Modern -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -36,11 +34,7 @@
             --radius-md: 12px;
             --radius-lg: 16px;
         }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-body);
@@ -52,485 +46,91 @@
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
-        .container {
-            max-width: 600px;
-            margin: 10px auto 20px;
-            flex: 1;
-            width: 100%;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .brand-logo {
-            max-width: 180px;
-            height: auto;
-            margin: 0 auto 16px auto;
-            display: block;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
-        }
-        header h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--text-main);
-            letter-spacing: -0.5px;
-        }
-        header p {
-            color: var(--text-muted);
-            font-size: 14px;
-            font-weight: 500;
-        }
-        /* --- STYLING TEKS BERJALAN --- */
-        .ticker-wrap {
-            width: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--primary-hover));
-            padding: 12px 0;
-            border-radius: var(--radius-md);
-            margin-bottom: 24px;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            position: relative;
-            white-space: nowrap;
-        }
-        .ticker-text {
-            display: inline-block;
-            color: #FFFFFF;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            padding-left: 100%;
-            animation: ticker 18s linear infinite;
-        }
-        @keyframes ticker {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-        /* --- STYLING MENU UTAMA --- */
-        .quick-menu {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 32px;
-        }
-        .menu-item {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 16px 12px;
-            text-align: center;
-            text-decoration: none;
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-        }
-        .menu-item:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        .menu-icon {
-            font-size: 28px;
-            margin-bottom: 4px;
-        }
-        .menu-text {
-            font-size: 13px;
-            font-weight: 700;
-            line-height: 1.3;
-        }
-        /* --- STYLING FORMULIR --- */
-        .form-card {
-            background-color: var(--bg-card);
-            padding: 32px;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            margin-bottom: 40px;
-            position: relative;
-            overflow: hidden;
-        }
-        .form-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), #D22B2D);
-        }
+        .container { max-width: 600px; margin: 10px auto 20px; flex: 1; width: 100%; }
+        header { text-align: center; margin-bottom: 30px; }
+        .brand-logo { max-width: 180px; height: auto; margin: 0 auto 16px auto; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
+        header h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; color: var(--text-main); letter-spacing: -0.5px; }
+        header p { color: var(--text-muted); font-size: 14px; font-weight: 500; }
+        
+        .ticker-wrap { width: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-hover)); padding: 12px 0; border-radius: var(--radius-md); margin-bottom: 24px; overflow: hidden; box-shadow: var(--shadow-md); position: relative; white-space: nowrap; }
+        .ticker-text { display: inline-block; color: #FFFFFF; font-size: 14px; font-weight: 600; letter-spacing: 0.5px; padding-left: 100%; animation: ticker 18s linear infinite; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+        
+        .quick-menu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 32px; }
+        .menu-item { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 12px; text-align: center; text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: var(--shadow-sm); transition: all 0.3s ease; }
+        .menu-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--primary); color: var(--primary); }
+        .menu-icon { font-size: 28px; margin-bottom: 4px; }
+        .menu-text { font-size: 13px; font-weight: 700; line-height: 1.3; }
+        
+        .form-card { background-color: var(--bg-card); padding: 32px; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); border: 1px solid rgba(255, 255, 255, 0.5); margin-bottom: 40px; position: relative; overflow: hidden; }
+        .form-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--primary), #D22B2D); }
         .form-group { margin-bottom: 24px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: var(--text-main); }
+        input[type="text"], select, textarea { width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 15px; background-color: var(--input-bg); color: var(--text-main); transition: all 0.3s ease; font-family: inherit; }
+        input[type="text"]:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); background-color: var(--bg-card); box-shadow: 0 0 0 4px rgba(166, 33, 34, 0.1); }
+        input[type="file"] { display: block; width: 100%; padding: 10px 0; font-size: 14px; color: var(--text-muted); }
+        input[type="file"]::file-selector-button { padding: 8px 16px; border-radius: 8px; border: none; background-color: var(--input-bg); border: 1px solid var(--border); color: var(--text-main); font-weight: 600; cursor: pointer; transition: 0.2s; margin-right: 12px; font-family: inherit; }
+        small { display: block; margin-top: 6px; color: var(--text-muted); font-size: 12px; }
+        .form-checkbox { display: flex; align-items: center; margin-bottom: 28px; gap: 12px; }
+        .form-checkbox input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--primary); cursor: pointer; }
+        .form-checkbox label { margin-bottom: 0; font-weight: 500; cursor: pointer; color: var(--text-muted); }
+        .btn-submit { width: 100%; padding: 16px; background: var(--primary); color: #FFFFFF; border: none; border-radius: var(--radius-md); font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(166, 33, 34, 0.25); font-family: inherit; }
+        .btn-submit:hover { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(166, 33, 34, 0.3); }
+        .btn-submit:disabled { background: #D1D5DB; box-shadow: none; cursor: not-allowed; transform: none; color: #9CA3AF; }
         
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--text-main);
-        }
-        input[type="text"], select, textarea {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            font-size: 15px;
-            background-color: var(--input-bg);
-            color: var(--text-main);
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-        input[type="text"]::placeholder, textarea::placeholder {
-            color: #9CA3AF;
-        }
-        input[type="text"]:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            background-color: var(--bg-card);
-            box-shadow: 0 0 0 4px rgba(166, 33, 34, 0.1);
-        }
-        input[type="file"] {
-            display: block;
-            width: 100%;
-            padding: 10px 0;
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-        input[type="file"]::file-selector-button {
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: none;
-            background-color: var(--input-bg);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-right: 12px;
-            font-family: inherit;
-        }
-        input[type="file"]::file-selector-button:hover {
-            background-color: #E5E7EB;
-        }
-        small {
-            display: block;
-            margin-top: 6px;
-            color: var(--text-muted);
-            font-size: 12px;
-        }
-        .form-checkbox {
-            display: flex;
-            align-items: center;
-            margin-bottom: 28px;
-            gap: 12px;
-        }
-        .form-checkbox input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            accent-color: var(--primary);
-            cursor: pointer;
-        }
-        .form-checkbox label {
-            margin-bottom: 0;
-            font-weight: 500;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-        .btn-submit {
-            width: 100%;
-            padding: 16px;
-            background: var(--primary);
-            color: #FFFFFF;
-            border: none;
-            border-radius: var(--radius-md);
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(166, 33, 34, 0.25);
-            font-family: inherit;
-        }
-        .btn-submit:hover { 
-            background-color: var(--primary-hover); 
-            transform: translateY(-2px); 
-            box-shadow: 0 6px 12px rgba(166, 33, 34, 0.3); 
-        }
+        .live-board-header { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .live-board-header h2 { font-size: 20px; font-weight: 700; color: var(--text-main); }
+        .badge-live { background-color: rgba(166, 33, 34, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+        .badge-live::before { content: ''; display: inline-block; width: 8px; height: 8px; background-color: var(--primary); border-radius: 50%; animation: pulseDot 2s infinite; }
+        @keyframes pulseDot { 0% { box-shadow: 0 0 0 0 rgba(166,33,34, 0.4); } 70% { box-shadow: 0 0 0 6px rgba(166,33,34, 0); } 100% { box-shadow: 0 0 0 0 rgba(166,33,34, 0); } }
         
-        .btn-submit:disabled { 
-            background: #D1D5DB; 
-            box-shadow: none; 
-            cursor: not-allowed; 
-            transform: none; 
-            color: #9CA3AF; 
-        }
-        /* --- STYLING PAPAN TRANSPARANSI (LIVE BOARD) --- */
-        .live-board-header {
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .live-board-header h2 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-        .badge-live {
-            background-color: rgba(166, 33, 34, 0.1);
-            color: var(--primary);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .badge-live::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background-color: var(--primary);
-            border-radius: 50%;
-            animation: pulseDot 2s infinite;
-        }
-        @keyframes pulseDot {
-            0% { box-shadow: 0 0 0 0 rgba(166,33,34, 0.4); }
-            70% { box-shadow: 0 0 0 6px rgba(166,33,34, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(166,33,34, 0); }
-        }
-        .report-item {
-            background-color: var(--bg-card);
-            padding: 20px;
-            border-radius: var(--radius-lg);
-            margin-bottom: 16px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .report-item:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        .report-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            align-items: flex-start;
-            gap: 12px;
-        }
-        .report-title {
-            font-weight: 700;
-            font-size: 16px;
-            color: var(--text-main);
-            line-height: 1.4;
-        }
-        .report-meta {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-            line-height: 1.6;
-        }
-        .report-desc {
-            font-size: 14px;
-            color: #4B5563;
-            background-color: var(--input-bg);
-            padding: 14px;
-            border-radius: var(--radius-md);
-            margin-bottom: 12px;
-            line-height: 1.6;
-            border: 1px solid #F3F4F6;
-        }
-        .report-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: var(--radius-md);
-            margin-top: 8px;
-            max-height: 250px;
-            object-fit: cover;
-        }
-        .status-badge {
-            font-size: 12px;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-            color: #374151;
-            white-space: nowrap;
-        }
-        /* Utilities */
+        .report-item { background-color: var(--bg-card); padding: 20px; border-radius: var(--radius-lg); margin-bottom: 16px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); transition: transform 0.2s; }
+        .report-header { display: flex; justify-content: space-between; margin-bottom: 10px; align-items: flex-start; gap: 12px; }
+        .report-title { font-weight: 700; font-size: 16px; color: var(--text-main); line-height: 1.4; }
+        .report-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.6; }
+        .report-desc { font-size: 14px; color: #4B5563; background-color: var(--input-bg); padding: 14px; border-radius: var(--radius-md); margin-bottom: 12px; line-height: 1.6; border: 1px solid #F3F4F6; }
+        .report-image { max-width: 100%; height: auto; border-radius: var(--radius-md); margin-top: 8px; max-height: 250px; object-fit: cover; }
+        .status-badge { font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: 600; color: #374151; white-space: nowrap; }
+        
+        /* Tombol Dukungan / Upvote */
+        .btn-upvote { display: inline-flex; align-items: center; gap: 6px; background-color: #F3F4F6; color: var(--text-main); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; margin-top: 10px; }
+        .btn-upvote:hover { background-color: var(--error-bg); color: var(--primary); border-color: #FECACA; }
+        .btn-upvote.sudah-dukung { background-color: #E5E7EB; color: #9CA3AF; cursor: not-allowed; border-color: #E5E7EB; }
+
         .honeypot-field { display: none !important; }
-        
-        #alertBox {
-            display: none; 
-            padding: 16px; 
-            margin-bottom: 24px; 
-            border-radius: var(--radius-md); 
-            font-size: 14px; 
-            font-weight: 600; 
-            text-align: center;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        #alertBox { display: none; padding: 16px; margin-bottom: 24px; border-radius: var(--radius-md); font-size: 14px; font-weight: 600; text-align: center; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         .alert-success { background-color: var(--success-bg); color: var(--success-text); border: 1px solid #A7F3D0; }
         .alert-error { background-color: var(--error-bg); color: var(--error-text); border: 1px solid #FECACA; }
         
-        .app-footer { 
-            text-align: center; 
-            padding: 30px 0 10px; 
-            color: var(--text-muted); 
-            font-size: 13px; 
-            font-weight: 500;
-        }
+        .app-footer { text-align: center; padding: 30px 0 10px; color: var(--text-muted); font-size: 13px; font-weight: 500; }
 
-        /* --- STYLING LAPAK UMKM --- */
-        #umkmSection {
-            display: none;
-            animation: fadeIn 0.3s ease;
-            margin-bottom: 40px;
-        }
-        .umkm-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .umkm-header h2 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-        .btn-add-umkm {
-            background-color: var(--primary);
-            color: #FFFFFF;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            text-decoration: none;
-            box-shadow: var(--shadow-sm);
-        }
-        .umkm-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Otomatis 2 kolom berdampingan */
-            gap: 12px; /* Jarak antar kartu */
-            margin-top: 16px;
-        }
-        .umkm-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-        }
-        .umkm-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
-        }
-        .umkm-img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-bottom: 1px solid var(--border);
-        }
-        .umkm-content {
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-        .umkm-category {
-            font-size: 9px;
-            background: var(--bg-body);
-            color: var(--text-muted);
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-weight: 700;
-            display: inline-block;
-            align-self: flex-start;
-            margin-bottom: 6px;
-        }
-        .umkm-title {
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: var(--text-main);
-            line-height: 1.3;
-            /* Memotong teks jika terlalu panjang */
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .umkm-price {
-            font-size: 14px;
-            font-weight: 800;
-            color: var(--primary); /* Warna merah khas aplikasi */
-            margin-bottom: 6px;
-        }
-        .umkm-desc {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            line-height: 1.4;
-            /* Membatasi deskripsi maksimal 3 baris agar rapi */
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            flex: 1; /* Mendorong tombol ke paling bawah */
-        }
-        .umkm-owner {
-            font-size: 10px;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .btn-wa {
-            display: block;
-            text-align: center;
-            background: #25D366;
-            color: white;
-            text-decoration: none;
-            padding: 8px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            transition: 0.2s;
-        }
-        .btn-wa:hover {
-            background: #1DA851;
-        }
+        .umkm-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .umkm-header h2 { font-size: 20px; font-weight: 700; color: var(--text-main); }
+        .btn-add-umkm { background-color: var(--primary); color: #FFFFFF; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; box-shadow: var(--shadow-sm); }
+        .umkm-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; }
+        .umkm-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.2s; display: flex; flex-direction: column; }
+        .umkm-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .umkm-img { width: 100%; height: 120px; object-fit: cover; border-bottom: 1px solid var(--border); }
+        .umkm-content { padding: 12px; display: flex; flex-direction: column; flex: 1; }
+        .umkm-category { font-size: 9px; background: var(--bg-body); color: var(--text-muted); padding: 4px 8px; border-radius: 12px; font-weight: 700; display: inline-block; align-self: flex-start; margin-bottom: 6px; }
+        .umkm-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--text-main); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .umkm-price { font-size: 14px; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
+        .umkm-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
+        .umkm-owner { font-size: 10px; color: var(--text-muted); margin-bottom: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+        .btn-wa { display: block; text-align: center; background: #25D366; color: white; text-decoration: none; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 700; transition: 0.2s; }
+        .btn-wa:hover { background: #1DA851; }
 
         @media (max-width: 480px) {
             .form-card { padding: 24px 20px; border-radius: 20px; }
-            .brand-logo { max-width: 150px; }
-            header h1 { font-size: 22px; }
             .report-item { padding: 16px; }
             .quick-menu { gap: 10px; }
             .menu-item { padding: 12px 8px; }
             .menu-icon { font-size: 24px; }
             .menu-text { font-size: 12px; }
-            
-            /* Tetap 2 kolom di HP, tapi disesuaikan ukurannya */
-            .umkm-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .umkm-grid { gap: 8px; }
             .umkm-img { height: 110px; }
             .umkm-content { padding: 10px; }
-            .umkm-title { font-size: 12px; }
-            .umkm-price { font-size: 13px; }
-            .umkm-desc { font-size: 10px; }
             .btn-wa { font-size: 11px; padding: 6px; }
         }
     </style>
@@ -538,19 +138,17 @@
 <body>
     <div class="container">
         <header>
-            <img src="logo.png" alt="Logo Pemuda RESPEK" class="brand-logo">
+            <img src="logo.png" alt="Logo Pemuda RESPEK" class="brand-logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>'">
             <h1>Portal Aduan & Aspirasi</h1>
             <p>Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.</p>
         </header>
 
-        <!-- FITUR BARU: TEKS BERJALAN -->
         <div class="ticker-wrap">
             <div class="ticker-text">
                 Narasi dibuat, Data di setting, Ketakutan di sebarkan, Jebakan dijual seolah-olah solusi " • IT'S TIME TO WAKE UP, PEOPLE! •
             </div>
         </div>
 
-        <!-- AREA MENU UTAMA -->
         <nav class="quick-menu">
             <a href="#" class="menu-item" onclick="alert('Halaman Struktur Organisasi segera hadir!'); return false;">
                 <span class="menu-icon">👥</span>
@@ -560,9 +158,9 @@
                 <span class="menu-icon">📅</span>
                 <span class="menu-text">Agenda Acara</span>
             </a>
-            <a href="#" class="menu-item" onclick="alert('Halaman Kas Pemuda segera hadir!'); return false;">
-                <span class="menu-icon">💰</span>
-                <span class="menu-text">Kas Pemuda</span>
+            <a href="#" class="menu-item" onclick="tampilkanPengembanganDiri(); return false;">
+                <span class="menu-icon">🌱</span>
+                <span class="menu-text">Pengembangan Diri</span>
             </a>
             <a href="#" class="menu-item" onclick="alert('Halaman Laporan Keuangan segera hadir!'); return false;">
                 <span class="menu-icon">📊</span>
@@ -578,8 +176,7 @@
             </a>
         </nav>
 
-        <!-- AREA 1: FORMULIR PENGIRIMAN -->
-        <main class="form-card">
+        <main class="form-card" id="formSection">
             <div id="alertBox"></div>
             <form id="formAduan">
                 <input type="text" id="perangkapBot" class="honeypot-field" autocomplete="off" tabindex="-1">
@@ -605,9 +202,8 @@
                 <div class="form-group">
                     <label for="foto">Unggah Bukti Foto</label>
                     <input type="file" id="foto" accept="image/*">
-                    <!-- FOTO PREVIEW -->
                     <img id="previewFoto" style="display:none; width: 100%; max-height: 250px; object-fit: cover; border-radius: 12px; margin-top: 15px; border: 1px solid #E5E7EB;">
-                    <small>Sistem akan otomatis mengecilkan ukuran foto agar hemat kuota.</small>
+                    <small>Sistem otomatis mengecilkan ukuran foto agar hemat kuota.</small>
                 </div>
                 <div class="form-checkbox">
                     <input type="checkbox" id="anonim">
@@ -617,28 +213,45 @@
             </form>
         </main>
 
-        <!-- AREA 2: PAPAN TRANSPARANSI (LIVE BOARD) -->
-        <section class="live-board">
+        <section class="live-board" id="boardSection">
+            <div style="background: #FFFFFF; padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--border); margin-bottom: 24px; box-shadow: var(--shadow-sm);">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+                    <span style="font-size: 22px;">🏆</span>
+                    <h2 style="font-size: 18px; font-weight: 800; color: var(--text-main);">3 Aspirasi Terbanyak Didukung</h2>
+                </div>
+                <div id="papanLeaderboard" style="display: flex; flex-direction: column; gap: 10px;">
+                    <p style="text-align:center; color:#6B7280; font-size:13px; padding:10px;">Memuat papan peringkat...</p>
+                </div>
+            </div>
+
             <div class="live-board-header">
-                <h2>Aspirasi Terbaru</h2>
+                <h2>Semua Aspirasi Masuk</h2>
                 <span class="badge-live">LIVE UPDATE</span>
             </div>
-            <!-- Laporan akan dirender oleh JavaScript di dalam div ini -->
             <div id="daftarLaporan">
                 <p style="text-align:center; color:#6B7280; font-size:14px; padding:20px;">Memuat data laporan...</p>
             </div>
         </section>
 
-        <!-- AREA 3: LAPAK UMKM -->
-        <section id="umkmSection">
+        <section id="pengembanganDiriSection" style="display: none; animation: fadeIn 0.3s ease; margin-bottom: 40px;">
+            <div class="umkm-header">
+                <h2>Pusat Pengembangan Diri</h2>
+            </div>
+            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">Tingkatkan keahlianmu! Akses materi dan workshop khusus yang dirancang untuk pemuda Kepuh.</p>
+            <div class="umkm-grid" id="daftarPengembangan">
+                <p style="text-align:center; color:#6B7280; font-size:14px; padding:20px; grid-column: span 2;">Memuat program pelatihan...</p>
+            </div>
+            <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 24px; background-color: var(--text-muted); box-shadow: none;">⬅ Kembali ke Beranda</button>
+        </section>
+
+        <section id="umkmSection" style="display: none; animation: fadeIn 0.3s ease; margin-bottom: 40px;">
             <div class="umkm-header">
                 <h2>Lapak UMKM Pemuda</h2>
                 <a href="#" class="btn-add-umkm" onclick="alert('Formulir tambah usaha segera hadir!'); return false;">+ Tambah Usaha</a>
             </div>
             <p style="color: var(--text-muted); font-size: 14px;">Dukung ekonomi lokal! Harga jujur, kualitas terjamin karya pemuda Kepuh.</p>
-
+            
             <div class="umkm-grid">
-                <!-- Produk 1 -->
                 <div class="umkm-card">
                     <img src="https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Kripik Singkong" class="umkm-img">
                     <div class="umkm-content">
@@ -647,11 +260,9 @@
                         <div class="umkm-price">Rp 15.000</div>
                         <p class="umkm-desc">Renyah, gurih, bumbu balado asli pedas manis. Kemasan pouch ziplock 250 gram tahan lama.</p>
                         <div class="umkm-owner"><span>👤</span> Budi Santoso</div>
-                        <a href="https://wa.me/6281234567890?text=Halo%20Budi,%20saya%20mau%20pesan%20Kripik%20Singkong%20Balado%20(Rp15.000)%20dari%20Lapak%20Pemuda." target="_blank" class="btn-wa">💬 Beli via WA</a>
+                        <a href="https://wa.me/6281234567890?text=Halo%20Budi,%20saya%20mau%20pesan%20Kripik%20Singkong" target="_blank" class="btn-wa">💬 Beli via WA</a>
                     </div>
                 </div>
-
-                <!-- Produk 2 -->
                 <div class="umkm-card">
                     <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Servis Laptop" class="umkm-img">
                     <div class="umkm-content">
@@ -660,38 +271,10 @@
                         <div class="umkm-price">Mulai Rp 50.000</div>
                         <p class="umkm-desc">Melayani instal ulang Windows, format hardisk, tambah RAM, dan pembersihan virus. Bisa panggil ke rumah.</p>
                         <div class="umkm-owner"><span>👤</span> Andi Pratama</div>
-                        <a href="https://wa.me/6281234567890?text=Halo%20Andi,%20saya%20mau%20tanya%20jasa%20Servis/Instal%20Laptop%20dari%20Lapak%20Pemuda." target="_blank" class="btn-wa">💬 Hubungi via WA</a>
-                    </div>
-                </div>
-
-                <!-- Produk 3 -->
-                <div class="umkm-card">
-                    <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Sablon Kaos" class="umkm-img">
-                    <div class="umkm-content">
-                        <span class="umkm-category">FASHION & KRIYA</span>
-                        <h3 class="umkm-title">Sablon Kaos Custom Satuan</h3>
-                        <div class="umkm-price">Rp 85.000 /pcs</div>
-                        <p class="umkm-desc">Bahan Cotton Combed 30s premium. Sablon DTF awet anti pecah. Bebas desain gambar/tulisan.</p>
-                        <div class="umkm-owner"><span>👤</span> Dimas Sablon</div>
-                        <a href="https://wa.me/6281234567890?text=Halo%20Dimas,%20saya%20mau%20pesan%20Sablon%20Kaos%20Custom%20(Rp85.000)%20dari%20Lapak%20Pemuda." target="_blank" class="btn-wa">💬 Pesan via WA</a>
-                    </div>
-                </div>
-                
-                <!-- Produk 4 -->
-                <div class="umkm-card">
-                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Katering" class="umkm-img">
-                    <div class="umkm-content">
-                        <span class="umkm-category">KULINER</span>
-                        <h3 class="umkm-title">Paket Nasi Kotak & Snack Rapat</h3>
-                        <div class="umkm-price">Rp 20.000 /box</div>
-                        <p class="umkm-desc">Menu nasi ayam bakar/goreng lengkap dengan sayur, tahu, tempe, dan sambal. Pesan H-1.</p>
-                        <div class="umkm-owner"><span>👤</span> Mbak Siti</div>
-                        <a href="https://wa.me/6281234567890?text=Halo%20Mbak%20Siti,%20saya%20mau%20pesan%20Nasi%20Kotak%20(Rp20.000)%20dari%20Lapak%20Pemuda." target="_blank" class="btn-wa">💬 Pesan via WA</a>
+                        <a href="https://wa.me/6281234567890" target="_blank" class="btn-wa">💬 Hubungi via WA</a>
                     </div>
                 </div>
             </div>
-
-            <!-- Tombol Kembali -->
             <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 24px; background-color: var(--text-muted); box-shadow: none;">⬅ Kembali ke Beranda</button>
         </section>
 
@@ -700,69 +283,59 @@
         &copy; 2026 Pemuda RESPEK (Revolusi Pemuda Kepuh)
     </footer>
 
-    <!-- SKRIP NAVIGASI & LOGIKA TAMPILAN -->
     <script>
-        // Fungsi Navigasi Halaman
         function tampilkanUMKM() {
-            // Sembunyikan form dan papan aspirasi
-            document.querySelector('.form-card').style.display = 'none';
-            document.querySelector('.live-board').style.display = 'none';
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('boardSection').style.display = 'none';
             document.querySelector('.ticker-wrap').style.display = 'none'; 
-            
-            // Tampilkan section UMKM
+            document.getElementById('pengembanganDiriSection').style.display = 'none';
             document.getElementById('umkmSection').style.display = 'block';
-            
-            // Scroll ke atas
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        function tampilkanBeranda() {
-            // Tampilkan kembali form dan papan aspirasi
-            document.querySelector('.form-card').style.display = 'block';
-            document.querySelector('.live-board').style.display = 'block';
-            document.querySelector('.ticker-wrap').style.display = 'block'; 
-            
-            // Sembunyikan section UMKM
+        function tampilkanPengembanganDiri() {
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('boardSection').style.display = 'none';
+            document.querySelector('.ticker-wrap').style.display = 'none'; 
             document.getElementById('umkmSection').style.display = 'none';
-            
+            document.getElementById('pengembanganDiriSection').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function tampilkanBeranda() {
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('boardSection').style.display = 'block';
+            document.querySelector('.ticker-wrap').style.display = 'block'; 
+            document.getElementById('umkmSection').style.display = 'none';
+            document.getElementById('pengembanganDiriSection').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 
-    <!-- SKRIP UTAMA APLIKASI -->
     <script type="module">
         import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
         const supabaseUrl = 'https://omqxookhwflcmwvqmwyv.supabase.co';
         const supabaseKey = 'sb_publishable_VqZJB-MLy7-f2lqyX3kZig_BVMSkIKX';
         const supabase = createClient(supabaseUrl, supabaseKey);
+        
         const formAduan = document.getElementById('formAduan');
         const btnKirim = document.getElementById('btnKirim');
         const alertBox = document.getElementById('alertBox');
         const daftarLaporanContainer = document.getElementById('daftarLaporan');
         
-        // FITUR BARU: FUNGSI PREVIEW FOTO
         document.getElementById('foto').addEventListener('change', function() {
             const preview = document.getElementById('previewFoto');
             if (this.files && this.files[0]) {
                 preview.src = URL.createObjectURL(this.files[0]);
                 preview.style.display = 'block';
             } else {
-                preview.style.display = 'none';
-                preview.src = "";
+                preview.style.display = 'none'; preview.src = "";
             }
         });
         
-        // FITUR BARU: FUNGSI ANTI-HACKER (XSS Protection)
         function bersihkanTeks(str) {
             if (!str) return "";
-            return str.replace(/[&<>'"]/g, 
-                tag => ({
-                    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-                }[tag])
-            );
+            return str.replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag]));
         }
         
-        // Fitur 1: Fungsi Kompresi Gambar Otomatis menggunakan Canvas HTML5
         async function compressImage(file) {
             return new Promise((resolve) => {
                 if (!file.type.startsWith('image/')) return resolve(file);
@@ -773,167 +346,171 @@
                     img.src = event.target.result;
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 800; // Maksimal lebar foto 800 pixel
-                        const scaleSize = MAX_WIDTH / img.width;
-                        
-                        // Hanya kompres jika gambar lebih besar dari 800px
-                        if(img.width > MAX_WIDTH) {
-                            canvas.width = MAX_WIDTH;
-                            canvas.height = img.height * scaleSize;
-                        } else {
-                            canvas.width = img.width;
-                            canvas.height = img.height;
-                        }
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        
-                        // Kualitas kompresi 70% (0.7)
-                        canvas.toBlob((blob) => {
-                            resolve(new File([blob], file.name, { type: 'image/jpeg' }));
-                        }, 'image/jpeg', 0.7);
+                        const scaleSize = 800 / img.width;
+                        if(img.width > 800) { canvas.width = 800; canvas.height = img.height * scaleSize; } 
+                        else { canvas.width = img.width; canvas.height = img.height; }
+                        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                        canvas.toBlob((blob) => { resolve(new File([blob], file.name, { type: 'image/jpeg' })); }, 'image/jpeg', 0.7);
                     };
                 };
             });
         }
-        
-        // Fitur 2: Menarik dan Menampilkan Data Laporan secara Live
+
         async function fetchLaporan() {
             try {
-                // Tarik 5 data terbaru dari database
-                const { data, error } = await supabase
-                    .from('reports')
-                    .select('*')
-                    .order('created_at', { ascending: false })
-                    .limit(5);
+                const { data, error } = await supabase.from('reports').select('*').order('created_at', { ascending: false }).limit(10);
                 if (error) throw error;
                 if (data.length === 0) {
-                    daftarLaporanContainer.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px;">Belum ada laporan masuk. Jadilah yang pertama!</p>';
+                    daftarLaporanContainer.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px;">Belum ada laporan masuk.</p>';
                     return;
                 }
                 
-                // Render data menjadi kode HTML
+                const sudahDukung = JSON.parse(localStorage.getItem('respek_upvotes') || '[]');
                 let htmlContent = '';
+                
                 data.forEach(report => {
-                    // Format Tanggal
-                    const tgl = new Date(report.created_at).toLocaleDateString('id-ID', {
-                        day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute:'2-digit'
-                    });
+                    const tgl = new Date(report.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute:'2-digit' });
+                    let statusColor = report.status === 'Selesai' ? '#D1FAE5' : report.status === 'Diproses' ? '#DBEAFE' : '#E5E7EB';
                     
-                    // Cek warna status
-                    let statusColor = '#E5E7EB';
-                    if(report.status === 'Selesai') statusColor = '#D1FAE5'; // Hijau
-                    if(report.status === 'Diproses') statusColor = '#DBEAFE'; // Biru
+                    const cekDukung = sudahDukung.includes(report.id) ? 'sudah-dukung' : '';
+                    const teksTombol = sudahDukung.includes(report.id) ? '✓ Didukung' : '🔺 Dukung Aspirasi';
+
                     htmlContent += `
                         <div class="report-item">
                             <div class="report-header">
                                 <span class="report-title">${bersihkanTeks(report.title)}</span>
                                 <span class="status-badge" style="background-color: ${statusColor}">${report.status}</span>
                             </div>
-                            <div class="report-meta">
-                                👤 ${bersihkanTeks(report.author_name)} &nbsp;|&nbsp; 🏷️ ${report.category} <br> 🕒 ${tgl}
+                            <div class="report-meta">👤 ${bersihkanTeks(report.author_name)} | 🏷️ ${report.category} <br> 🕒 ${tgl}</div>
+                            <div class="report-desc">"${bersihkanTeks(report.description)}"</div>
+                            ${report.image_url ? `<img src="${report.image_url}" class="report-image">` : ''}
+                            <div>
+                                <button class="btn-upvote ${cekDukung}" onclick="dukungAspirasi('${report.id}', ${report.upvotes || 0})">
+                                    ${teksTombol} (${report.upvotes || 0})
+                                </button>
                             </div>
-                            <div class="report-desc">
-                                "${bersihkanTeks(report.description)}"
-                            </div>
-                            ${report.image_url ? `<img src="${report.image_url}" class="report-image" alt="Bukti Foto">` : ''}
-                        </div>
-                    `;
+                        </div>`;
                 });
                 daftarLaporanContainer.innerHTML = htmlContent;
-            } catch (error) {
-                console.error("Gagal menarik data:", error);
-                daftarLaporanContainer.innerHTML = '<p style="text-align:center; color:red; font-size:14px;">Gagal memuat laporan publik.</p>';
-            }
+            } catch (error) { console.error(error); }
         }
-        
-        function showAlert(message, type) {
-            alertBox.textContent = message;
-            alertBox.className = type === 'success' ? 'alert-success' : 'alert-error';
-            alertBox.style.display = 'block';
-            setTimeout(() => { alertBox.style.display = 'none'; }, 6000); 
+
+        async function fetchLeaderboard() {
+            const container = document.getElementById('papanLeaderboard');
+            try {
+                const { data, error } = await supabase.from('reports').select('id, title, upvotes').gt('upvotes', 0).order('upvotes', { ascending: false }).limit(3);
+                if (error) throw error;
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#9CA3AF; font-size:12px; padding:10px; background:#F9FAFB; border-radius:8px;">Belum ada peringkat.</p>'; return;
+                }
+                
+                let htmlContent = '';
+                const medali = ['🥇', '🥈', '🥉'];
+                const warnaBatas = ['#FBBF24', '#9CA3AF', '#F59E0B'];
+                
+                data.forEach((item, index) => {
+                    htmlContent += `
+                        <div style="display: flex; align-items: center; justify-content: space-between; background: #F9FAFB; padding: 10px 14px; border-radius: 10px; border-left: 4px solid ${warnaBatas[index]}">
+                            <div style="display: flex; align-items: center; gap: 10px; width: 75%;">
+                                <span style="font-size: 18px;">${medali[index]}</span>
+                                <span style="font-size: 13px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%;">
+                                    ${bersihkanTeks(item.title)}
+                                </span>
+                            </div>
+                            <span style="font-size: 12px; background: rgba(166,33,34,0.1); color: var(--primary); padding: 4px 10px; border-radius: 12px; font-weight: 800; white-space: nowrap;">
+                                🔺 ${item.upvotes}
+                            </span>
+                        </div>`;
+                });
+                container.innerHTML = htmlContent;
+            } catch (error) { console.error(error); }
         }
-        
-        // Eksekusi Form Submit
+
+        window.dukungAspirasi = async function(id, currentUpvotes) {
+            let listDukung = JSON.parse(localStorage.getItem('respek_upvotes') || '[]');
+            if (listDukung.includes(id)) { alert("Kamu sudah memberikan dukungan untuk aspirasi ini sebelumnya!"); return; }
+            try {
+                const { error } = await supabase.from('reports').update({ upvotes: currentUpvotes + 1 }).eq('id', id);
+                if (error) throw error;
+                listDukung.push(id);
+                localStorage.setItem('respek_upvotes', JSON.stringify(listDukung));
+                fetchLaporan();
+                fetchLeaderboard();
+            } catch (error) { alert("Gagal mengirim dukungan, periksa jaringan kamu."); }
+        }
+
+        async function fetchPengembanganDiri() {
+            const container = document.getElementById('daftarPengembangan');
+            try {
+                const { data, error } = await supabase.from('self_developments').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px; grid-column: span 2;">Belum ada program kelas/pelatihan.</p>'; return;
+                }
+                let htmlContent = '';
+                data.forEach(item => {
+                    const imgUrl = item.image_url || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80';
+                    htmlContent += `
+                        <div class="umkm-card">
+                            <img src="${imgUrl}" class="umkm-img">
+                            <div class="umkm-content">
+                                <span class="umkm-category">${bersihkanTeks(item.category).toUpperCase()}</span>
+                                <h3 class="umkm-title">${bersihkanTeks(item.title)}</h3>
+                                <div class="umkm-price" style="font-size:11px; color:var(--text-muted); font-weight:600; margin-bottom:6px;">👤 Mentor: ${bersihkanTeks(item.instructor)}</div>
+                                <p class="umkm-desc">${bersihkanTeks(item.description)}</p>
+                                <a href="${item.link_url || '#'}" target="_blank" class="btn-wa" style="background: var(--primary);">🚀 Ikuti Kelas</a>
+                            </div>
+                        </div>`;
+                });
+                container.innerHTML = htmlContent;
+            } catch (error) { console.error(error); }
+        }
+
+        function showAlert(msg, type) {
+            alertBox.textContent = msg; alertBox.className = type === 'success' ? 'alert-success' : 'alert-error';
+            alertBox.style.display = 'block'; setTimeout(() => { alertBox.style.display = 'none'; }, 6000); 
+        }
+
         formAduan.addEventListener('submit', async (e) => {
             e.preventDefault();
-            // Anti-Spam
-            if (document.getElementById('perangkapBot').value !== "") {
-                showAlert("Laporan berhasil dikirim!", "success"); formAduan.reset(); return;
-            }
+            if (document.getElementById('perangkapBot').value !== "") { showAlert("Laporan berhasil dikirim!", "success"); formAduan.reset(); return; }
             
             const waktuTerakhir = localStorage.getItem('lastReportTime');
-            if (waktuTerakhir && (Date.now() - parseInt(waktuTerakhir) < 180000)) {
-                showAlert(`Harap tunggu beberapa menit sebelum mengirim laporan baru.`, "error"); return;
-            }
+            if (waktuTerakhir && (Date.now() - parseInt(waktuTerakhir) < 180000)) { showAlert(`Harap tunggu sebelum mengirim laporan baru.`, "error"); return; }
             
-            btnKirim.disabled = true;
-            btnKirim.innerText = "Mengkompresi & Mengirim...";
-            alertBox.style.display = 'none';
+            btnKirim.disabled = true; btnKirim.innerText = "Memproses..."; alertBox.style.display = 'none';
             const judul = document.getElementById('judul').value;
             const kategori = document.getElementById('kategori').value;
             const deskripsi = document.getElementById('deskripsi').value;
-            const fotoFileAsli = document.getElementById('foto').files[0];
+            const fotoFile = document.getElementById('foto').files[0];
             const isAnonim = document.getElementById('anonim').checked;
-            const namaPelapor = isAnonim ? "Anonim" : "Warga Kepuh";
             let imageUrl = "";
+            
             try {
-                if (fotoFileAsli) {
-                    // Eksekusi kompresi foto sebelum upload
-                    const fotoFileKompres = await compressImage(fotoFileAsli);
-                    
-                    const namaFileBersih = fotoFileKompres.name.replace(/\s+/g, '-');
-                    const namaFileUnik = `laporan_${Date.now()}_${namaFileBersih}`;
-                    
-                    const { data: uploadData, error: uploadError } = await supabase
-                        .storage
-                        .from('foto-bukti')
-                        .upload(namaFileUnik, fotoFileKompres);
+                if (fotoFile) {
+                    const fotoKompres = await compressImage(fotoFile);
+                    const namaUnik = `laporan_${Date.now()}_${fotoKompres.name.replace(/\s+/g, '-')}`;
+                    const { error: uploadError } = await supabase.storage.from('foto-bukti').upload(namaUnik, fotoKompres);
                     if (uploadError) throw uploadError;
-                    const { data: publicUrlData } = supabase
-                        .storage
-                        .from('foto-bukti')
-                        .getPublicUrl(namaFileUnik);
-                    imageUrl = publicUrlData.publicUrl;
+                    imageUrl = supabase.storage.from('foto-bukti').getPublicUrl(namaUnik).data.publicUrl;
                 }
-                
-                // Simpan ke Database
-                const { data, error } = await supabase
-                    .from('reports')
-                    .insert([{
-                        title: judul, category: kategori, description: deskripsi,
-                        image_url: imageUrl, status: "Menunggu", upvotes: 0, author_name: namaPelapor
-                    }]);
+                const { error } = await supabase.from('reports').insert([{
+                    title: judul, category: kategori, description: deskripsi, image_url: imageUrl, status: "Menunggu", upvotes: 0, author_name: isAnonim ? "Anonim" : "Warga Kepuh"
+                }]);
                 if (error) throw error;
+                
                 localStorage.setItem('lastReportTime', Date.now());
-                showAlert("Laporan berhasil dikirim dan akan segera tampil di papan publik!", "success");
-                
-                // Reset Formulir dan Sembunyikan Preview Foto
-                formAduan.reset();
-                document.getElementById('previewFoto').style.display = 'none';
-                
-                // Segarkan papan daftar laporan secara otomatis setelah sukses kirim
-                fetchLaporan();
-            } catch (error) {
-                console.error("Gagal:", error.message);
-                showAlert(`Gagal mengirim laporan. Pastikan koneksi stabil.`, "error");
-            } finally {
-                btnKirim.disabled = false;
-                btnKirim.innerText = "Kirim Laporan";
-            }
+                showAlert("Laporan berhasil dikirim!", "success");
+                formAduan.reset(); document.getElementById('previewFoto').style.display = 'none';
+                fetchLaporan(); fetchLeaderboard();
+            } catch (error) { showAlert(`Gagal mengirim laporan.`, "error"); } 
+            finally { btnKirim.disabled = false; btnKirim.innerText = "Kirim Laporan"; }
         });
-        
-        // Panggil fungsi tarik data langsung saat halaman pertama kali dibuka
-        fetchLaporan();
-    </script>
 
-    <script>
-    if ('serviceWorker' in navigator) {
-               window.addEventListener('load', () => {
-                   navigator.serviceWorker.register('sw.js')
-                       .then(reg => console.log('Service Worker terdaftar!', reg))
-                       .catch(err => console.error('Service Worker gagal:', err));
-               });
-           }
-       </script>
+        // Initialize Data
+        fetchLaporan();
+        fetchLeaderboard();
+        fetchPengembanganDiri();
+    </script>
 </body>
 </html>
