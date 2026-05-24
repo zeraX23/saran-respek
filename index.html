@@ -390,6 +390,12 @@
                     daftarLaporanContainer.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px;">Belum ada laporan masuk.</p>';
                     return;
                 }
+
+                // Ambil jumlah komentar untuk semua report sekaligus
+                const reportIds = data.map(r => r.id);
+                const { data: komenData } = await supabase.from('comments').select('report_id').in('report_id', reportIds);
+                const komenCount = {};
+                (komenData || []).forEach(k => { komenCount[k.report_id] = (komenCount[k.report_id] || 0) + 1; });
                 
                 const sudahDukung = JSON.parse(localStorage.getItem('respek_upvotes') || '[]');
                 let htmlContent = '';
@@ -400,6 +406,7 @@
                     
                     const cekDukung = sudahDukung.includes(report.id) ? 'sudah-dukung' : '';
                     const teksTombol = sudahDukung.includes(report.id) ? '✓ Didukung' : '🔺 Dukung Aspirasi';
+                    const jumlahKomen = komenCount[report.id] || 0;
 
                     htmlContent += `
                         <div class="report-item">
@@ -415,7 +422,7 @@
                                     ${teksTombol} (${report.upvotes || 0})
                                 </button>
                                 <button class="btn-komen" id="btnKomen-${report.id}" onclick="toggleKomen('${report.id}')">
-                                    💬 Komentar
+                                    💬 Komentar (${jumlahKomen})
                                 </button>
                             </div>
                             <div class="komen-section" id="komen-${report.id}">
@@ -518,6 +525,7 @@
             const namaEl = document.getElementById(`namaKomen-${reportId}`);
             const isiEl = document.getElementById(`isiKomen-${reportId}`);
             const btnEl = document.getElementById(`btnKirimKomen-${reportId}`);
+            const btnKomen = document.getElementById(`btnKomen-${reportId}`);
             const isi = isiEl.value.trim();
             if (!isi) { alert("Isi komentar tidak boleh kosong!"); return; }
             btnEl.disabled = true; btnEl.textContent = 'Mengirim...';
@@ -530,6 +538,10 @@
                 if (error) throw error;
                 namaEl.value = ''; isiEl.value = '';
                 await fetchKomentar(reportId);
+                // Update angka di tombol
+                const match = btnKomen.textContent.match(/\d+/);
+                const current = match ? parseInt(match[0]) : 0;
+                btnKomen.textContent = `💬 Komentar (${current + 1})`;
             } catch (error) { alert("Gagal mengirim komentar, periksa jaringan kamu."); }
             finally { btnEl.disabled = false; btnEl.textContent = 'Kirim'; }
         }
