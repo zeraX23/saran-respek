@@ -50,8 +50,8 @@
         header { text-align: center; margin-bottom: 30px; }
         .brand-logo { max-width: 180px; height: auto; margin: 0 auto 16px auto; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
         
-        /* Gaya untuk Foto Sampul agar responsif */
-        .cover-photo { width: 100%; height: auto; border-radius: var(--radius-md); margin-top: 16px; box-shadow: var(--shadow-md); display: block; }
+        /* Gaya Foto Sampul (Diubah menjadi margin-bottom agar memberi jarak ke logo di bawahnya) */
+        .cover-photo { width: 100%; height: auto; border-radius: var(--radius-md); margin-bottom: 20px; box-shadow: var(--shadow-md); display: block; }
         
         header h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; color: var(--text-main); letter-spacing: -0.5px; }
         header p { color: var(--text-muted); font-size: 14px; font-weight: 500; }
@@ -96,7 +96,6 @@
         .report-image { max-width: 100%; height: auto; border-radius: var(--radius-md); margin-top: 8px; max-height: 250px; object-fit: cover; }
         .status-badge { font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: 600; color: #374151; white-space: nowrap; }
         
-        /* Tombol Dukungan / Upvote */
         .btn-upvote { display: inline-flex; align-items: center; gap: 6px; background-color: #F3F4F6; color: var(--text-main); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; margin-top: 10px; }
         .btn-upvote:hover { background-color: var(--error-bg); color: var(--primary); border-color: #FECACA; }
         .btn-upvote.sudah-dukung { background-color: #E5E7EB; color: #9CA3AF; cursor: not-allowed; border-color: #E5E7EB; }
@@ -142,11 +141,11 @@
 <body>
     <div class="container">
         <header>
+            <img src="fotosampul.png" alt="Foto Sampul Portal RESPEK" class="cover-photo">
+            
             <img src="logo.png" alt="Logo Pemuda RESPEK" class="brand-logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>'">
             <h1>Portal Aduan & Aspirasi</h1>
             <p>Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.</p>
-            
-            <img src="fotosampul.png" alt="Foto Sampul Portal RESPEK" class="cover-photo">
         </header>
 
         <div class="ticker-wrap">
