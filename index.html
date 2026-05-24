@@ -47,6 +47,19 @@
             -webkit-font-smoothing: antialiased;
         }
         .container { max-width: 600px; margin: 10px auto 20px; flex: 1; width: 100%; }
+        
+        /* KODE CSS BARU UNTUK FOTO SAMPUL */
+        .cover-photo {
+            width: 100%;
+            aspect-ratio: 8 / 3; /* Memastikan rasio 800x300 tetap terjaga */
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+            display: block;
+            border: 1px solid var(--border);
+        }
+
         header { text-align: center; margin-bottom: 30px; }
         .brand-logo { max-width: 180px; height: auto; margin: 0 auto 16px auto; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
         header h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; color: var(--text-main); letter-spacing: -0.5px; }
@@ -92,7 +105,6 @@
         .report-image { max-width: 100%; height: auto; border-radius: var(--radius-md); margin-top: 8px; max-height: 250px; object-fit: cover; }
         .status-badge { font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: 600; color: #374151; white-space: nowrap; }
         
-        /* Tombol Dukungan / Upvote */
         .btn-upvote { display: inline-flex; align-items: center; gap: 6px; background-color: #F3F4F6; color: var(--text-main); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; margin-top: 10px; }
         .btn-upvote:hover { background-color: var(--error-bg); color: var(--primary); border-color: #FECACA; }
         .btn-upvote.sudah-dukung { background-color: #E5E7EB; color: #9CA3AF; cursor: not-allowed; border-color: #E5E7EB; }
@@ -137,6 +149,9 @@
 </head>
 <body>
     <div class="container">
+        
+        <img src="https://placehold.co/800x300/A62122/FFFFFF?text=Foto+Sampul+800x300" alt="Foto Sampul Portal" class="cover-photo">
+        
         <header>
             <img src="logo.png" alt="Logo Pemuda RESPEK" class="brand-logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>'">
             <h1>Portal Aduan & Aspirasi</h1>
