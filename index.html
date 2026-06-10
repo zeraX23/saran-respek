@@ -9,6 +9,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>">
     
+    <!-- Link Manifest PWA (Agar web bisa di-install di HP) -->
+    <link rel="manifest" href="manifest.json">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -81,7 +84,7 @@
         .btn-submit:hover { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(166, 33, 34, 0.3); }
         .btn-submit:disabled { background: #D1D5DB; box-shadow: none; cursor: not-allowed; transform: none; color: #9CA3AF; }
         
-        .live-board-header { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .live-board-header { margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
         .live-board-header h2 { font-size: 20px; font-weight: 700; color: var(--text-main); }
         .badge-live { background-color: rgba(166, 33, 34, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
         .badge-live::before { content: ''; display: inline-block; width: 8px; height: 8px; background-color: var(--primary); border-radius: 50%; animation: pulseDot 2s infinite; }
@@ -289,6 +292,8 @@
                 <div class="form-group">
                     <label for="deskripsi">Deskripsi Detail</label>
                     <textarea id="deskripsi" rows="4" placeholder="Ceritakan detail keluhan atau gagasan Anda (minimal 20 karakter)..." required></textarea>
+                    <!-- Tambahan Fitur Penghitung Karakter -->
+                    <div id="charCount" style="font-size: 11px; color: var(--text-muted); text-align: right; margin-top: 4px; font-weight: 600;">0 karakter (Minimal 20)</div>
                 </div>
                 <div class="form-group">
                     <label for="foto">Unggah Bukti Foto</label>
@@ -319,6 +324,19 @@
                 <h2>Semua Aspirasi Masuk</h2>
                 <span class="badge-live">LIVE UPDATE</span>
             </div>
+            
+            <!-- Tambahan Fitur Filter Kategori -->
+            <div style="margin-bottom: 16px;">
+                <select id="filterKategoriLaporan" onchange="filterLaporanSisiKlien()" style="padding: 8px 12px; font-size: 12px; border-radius: 20px; background-color: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); font-weight: 600; cursor: pointer; outline: none; box-shadow: var(--shadow-sm);">
+                    <option value="Semua">🔍 Semua Kategori</option>
+                    <option value="Infrastruktur">Infrastruktur & Fasilitas</option>
+                    <option value="Lingkungan">Lingkungan & Kebersihan</option>
+                    <option value="Keamanan">Ketertiban & Keamanan</option>
+                    <option value="Program">Ide Program & Kegiatan</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
+            </div>
+
             <div id="daftarLaporan">
                 <div class="loading-box"><div class="loader"></div>Memuat data laporan...</div>
             </div>
@@ -531,6 +549,9 @@
             document.getElementById('umkmSection').style.display = 'none';
             document.getElementById('pengembanganDiriSection').style.display = 'none';
             document.getElementById('keuanganSection').style.display = 'none';
+            // Kembalikan filter ke Semua saat kembali ke beranda
+            document.getElementById('filterKategoriLaporan').value = 'Semua';
+            if(window.filterLaporanSisiKlien) window.filterLaporanSisiKlien();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
@@ -593,7 +614,7 @@
         async function fetchLaporan() {
             daftarLaporanContainer.innerHTML = '<div class="loading-box"><div class="loader"></div>Memuat data laporan...</div>';
             try {
-                const { data, error } = await supabase.from('reports').select('*').order('created_at', { ascending: false }).limit(10);
+                const { data, error } = await supabase.from('reports').select('*').order('created_at', { ascending: false }).limit(20);
                 if (error) throw error;
                 if (data.length === 0) {
                     daftarLaporanContainer.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px;">Belum ada laporan masuk.</p>';
@@ -619,14 +640,20 @@
                             <div class="report-meta">👤 ${bersihkanTeks(report.author_name)} | 🏷️ ${report.category} <br> 🕒 ${tgl}</div>
                             <div class="report-desc">"${bersihkanTeks(report.description)}"</div>
                             ${report.image_url ? `<img src="${report.image_url}" class="report-image">` : ''}
-                            <div>
+                            <div style="display:flex; flex-wrap:wrap;">
                                 <button class="btn-upvote ${cekDukung}" onclick="dukungAspirasi('${report.id}', ${report.upvotes || 0})">
                                     ${teksTombol} (${report.upvotes || 0})
                                 </button>
+                                <!-- Tambahan Fitur Tombol WhatsApp -->
+                                <a href="https://api.whatsapp.com/send?text=Mari dukung aspirasi warga Kepuh: *${encodeURIComponent(report.title)}* di Portal Pemuda RESPEK! ✊" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; background-color: #25D366; color: white; border: none; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; margin-top: 10px; margin-left: 8px; transition: 0.2s;">
+                                    💬 Bagikan
+                                </a>
                             </div>
                         </div>`;
                 });
                 daftarLaporanContainer.innerHTML = htmlContent;
+                // Aplikasikan filter saat data selesai dimuat
+                if(window.filterLaporanSisiKlien) window.filterLaporanSisiKlien();
             } catch (error) {
                 console.error(error);
                 daftarLaporanContainer.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px;">⚠️ Gagal memuat laporan. Periksa koneksi Anda.</p>';
@@ -726,6 +753,7 @@
             if (document.getElementById('perangkapBot').value !== "") { 
                 showAlert("Laporan berhasil dikirim!", "success"); 
                 formAduan.reset(); 
+                document.getElementById('charCount').innerHTML = '0 karakter <span style="color: var(--error-text);">(Minimal 20)</span>';
                 return; 
             }
             
@@ -770,6 +798,7 @@
                 localStorage.setItem('lastReportTime', Date.now());
                 showAlert("Laporan berhasil dikirim!", "success");
                 formAduan.reset(); 
+                document.getElementById('charCount').innerHTML = '0 karakter <span style="color: var(--error-text);">(Minimal 20)</span>';
                 document.getElementById('previewFoto').style.display = 'none';
                 fetchLaporan(); 
                 fetchLeaderboard();
@@ -780,6 +809,33 @@
                 btnKirim.innerText = "Kirim Laporan"; 
             }
         });
+
+        // TAMBAHAN: JS Fitur Penghitung Karakter
+        document.getElementById('deskripsi').addEventListener('input', function() {
+            const len = this.value.trim().length;
+            const counter = document.getElementById('charCount');
+            if (len < 20) {
+                counter.innerHTML = `${len} karakter <span style="color: var(--error-text);">(Minimal 20)</span>`;
+            } else {
+                counter.innerHTML = `${len} karakter <span style="color: var(--success-text);">✅ Mantap!</span>`;
+            }
+        });
+
+        // TAMBAHAN: JS Fungsi Filter Kategori Laporan (Sisi Klien)
+        window.filterLaporanSisiKlien = function() {
+            const kategoriPilihan = document.getElementById('filterKategoriLaporan').value;
+            const semuaLaporan = document.querySelectorAll('.report-item');
+            
+            semuaLaporan.forEach(laporan => {
+                const teksKategori = laporan.querySelector('.report-meta').innerText;
+                if (kategoriPilihan === "Semua" || teksKategori.includes(kategoriPilihan)) {
+                    laporan.style.display = "block";
+                    laporan.style.animation = "fadeIn 0.3s ease";
+                } else {
+                    laporan.style.display = "none";
+                }
+            });
+        };
 
         fetchLaporan();
         fetchLeaderboard();
