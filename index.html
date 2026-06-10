@@ -86,7 +86,7 @@
         .btn-submit:hover { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(166,33,34,0.3); }
         .btn-submit:disabled { background: #D1D5DB; box-shadow: none; cursor: not-allowed; transform: none; color: #9CA3AF; }
 
-        /* ✅ FIX #11: Skeleton loading untuk board */
+        /* Skeleton loading untuk board */
         .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
         .skeleton-card { height: 120px; border-radius: var(--radius-lg); margin-bottom: 16px; }
@@ -130,7 +130,6 @@
         .btn-kirim-komen:hover { background: var(--primary-hover); }
         .btn-kirim-komen:disabled { background: #D1D5DB; cursor: not-allowed; }
 
-        /* ✅ FIX: Honeypot benar-benar tersembunyi dengan CSS */
         .honeypot-field { position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; opacity: 0 !important; pointer-events: none !important; }
 
         #alertBox { display: none; padding: 16px; margin-bottom: 24px; border-radius: var(--radius-md); font-size: 14px; font-weight: 600; text-align: center; animation: fadeIn 0.3s ease; }
@@ -305,7 +304,7 @@
                 <div id="saldoKeuangan" style="font-size:32px; font-weight:800; color:#065F46; margin-top:6px;">Rp 0</div>
             </div>
 
-            <h3 style="font-size:16px; font-weight:700; margin-bottom:12px; color:var(--text-main);">Riwayat Transaksi</h3>
+            <h3 style="font-size:16px; font-weight:700; margin-bottom:12px; color:var(--text-main);">Uang Dipegang Oleh</h3>
             
             <div id="daftarKeuangan" style="display:flex; flex-direction:column; gap:12px;">
                 <div class="skeleton" style="height:70px; border-radius:12px;"></div>
@@ -357,7 +356,7 @@
         // =========================================================
         // NAVIGASI
         // =========================================================
-        let kategoriKeuanganAktif = "Kas Pemuda"; // Variabel penyimpan status tab aktif
+        let kategoriKeuanganAktif = "Kas Pemuda";
 
         function tampilkanKeuangan() {
             document.getElementById('formSection').style.display = 'none';
@@ -369,7 +368,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
             if (window.fetchKeuangan) {
-                window.fetchKeuangan(kategoriKeuanganAktif); // Panggil fungsi module via global window
+                window.fetchKeuangan(kategoriKeuanganAktif);
             }
         }
 
@@ -377,7 +376,6 @@
             kategoriKeuanganAktif = namaTab;
             const daftarTab = ['Kas Pemuda', 'Kas Futsal', 'Iuran Orkes'];
             
-            // Perubahan visual warna tombol tab aktif/nonaktif
             daftarTab.forEach(t => {
                 const idBtn = 'tab-' + t.replace(/ /g, '-');
                 const btn = document.getElementById(idBtn);
@@ -393,7 +391,7 @@
             });
 
             if (window.fetchKeuangan) {
-                window.fetchKeuangan(namaTab); // Mengambil ulang data sesuai tab yang diklik
+                window.fetchKeuangan(namaTab);
             }
         }
 
@@ -415,7 +413,6 @@
             document.getElementById('keuanganSection').style.display = 'none';
             document.getElementById('pengembanganDiriSection').style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            // ✅ FIX #10: Lazy load — fetch hanya saat section dibuka
             fetchPengembanganDiri();
         }
 
@@ -433,16 +430,13 @@
     <script type="module">
         import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-        // =========================================================
-        // ✅ FIX #6: Konstanta terpusat — tidak ada magic numbers
-        // =========================================================
         const CONFIG = {
             SUPABASE_URL: 'https://omqxookhwflcmwvqmwyv.supabase.co',
             SUPABASE_KEY: 'sb_publishable_VqZJB-MLy7-f2lqyX3kZig_BVMSkIKX',
-            COOLDOWN_MS: 3 * 60 * 1000,       // 3 menit
-            MAX_REPORTS: 10,                   // batas fetch laporan
-            MAX_LEADERBOARD: 3,                // batas leaderboard
-            MAX_IMAGE_WIDTH: 800,              // px
+            COOLDOWN_MS: 3 * 60 * 1000,
+            MAX_REPORTS: 10,
+            MAX_LEADERBOARD: 3,
+            MAX_IMAGE_WIDTH: 800,
             IMAGE_QUALITY: 0.7,
             MAX_FILE_SIZE_MB: 5,
             DESKRIPSI_MIN: 20,
@@ -461,9 +455,6 @@
         const deskripsiEl     = document.getElementById('deskripsi');
         const counterEl       = document.getElementById('deskripsiCounter');
 
-        // =========================================================
-        // ✅ FIX #5: Sanitasi teks — aman untuk konten & atribut
-        // =========================================================
         function sanitasiTeks(str) {
             if (str === null || str === undefined) return '';
             return String(str).replace(/[&<>"'`=\/]/g, tag => ({
@@ -473,7 +464,6 @@
             }[tag] || tag));
         }
 
-        // ✅ FIX #4: Validasi URL image — hanya izinkan dari host Supabase kita
         function urlImageAman(url) {
             if (!url || typeof url !== 'string') return false;
             try {
@@ -485,24 +475,17 @@
             }
         }
 
-        // =========================================================
-        // ✅ FIX #8: Counter karakter deskripsi real-time
-        // =========================================================
         deskripsiEl.addEventListener('input', () => {
             const len = deskripsiEl.value.length;
             counterEl.textContent = `${len} / ${CONFIG.DESKRIPSI_MAX} karakter (min. ${CONFIG.DESKRIPSI_MIN})`;
             counterEl.style.color = len < CONFIG.DESKRIPSI_MIN ? 'var(--error-text)' : 'var(--text-muted)';
         });
 
-        // =========================================================
-        // PREVIEW FOTO
-        // =========================================================
         document.getElementById('foto').addEventListener('change', function () {
             const preview = document.getElementById('previewFoto');
             const file = this.files[0];
             if (!file) { preview.style.display = 'none'; preview.src = ''; return; }
 
-            // ✅ FIX #8: Validasi ukuran file di frontend
             if (file.size > CONFIG.MAX_FILE_SIZE_MB * 1024 * 1024) {
                 showAlert(`Ukuran foto maksimal ${CONFIG.MAX_FILE_SIZE_MB}MB.`, 'error');
                 this.value = '';
@@ -513,9 +496,6 @@
             preview.style.display = 'block';
         });
 
-        // =========================================================
-        // KOMPRES GAMBAR
-        // =========================================================
         async function compressImage(file) {
             return new Promise((resolve, reject) => {
                 if (!file.type.startsWith('image/')) return resolve(file);
@@ -549,13 +529,9 @@
             });
         }
 
-        // =========================================================
-        // ✅ FIX #11, #12: Render laporan — preserve state komentar terbuka
-        // =========================================================
         function renderLaporan(data, komenCount) {
             const sudahDukung = JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY_UPVOTES) || '[]');
 
-            // Simpan state seksi komentar yang sedang terbuka sebelum re-render
             const komenTerbuka = new Set();
             document.querySelectorAll('.komen-section.terbuka').forEach(el => {
                 komenTerbuka.add(el.id.replace('komen-', ''));
@@ -573,15 +549,13 @@
 
                 const sudah    = sudahDukung.includes(report.id);
                 const cekDukung  = sudah ? 'sudah-dukung' : '';
-                const teksTombol = sudah ? '✓ Didukung' : '🔺 Dukung Aspirasi';
+                const teksTombol = already ? '✓ Didukung' : '🔺 Dukung Aspirasi';
                 const jumlahKomen = komenCount[report.id] || 0;
 
-                // ✅ FIX #4: Validasi URL image sebelum render
                 const imgTag = urlImageAman(report.image_url)
                     ? `<img src="${sanitasiTeks(report.image_url)}" class="report-image" alt="Bukti foto laporan" loading="lazy">`
                     : '';
 
-                // State komentar: terbuka jika sebelumnya terbuka
                 const komenTerbukaCls = komenTerbuka.has(String(report.id)) ? 'terbuka' : '';
                 const btnKomenAktifCls = komenTerbuka.has(String(report.id)) ? 'aktif' : '';
 
@@ -624,14 +598,9 @@
             });
 
             daftarLaporanEl.innerHTML = html;
-
-            // ✅ FIX #12: Re-fetch komentar untuk seksi yang terbuka ulang
             komenTerbuka.forEach(id => fetchKomentar(id));
         }
 
-        // =========================================================
-        // FETCH LAPORAN
-        // =========================================================
         async function fetchLaporan() {
             try {
                 const { data, error } = await supabase
@@ -647,7 +616,6 @@
                     return;
                 }
 
-                // Ambil jumlah komentar sekaligus (1 query)
                 const reportIds = data.map(r => r.id);
                 const { data: komenData } = await supabase
                     .from('comments')
@@ -665,9 +633,6 @@
             }
         }
 
-        // =========================================================
-        // FETCH LEADERBOARD
-        // =========================================================
         async function fetchLeaderboard() {
             const container = document.getElementById('papanLeaderboard');
             try {
@@ -705,9 +670,6 @@
             }
         }
 
-        // =========================================================
-        // DUKUNG ASPIRASI (UPVOTE)
-        // =========================================================
         window.dukungAspirasi = async function (id, currentUpvotes) {
             let listDukung = JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY_UPVOTES) || '[]');
             if (listDukung.includes(id)) {
@@ -730,9 +692,6 @@
             }
         };
 
-        // =========================================================
-        // TOGGLE & FETCH KOMENTAR
-        // =========================================================
         window.toggleKomen = async function (reportId) {
             const section = document.getElementById(`komen-${reportId}`);
             const btn     = document.getElementById(`btnKomen-${reportId}`);
@@ -782,9 +741,6 @@
             }
         }
 
-        // =========================================================
-        // KIRIM KOMENTAR
-        // =========================================================
         window.kirimKomen = async function (reportId) {
             const namaEl    = document.getElementById(`namaKomen-${reportId}`);
             const isiEl     = document.getElementById(`isiKomen-${reportId}`);
@@ -808,7 +764,6 @@
                 namaEl.value = '';
                 isiEl.value  = '';
 
-                // ✅ FIX #7: Ambil count real dari DB setelah insert
                 await fetchKomentar(reportId);
                 const { count } = await supabase
                     .from('comments')
@@ -818,7 +773,6 @@
                     btnKomenEl.textContent = `💬 Komentar (${count})`;
                 }
             } catch (err) {
-                // ✅ FIX #9: Pesan error lebih spesifik
                 const pesanError = err?.message?.includes('network')
                     ? 'Koneksi internet terputus. Coba lagi.'
                     : 'Gagal mengirim komentar. Coba beberapa saat lagi.';
@@ -829,12 +783,8 @@
             }
         };
 
-        // =========================================================
-        // FETCH PENGEMBANGAN DIRI — ✅ FIX #10: dipanggil lazy
-        // =========================================================
         window.fetchPengembanganDiri = async function () {
             const container = document.getElementById('daftarPengembangan');
-            // Hindari double-fetch jika sudah terisi
             if (container.querySelector('.umkm-card')) return;
             try {
                 const { data, error } = await supabase
@@ -854,12 +804,11 @@
                         ? item.image_url
                         : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80';
 
-                    // Validasi link_url hanya izinkan https
                     let linkUrl = '#';
                     try {
                         const parsed = new URL(item.link_url);
                         if (parsed.protocol === 'https:') linkUrl = item.link_url;
-                    } catch { /* tetap '#' jika tidak valid */ }
+                    } catch { }
 
                     return `
                         <div class="umkm-card">
@@ -880,18 +829,13 @@
             }
         };
 
-        // =========================================================
-        // FETCH DATA LAPORAN KEUANGAN SINKRONISASI SUPABASE
-        // =========================================================
         window.fetchKeuangan = async function (tabKategori) {
             const container = document.getElementById('daftarKeuangan');
             if (!container) return;
             
-            // Tampilkan skeleton loading sementara data diunduh
             container.innerHTML = '<div class="skeleton" style="height:70px; border-radius:12px;"></div>';
             
             try {
-                // Mengambil data kas terfilter berdasarkan kategori nama tab aktif
                 const { data, error } = await supabase
                     .from('finances')
                     .select('*')
@@ -901,7 +845,7 @@
                 if (error) throw error;
 
                 if (!data || data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:14px; padding:30px 10px;">Belum ada riwayat transaksi pada kategori ini.</p>';
+                    container.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:14px; padding:30px 10px;">Belum ada data pemegang uang pada kategori ini.</p>';
                     document.getElementById('saldoKeuangan').textContent = 'Rp 0';
                     document.getElementById('saldoKeuangan').style.color = 'var(--text-main)';
                     return;
@@ -940,7 +884,6 @@
                         </div>`;
                 });
 
-                // Tulis akumulasi kalkulasi ke dalam komponen saldo utama
                 const saldoEl = document.getElementById('saldoKeuangan');
                 saldoEl.textContent = `Rp ${totalSaldo.toLocaleString('id-ID')}`;
                 saldoEl.style.color = totalSaldo >= 0 ? '#065F46' : '#991B1B';
@@ -949,13 +892,10 @@
 
             } catch (err) {
                 console.error("Kesalahan Supabase:", err);
-                container.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px;">Gagal memuat laporan keuangan. Periksa koneksi internet Anda.</p>';
+                container.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px;">Gagal memuat data keuangan. Periksa koneksi internet Anda.</p>';
             }
         };
 
-        // =========================================================
-        // TAMPILKAN ALERT
-        // =========================================================
         let alertTimer = null;
         function showAlert(msg, type = 'error') {
             alertBox.textContent = msg;
@@ -967,9 +907,6 @@
             alertTimer = setTimeout(() => { alertBox.style.display = 'none'; }, 6000);
         }
 
-        // =========================================================
-        // ✅ FIX #8: Validasi form sebelum submit (tidak andalkan HTML saja)
-        // =========================================================
         function validasiForm() {
             const judul     = document.getElementById('judul').value.trim();
             const kategori  = document.getElementById('kategori').value;
@@ -998,20 +935,15 @@
             return true;
         }
 
-        // =========================================================
-        // SUBMIT FORM
-        // =========================================================
         formAduan.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // ✅ FIX #2: Cek honeypot
             if (document.getElementById('perangkapBot').value !== '') {
                 showAlert('Laporan berhasil dikirim!', 'success');
                 formAduan.reset();
                 return;
             }
 
-            // ✅ FIX #3: Cek rate limit (tetap di frontend, didukung RLS di backend)
             const waktuTerakhir = localStorage.getItem(CONFIG.STORAGE_KEY_LAST_REPORT);
             if (waktuTerakhir && (Date.now() - parseInt(waktuTerakhir) < CONFIG.COOLDOWN_MS)) {
                 const sisaDetik = Math.ceil((CONFIG.COOLDOWN_MS - (Date.now() - parseInt(waktuTerakhir))) / 1000);
@@ -1020,7 +952,6 @@
                 return;
             }
 
-            // ✅ FIX #8: Validasi JS mandiri
             if (!validasiForm()) return;
 
             btnKirim.disabled    = true;
@@ -1036,7 +967,6 @@
 
             try {
                 if (fotoFile) {
-                    // ✅ FIX #9: Tangkap error upload foto secara spesifik
                     let fotoKompres;
                     try {
                         fotoKompres = await compressImage(fotoFile);
@@ -1052,7 +982,6 @@
 
                     if (uploadError) {
                         showAlert('Gagal mengunggah foto. Laporan tetap bisa dikirim tanpa foto.', 'error');
-                        // Lanjutkan tanpa foto daripada batalkan seluruhnya
                     } else {
                         imageUrl = supabase.storage.from('foto-bukti').getPublicUrl(namaUnik).data.publicUrl;
                     }
@@ -1080,7 +1009,6 @@
                 fetchLeaderboard();
 
             } catch (err) {
-                // ✅ FIX #9: Pesan error spesifik
                 const pesanError = err?.message?.includes('network') || err?.message?.includes('fetch')
                     ? 'Koneksi internet terputus. Periksa jaringan dan coba lagi.'
                     : `Gagal mengirim laporan: ${err?.message || 'Terjadi kesalahan tidak dikenal.'}`;
@@ -1091,9 +1019,6 @@
             }
         });
 
-        // =========================================================
-        // INIT — ✅ FIX #10: fetchPengembanganDiri TIDAK dipanggil di sini
-        // =========================================================
         fetchLaporan();
         fetchLeaderboard();
 
