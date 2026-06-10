@@ -49,10 +49,7 @@
         header { text-align: center; margin-bottom: 30px; }
         .brand-logo { max-width: 180px; height: auto; margin: 0 auto 16px auto; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
         
-        /* Gaya Foto Sampul */
         .cover-photo { width: 100%; height: auto; border-radius: var(--radius-md); margin-bottom: 20px; box-shadow: var(--shadow-md); display: block; }
-        
-        /* Gaya Banner Kedua (1 Muharam) */
         .cover-photo-banner { width: 100%; height: auto; border-radius: var(--radius-md); margin-bottom: 20px; box-shadow: var(--shadow-md); display: block; }
         
         header h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; color: var(--text-main); letter-spacing: -0.5px; }
@@ -126,26 +123,16 @@
         .btn-wa { display: block; text-align: center; background: #25D366; color: white; text-decoration: none; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 700; transition: 0.2s; }
         .btn-wa:hover { background: #1DA851; }
 
-        .btn-back-top {
-            display: inline-block;
-            background: var(--bg-body);
-            color: var(--text-main);
-            border: 1px solid var(--border);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 16px;
-            transition: all 0.2s;
-        }
-        .btn-back-top:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
+        .btn-back-top { display: inline-block; background: var(--bg-body); color: var(--text-main); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 16px; transition: all 0.2s; }
+        .btn-back-top:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* Tambahan CSS Khusus Laporan Keuangan */
+        /* CSS Khusus Laporan Keuangan & Tab */
+        .finance-tabs { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 5px; scrollbar-width: none; }
+        .finance-tabs::-webkit-scrollbar { display: none; }
+        .finance-tab-btn { background: var(--input-bg); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.2s ease; font-family: inherit; }
+        .finance-tab-btn.active { background: var(--primary); color: #FFFFFF; border-color: var(--primary); box-shadow: 0 2px 4px rgba(166, 33, 34, 0.2); }
+        .finance-content { display: none; animation: fadeIn 0.3s ease; }
+        
         .finance-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; text-align: center; }
         .finance-box { background: var(--input-bg); padding: 15px 10px; border-radius: var(--radius-md); border: 1px solid var(--border); }
         .finance-box h4 { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; }
@@ -171,8 +158,6 @@
             .umkm-img { height: 110px; }
             .umkm-content { padding: 10px; }
             .btn-wa { font-size: 11px; padding: 6px; }
-            
-            /* Responsive Finance */
             .finance-summary { grid-template-columns: 1fr; }
             .finance-table { font-size: 11px; }
             .finance-table th, .finance-table td { padding: 8px 5px; }
@@ -182,13 +167,8 @@
 <body>
     <div class="container">
         <header>
-            <!-- Foto Sampul Utama -->
             <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/fotosampul.png" alt="Foto Sampul Portal RESPEK" class="cover-photo">
-            
-            <!-- Banner Kedua: 1 Muharam -->
             <img src="banner_muharam.png" alt="Memperingati 1 Muharam - Malam Satu Suro di Dukuh Kepuh" class="cover-photo-banner">
-            
-            <!-- Logo -->
             <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/logo.png" alt="Logo Pemuda RESPEK" class="brand-logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>'">
             <h1>Portal Aduan & Aspirasi</h1>
             <p>Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.</p>
@@ -227,7 +207,7 @@
             </a>
         </nav>
 
-        <!-- Bagian Form Laporan (Beranda) -->
+        <!-- Bagian Form Laporan -->
         <main class="form-card" id="formSection">
             <div id="alertBox"></div>
             <form id="formAduan">
@@ -265,7 +245,7 @@
             </form>
         </main>
 
-        <!-- Bagian Board Laporan (Beranda) -->
+        <!-- Bagian Board Laporan -->
         <section class="live-board" id="boardSection">
             <div style="background: #FFFFFF; padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--border); margin-bottom: 24px; box-shadow: var(--shadow-sm);">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
@@ -299,52 +279,94 @@
             <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 24px; background-color: var(--text-muted); box-shadow: none;">⬅ Kembali ke Beranda</button>
         </section>
 
-        <!-- Bagian Laporan Keuangan (DIKOSONGKAN DATA NYA) -->
+        <!-- Bagian Laporan Keuangan DENGAN TAB -->
         <section id="keuanganSection" style="display: none; animation: fadeIn 0.3s ease; margin-bottom: 40px;">
             <button class="btn-back-top" onclick="tampilkanBeranda()">⬅ Kembali ke Beranda</button>
             <div class="umkm-header">
                 <h2>Laporan Keuangan Transparan</h2>
             </div>
-            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Rincian aliran dana kegiatan pemuda dan kas RESPEK Kepuh untuk menjaga akuntabilitas.</p>
+            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">Rincian aliran dana kegiatan pemuda dan kas RESPEK Kepuh untuk menjaga akuntabilitas.</p>
 
-            <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: 24px; box-shadow: var(--shadow-sm);">
-                <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Kegiatan: 1 Muharam & Santunan Yatim</h3>
-                
-                <div class="finance-summary">
-                    <div class="finance-box masuk">
-                        <h4>Total Pemasukan</h4>
-                        <div class="amount">Rp 0</div>
-                    </div>
-                    <div class="finance-box keluar">
-                        <h4>Total Pengeluaran</h4>
-                        <div class="amount">Rp 0</div>
-                    </div>
-                    <div class="finance-box">
-                        <h4>Sisa Saldo Kegiatan</h4>
-                        <div class="amount">Rp 0</div>
-                    </div>
-                </div>
+            <!-- Menu Tab Navigasi Keuangan -->
+            <div class="finance-tabs">
+                <button class="finance-tab-btn active" onclick="bukaTabKeuangan(event, 'tabKasPemuda')">Kas Pemuda</button>
+                <button class="finance-tab-btn" onclick="bukaTabKeuangan(event, 'tab1Suro')">Malam 1 Suro</button>
+                <button class="finance-tab-btn" onclick="bukaTabKeuangan(event, 'tab17Agustus')">17 Agustus</button>
+                <button class="finance-tab-btn" onclick="bukaTabKeuangan(event, 'tabMaulid')">Maulid Nabi</button>
+            </div>
 
-                <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
-                    <table class="finance-table">
-                        <thead>
-                            <tr>
-                                <th>Tanggal</th>
-                                <th>Keterangan / Rincian</th>
-                                <th class="text-right">Nominal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>-</td>
-                                <td>Belum ada rincian kegiatan</td>
-                                <td class="text-right">-</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <!-- Konten Tab 1: Kas Pemuda -->
+            <div id="tabKasPemuda" class="finance-content" style="display: block;">
+                <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 24px;">
+                    <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Laporan: Kas Pemuda RESPEK</h3>
+                    <div class="finance-summary">
+                        <div class="finance-box masuk"><h4>Total Pemasukan</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box keluar"><h4>Total Pengeluaran</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box"><h4>Sisa Saldo Kas</h4><div class="amount">Rp 0</div></div>
+                    </div>
+                    <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
+                        <table class="finance-table">
+                            <thead><tr><th>Tanggal</th><th>Keterangan / Rincian</th><th class="text-right">Nominal</th></tr></thead>
+                            <tbody><tr><td>-</td><td>Belum ada rincian kegiatan</td><td class="text-right">-</td></tr></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            
+
+            <!-- Konten Tab 2: Malam 1 Suro -->
+            <div id="tab1Suro" class="finance-content">
+                <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 24px;">
+                    <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Kegiatan: Malam 1 Suro</h3>
+                    <div class="finance-summary">
+                        <div class="finance-box masuk"><h4>Total Pemasukan</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box keluar"><h4>Total Pengeluaran</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box"><h4>Sisa Saldo Kegiatan</h4><div class="amount">Rp 0</div></div>
+                    </div>
+                    <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
+                        <table class="finance-table">
+                            <thead><tr><th>Tanggal</th><th>Keterangan / Rincian</th><th class="text-right">Nominal</th></tr></thead>
+                            <tbody><tr><td>-</td><td>Belum ada rincian kegiatan</td><td class="text-right">-</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Konten Tab 3: 17 Agustus -->
+            <div id="tab17Agustus" class="finance-content">
+                <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 24px;">
+                    <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Kegiatan: 17 Agustus</h3>
+                    <div class="finance-summary">
+                        <div class="finance-box masuk"><h4>Total Pemasukan</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box keluar"><h4>Total Pengeluaran</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box"><h4>Sisa Saldo Kegiatan</h4><div class="amount">Rp 0</div></div>
+                    </div>
+                    <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
+                        <table class="finance-table">
+                            <thead><tr><th>Tanggal</th><th>Keterangan / Rincian</th><th class="text-right">Nominal</th></tr></thead>
+                            <tbody><tr><td>-</td><td>Belum ada rincian kegiatan</td><td class="text-right">-</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Konten Tab 4: Maulid Nabi -->
+            <div id="tabMaulid" class="finance-content">
+                <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 24px;">
+                    <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Kegiatan: Maulid Nabi</h3>
+                    <div class="finance-summary">
+                        <div class="finance-box masuk"><h4>Total Pemasukan</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box keluar"><h4>Total Pengeluaran</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box"><h4>Sisa Saldo Kegiatan</h4><div class="amount">Rp 0</div></div>
+                    </div>
+                    <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
+                        <table class="finance-table">
+                            <thead><tr><th>Tanggal</th><th>Keterangan / Rincian</th><th class="text-right">Nominal</th></tr></thead>
+                            <tbody><tr><td>-</td><td>Belum ada rincian kegiatan</td><td class="text-right">-</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 10px; background-color: var(--text-muted); box-shadow: none;">⬅ Kembali ke Beranda</button>
         </section>
 
@@ -390,6 +412,22 @@
     </footer>
 
     <script>
+        // Fungsi Buka Tab Laporan Keuangan
+        function bukaTabKeuangan(evt, namaTab) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("finance-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("finance-tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(namaTab).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Fungsi Navigasi Halaman Utama
         function tampilkanUMKM() {
             document.getElementById('formSection').style.display = 'none';
             document.getElementById('boardSection').style.display = 'none';
@@ -428,6 +466,7 @@
         }
     </script>
 
+    <!-- Supabase Logic -->
     <script type="module">
         import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
         const supabaseUrl = 'https://omqxookhwflcmwvqmwyv.supabase.co';
