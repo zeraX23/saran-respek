@@ -145,6 +145,21 @@
             border-color: var(--primary);
         }
 
+        /* Tambahan CSS Khusus Laporan Keuangan */
+        .finance-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; text-align: center; }
+        .finance-box { background: var(--input-bg); padding: 15px 10px; border-radius: var(--radius-md); border: 1px solid var(--border); }
+        .finance-box h4 { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; }
+        .finance-box .amount { font-size: 14px; font-weight: 800; color: var(--text-main); }
+        .finance-box.masuk .amount { color: var(--success-text); }
+        .finance-box.keluar .amount { color: var(--error-text); }
+        .finance-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--bg-card); overflow: hidden; }
+        .finance-table th, .finance-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .finance-table th { background: var(--input-bg); font-weight: 700; color: var(--text-muted); }
+        .finance-table tr:last-child td { border-bottom: none; }
+        .text-right { text-align: right !important; }
+        .text-masuk { color: var(--success-text); font-weight: 700; }
+        .text-keluar { color: var(--error-text); font-weight: 700; }
+
         @media (max-width: 480px) {
             .form-card { padding: 24px 20px; border-radius: 20px; }
             .report-item { padding: 16px; }
@@ -156,19 +171,21 @@
             .umkm-img { height: 110px; }
             .umkm-content { padding: 10px; }
             .btn-wa { font-size: 11px; padding: 6px; }
+            
+            /* Responsive Finance */
+            .finance-summary { grid-template-columns: 1fr; }
+            .finance-table { font-size: 11px; }
+            .finance-table th, .finance-table td { padding: 8px 5px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <!-- Foto Sampul Utama -->
             <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/fotosampul.png" alt="Foto Sampul Portal RESPEK" class="cover-photo">
             
-            <!-- Banner Kedua: 1 Muharam (KEMBALI DITAMBAHKAN) -->
             <img src="banner_muharam.png" alt="Memperingati 1 Muharam - Malam Satu Suro di Dukuh Kepuh" class="cover-photo-banner">
             
-            <!-- Logo -->
             <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/logo.png" alt="Logo Pemuda RESPEK" class="brand-logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>'">
             <h1>Portal Aduan & Aspirasi</h1>
             <p>Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.</p>
@@ -193,7 +210,7 @@
                 <span class="menu-icon">🌱</span>
                 <span class="menu-text">Pengembangan Diri</span>
             </a>
-            <a href="#" class="menu-item" onclick="alert('Halaman Laporan Keuangan segera hadir!'); return false;">
+            <a href="#" class="menu-item" onclick="tampilkanKeuangan(); return false;">
                 <span class="menu-icon">📊</span>
                 <span class="menu-text">Laporan Keuangan</span>
             </a>
@@ -276,6 +293,84 @@
             <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 24px; background-color: var(--text-muted); box-shadow: none;">⬅ Kembali ke Beranda</button>
         </section>
 
+        <section id="keuanganSection" style="display: none; animation: fadeIn 0.3s ease; margin-bottom: 40px;">
+            <button class="btn-back-top" onclick="tampilkanBeranda()">⬅ Kembali ke Beranda</button>
+            <div class="umkm-header">
+                <h2>Laporan Keuangan Transparan</h2>
+            </div>
+            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Rincian aliran dana kegiatan pemuda dan kas RESPEK Kepuh untuk menjaga akuntabilitas.</p>
+
+            <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: 24px; box-shadow: var(--shadow-sm);">
+                <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Kegiatan: 1 Muharam & Santunan Yatim</h3>
+                
+                <div class="finance-summary">
+                    <div class="finance-box masuk">
+                        <h4>Total Pemasukan</h4>
+                        <div class="amount">Rp 5.500.000</div>
+                    </div>
+                    <div class="finance-box keluar">
+                        <h4>Total Pengeluaran</h4>
+                        <div class="amount">Rp 4.250.000</div>
+                    </div>
+                    <div class="finance-box">
+                        <h4>Sisa Saldo Kegiatan</h4>
+                        <div class="amount">Rp 1.250.000</div>
+                    </div>
+                </div>
+
+                <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
+                    <table class="finance-table">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Keterangan / Rincian</th>
+                                <th class="text-right">Nominal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01/07/2026</td>
+                                <td>Pencairan Kas Utama Pemuda</td>
+                                <td class="text-right text-masuk">+ Rp 1.500.000</td>
+                            </tr>
+                            <tr>
+                                <td>05/07/2026</td>
+                                <td>Donasi & Iuran Warga (Kolektif)</td>
+                                <td class="text-right text-masuk">+ Rp 3.000.000</td>
+                            </tr>
+                            <tr>
+                                <td>10/07/2026</td>
+                                <td>Sponsor Hamba Allah</td>
+                                <td class="text-right text-masuk">+ Rp 1.000.000</td>
+                            </tr>
+                            <tr>
+                                <td>12/07/2026</td>
+                                <td>DP Sewa Panggung, Terop & Sound System</td>
+                                <td class="text-right text-keluar">- Rp 1.000.000</td>
+                            </tr>
+                            <tr>
+                                <td>14/07/2026</td>
+                                <td>Belanja Konsumsi Panitia & Tamu Undangan</td>
+                                <td class="text-right text-keluar">- Rp 1.500.000</td>
+                            </tr>
+                            <tr>
+                                <td>15/07/2026</td>
+                                <td>Santunan Anak Yatim Piatu (10 Orang)</td>
+                                <td class="text-right text-keluar">- Rp 1.500.000</td>
+                            </tr>
+                            <tr>
+                                <td>15/07/2026</td>
+                                <td>Cetak Banner Panggung & ID Card Panitia</td>
+                                <td class="text-right text-keluar">- Rp 250.000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 10px; background-color: var(--text-muted); box-shadow: none;">⬅ Kembali ke Beranda</button>
+        </section>
+
         <section id="umkmSection" style="display: none; animation: fadeIn 0.3s ease; margin-bottom: 40px;">
             <button class="btn-back-top" onclick="tampilkanBeranda()">⬅ Kembali ke Beranda</button>
             <div class="umkm-header">
@@ -322,6 +417,7 @@
             document.getElementById('boardSection').style.display = 'none';
             document.querySelector('.ticker-wrap').style.display = 'none'; 
             document.getElementById('pengembanganDiriSection').style.display = 'none';
+            document.getElementById('keuanganSection').style.display = 'none';
             document.getElementById('umkmSection').style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -330,7 +426,17 @@
             document.getElementById('boardSection').style.display = 'none';
             document.querySelector('.ticker-wrap').style.display = 'none'; 
             document.getElementById('umkmSection').style.display = 'none';
+            document.getElementById('keuanganSection').style.display = 'none';
             document.getElementById('pengembanganDiriSection').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function tampilkanKeuangan() {
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('boardSection').style.display = 'none';
+            document.querySelector('.ticker-wrap').style.display = 'none'; 
+            document.getElementById('umkmSection').style.display = 'none';
+            document.getElementById('pengembanganDiriSection').style.display = 'none';
+            document.getElementById('keuanganSection').style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         function tampilkanBeranda() {
@@ -339,6 +445,7 @@
             document.querySelector('.ticker-wrap').style.display = 'block'; 
             document.getElementById('umkmSection').style.display = 'none';
             document.getElementById('pengembanganDiriSection').style.display = 'none';
+            document.getElementById('keuanganSection').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
