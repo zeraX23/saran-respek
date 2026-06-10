@@ -288,32 +288,6 @@
             <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top:24px; background-color:var(--text-muted); box-shadow:none;">⬅ Kembali ke Beranda</button>
         </section>
 
-        <section id="keuanganSection" style="display:none; animation:fadeIn 0.3s ease; margin-bottom:40px;">
-            <div class="umkm-header" style="margin-bottom: 4px;">
-                <h2>Laporan Keuangan</h2>
-            </div>
-            <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">Transparansi aliran dana kas dan iuran pemuda RESPEK.</p>
-            
-            <div style="display:flex; gap:8px; margin-bottom:20px; overflow-x:auto; padding-bottom:4px; -webkit-overflow-scrolling:touch;">
-                <button id="tab-Kas-Pemuda" class="btn-tab-keuangan" onclick="gantiTabKeuangan('Kas Pemuda')" style="background:var(--primary); color:#fff; border:none; padding:8px 16px; border-radius:20px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; transition:0.2s;">Kas Pemuda</button>
-                <button id="tab-Kas-Futsal" class="btn-tab-keuangan" onclick="gantiTabKeuangan('Kas Futsal')" style="background:#E5E7EB; color:var(--text-main); border:none; padding:8px 16px; border-radius:20px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; transition:0.2s;">Kas Futsal</button>
-                <button id="tab-Iuran-Orkes" class="btn-tab-keuangan" onclick="gantiTabKeuangan('Iuran Orkes')" style="background:#E5E7EB; color:var(--text-main); border:none; padding:8px 16px; border-radius:20px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; transition:0.2s;">Iuran Orkes</button>
-            </div>
-
-            <div style="background:var(--bg-card); padding:24px; border-radius:var(--radius-lg); border:1px solid var(--border); margin-bottom:24px; text-align:center; box-shadow:var(--shadow-sm);">
-                <small style="color:var(--text-muted); font-weight:700; font-size:13px; letter-spacing:0.5px;">Total Saldo Aktif</small>
-                <div id="saldoKeuangan" style="font-size:32px; font-weight:800; color:#065F46; margin-top:6px;">Rp 0</div>
-            </div>
-
-            <h3 style="font-size:16px; font-weight:700; margin-bottom:12px; color:var(--text-main);">Riwayat Transaksi</h3>
-            
-            <div id="daftarKeuangan" style="display:flex; flex-direction:column; gap:12px;">
-                <div class="skeleton" style="height:70px; border-radius:12px;"></div>
-            </div>
-            
-            <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top:24px; background-color:var(--text-muted); box-shadow:none;">← Kembali ke Beranda</button>
-        </section>
-
         <section id="umkmSection" style="display:none; animation:fadeIn 0.3s ease; margin-bottom:40px;">
             <div class="umkm-header">
                 <h2>Lapak UMKM Pemuda</h2>
@@ -347,6 +321,30 @@
             </div>
             <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top:24px; background-color:var(--text-muted); box-shadow:none;">⬅ Kembali ke Beranda</button>
         </section>
+
+        <section id="keuanganSection" style="display:none; animation:fadeIn 0.3s ease; margin-bottom:40px;">
+            <div class="umkm-header">
+                <h2>Laporan Keuangan</h2>
+            </div>
+            <p style="color:var(--text-muted); font-size:14px; margin-bottom:16px;">Transparansi aliran dana kas dan iuran pemuda RESPEK.</p>
+
+            <div style="display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px;" id="filterKeuangan">
+                <button class="btn-upvote" style="background:var(--primary); color:white; border-color:var(--primary);" onclick="fetchKeuangan('Kas Pemuda', this)">Kas Pemuda</button>
+                <button class="btn-upvote" onclick="fetchKeuangan('Kas Futsal', this)">Kas Futsal</button>
+                <button class="btn-upvote" onclick="fetchKeuangan('Iuran Orkes', this)">Iuran Orkes</button>
+            </div>
+
+            <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: var(--shadow-sm);">
+                <h3 style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px;">Total Saldo Aktif</h3>
+                <div id="totalSaldoKeuangan" style="font-size: 28px; font-weight: 800; color: #065F46;">Rp 0</div>
+            </div>
+
+            <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 12px;">Riwayat Transaksi</h3>
+            <div id="daftarKeuangan" style="display: flex; flex-direction: column; gap: 12px;">
+                </div>
+
+            <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top:24px; background-color:var(--text-muted); box-shadow:none;">⬅ Kembali ke Beranda</button>
+        </section>
     </div>
 
     <footer class="app-footer">
@@ -357,46 +355,6 @@
         // =========================================================
         // NAVIGASI
         // =========================================================
-        let kategoriKeuanganAktif = "Kas Pemuda"; // Variabel penyimpan status tab aktif
-
-        function tampilkanKeuangan() {
-            document.getElementById('formSection').style.display = 'none';
-            document.getElementById('boardSection').style.display = 'none';
-            document.querySelector('.ticker-wrap').style.display = 'none';
-            document.getElementById('umkmSection').style.display = 'none';
-            document.getElementById('pengembanganDiriSection').style.display = 'none';
-            document.getElementById('keuanganSection').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            if (window.fetchKeuangan) {
-                window.fetchKeuangan(kategoriKeuanganAktif); // Panggil fungsi module via global window
-            }
-        }
-
-        function gantiTabKeuangan(namaTab) {
-            kategoriKeuanganAktif = namaTab;
-            const daftarTab = ['Kas Pemuda', 'Kas Futsal', 'Iuran Orkes'];
-            
-            // Perubahan visual warna tombol tab aktif/nonaktif
-            daftarTab.forEach(t => {
-                const idBtn = 'tab-' + t.replace(/ /g, '-');
-                const btn = document.getElementById(idBtn);
-                if (btn) {
-                    if (t === namaTab) {
-                        btn.style.background = 'var(--primary)';
-                        btn.style.color = '#fff';
-                    } else {
-                        btn.style.background = '#E5E7EB';
-                        btn.style.color = 'var(--text-main)';
-                    }
-                }
-            });
-
-            if (window.fetchKeuangan) {
-                window.fetchKeuangan(namaTab); // Mengambil ulang data sesuai tab yang diklik
-            }
-        }
-
         function tampilkanUMKM() {
             document.getElementById('formSection').style.display = 'none';
             document.getElementById('boardSection').style.display = 'none';
@@ -417,6 +375,22 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
             // ✅ FIX #10: Lazy load — fetch hanya saat section dibuka
             fetchPengembanganDiri();
+        }
+
+        function tampilkanKeuangan() {
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('boardSection').style.display = 'none';
+            document.querySelector('.ticker-wrap').style.display = 'none';
+            document.getElementById('umkmSection').style.display = 'none';
+            document.getElementById('pengembanganDiriSection').style.display = 'none';
+            document.getElementById('keuanganSection').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Ambil data 'Kas Pemuda' secara default sewaktu halaman dibuka
+            if (window.fetchKeuangan) {
+                const btnDefault = document.querySelector('#filterKeuangan button');
+                window.fetchKeuangan('Kas Pemuda', btnDefault);
+            }
         }
 
         function tampilkanBeranda() {
@@ -881,74 +855,86 @@
         };
 
         // =========================================================
-        // FETCH DATA LAPORAN KEUANGAN SINKRONISASI SUPABASE
+        // INTEGRASI LAPORAN KEUANGAN SUPABASE
         // =========================================================
-        window.fetchKeuangan = async function (tabKategori) {
+        window.fetchKeuangan = async function (kategori, btnEl = null) {
             const container = document.getElementById('daftarKeuangan');
-            if (!container) return;
-            
-            // Tampilkan skeleton loading sementara data diunduh
-            container.innerHTML = '<div class="skeleton" style="height:70px; border-radius:12px;"></div>';
-            
+            const saldoContainer = document.getElementById('totalSaldoKeuangan');
+
+            // Set styling tab filter aktif secara visual
+            if (btnEl) {
+                document.querySelectorAll('#filterKeuangan button').forEach(b => {
+                    b.style.background = '#F3F4F6';
+                    b.style.color = 'var(--text-main)';
+                    b.style.borderColor = 'var(--border)';
+                });
+                btnEl.style.background = 'var(--primary)';
+                btnEl.style.color = 'white';
+                btnEl.style.borderColor = 'var(--primary)';
+            }
+
+            // Render skeleton loading
+            container.innerHTML = '<div class="skeleton" style="height:60px; margin-bottom:10px;"></div><div class="skeleton" style="height:60px;"></div>';
+
             try {
-                // Mengambil data kas terfilter berdasarkan kategori nama tab aktif
+                // Fetch data dari tabel 'finances' di Supabase
                 const { data, error } = await supabase
                     .from('finances')
                     .select('*')
-                    .eq('category', tabKategori)
+                    .eq('category', kategori)
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
 
                 if (!data || data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:14px; padding:30px 10px;">Belum ada riwayat transaksi pada kategori ini.</p>';
-                    document.getElementById('saldoKeuangan').textContent = 'Rp 0';
-                    document.getElementById('saldoKeuangan').style.color = 'var(--text-main)';
+                    container.innerHTML = `<p style="text-align:center; color:#6B7280; font-size:13px; padding:20px; background:var(--input-bg); border-radius:10px;">Belum ada catatan transaksi untuk ${sanitasiTeks(kategori)}.</p>`;
+                    saldoContainer.textContent = 'Rp 0';
+                    saldoContainer.style.color = '#065F46';
                     return;
                 }
 
-                let totalSaldo = 0;
-                let htmlOutput = '';
+                let saldo = 0;
+                let html = '';
 
                 data.forEach(item => {
                     const nominal = Number(item.amount) || 0;
-                    const isMasuk = item.type === 'Pemasukan';
+                    const isPemasukan = item.type === 'Pemasukan';
                     
-                    if (isMasuk) { totalSaldo += nominal; } 
-                    else { totalSaldo -= nominal; }
+                    // Kalkulasi total saldo
+                    if (isPemasukan) saldo += nominal;
+                    else saldo -= nominal;
 
                     const tgl = new Date(item.created_at).toLocaleDateString('id-ID', {
                         day: 'numeric', month: 'short', year: 'numeric'
                     });
 
-                    const tanda = isMasuk ? '+' : '-';
-                    const warnaNominal = isMasuk ? '#065F46' : '#991B1B';
-                    const bgItem = isMasuk ? '#F0FDF4' : '#FEF2F2';
-                    const borderItem = isMasuk ? '#A7F3D0' : '#FECACA';
+                    const color = isPemasukan ? '#065F46' : '#991B1B';
+                    const sign = isPemasukan ? '+' : '-';
+                    const bgIcon = isPemasukan ? '#D1FAE5' : '#FEE2E2';
 
-                    htmlOutput += `
-                        <div style="background:${bgItem}; padding:14px; border-radius:12px; border:1px solid ${borderItem}; display:flex; justify-content:space-between; align-items:center; gap:12px; animation: fadeIn 0.2s ease;">
-                            <div style="flex:1; min-width:0;">
-                                <div style="font-size:14px; font-weight:700; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                                    ${sanitasiTeks(item.description)}
-                                </div>
-                                <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">🕒 ${tgl}</div>
+                    html += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
+                        <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
+                            <div style="background: ${bgIcon}; color: ${color}; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; flex-shrink: 0;">
+                                ${isPemasukan ? '↓' : '↑'}
                             </div>
-                            <div style="font-size:15px; font-weight:800; color:${warnaNominal}; white-space:nowrap;">
-                                ${tanda} Rp ${nominal.toLocaleString('id-ID')}
+                            <div style="min-width: 0; text-align: left;">
+                                <div style="font-weight: 700; font-size: 13px; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">${sanitasiTeks(item.description)}</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">${tgl}</div>
                             </div>
-                        </div>`;
+                        </div>
+                        <div style="font-weight: 800; font-size: 14px; color: ${color}; flex-shrink: 0;">
+                            ${sign} Rp ${nominal.toLocaleString('id-ID')}
+                        </div>
+                    </div>`;
                 });
 
-                // Tulis akumulasi kalkulasi ke dalam komponen saldo utama
-                const saldoEl = document.getElementById('saldoKeuangan');
-                saldoEl.textContent = `Rp ${totalSaldo.toLocaleString('id-ID')}`;
-                saldoEl.style.color = totalSaldo >= 0 ? '#065F46' : '#991B1B';
-                
-                container.innerHTML = htmlOutput;
+                // Tampilkan total saldo akumulatif
+                saldoContainer.textContent = (saldo >= 0 ? '' : '-') + 'Rp ' + Math.abs(saldo).toLocaleString('id-ID');
+                saldoContainer.style.color = saldo >= 0 ? '#065F46' : '#991B1B';
+                container.innerHTML = html;
 
             } catch (err) {
-                console.error("Kesalahan Supabase:", err);
                 container.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px;">Gagal memuat laporan keuangan. Periksa koneksi internet Anda.</p>';
             }
         };
