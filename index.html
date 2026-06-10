@@ -182,10 +182,13 @@
 <body>
     <div class="container">
         <header>
+            <!-- Foto Sampul Utama -->
             <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/fotosampul.png" alt="Foto Sampul Portal RESPEK" class="cover-photo">
             
+            <!-- Banner Kedua: 1 Muharam -->
             <img src="banner_muharam.png" alt="Memperingati 1 Muharam - Malam Satu Suro di Dukuh Kepuh" class="cover-photo-banner">
             
+            <!-- Logo -->
             <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/logo.png" alt="Logo Pemuda RESPEK" class="brand-logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>'">
             <h1>Portal Aduan & Aspirasi</h1>
             <p>Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.</p>
@@ -224,6 +227,7 @@
             </a>
         </nav>
 
+        <!-- Bagian Form Laporan (Beranda) -->
         <main class="form-card" id="formSection">
             <div id="alertBox"></div>
             <form id="formAduan">
@@ -261,6 +265,7 @@
             </form>
         </main>
 
+        <!-- Bagian Board Laporan (Beranda) -->
         <section class="live-board" id="boardSection">
             <div style="background: #FFFFFF; padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--border); margin-bottom: 24px; box-shadow: var(--shadow-sm);">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
@@ -281,6 +286,7 @@
             </div>
         </section>
 
+        <!-- Bagian Pengembangan Diri -->
         <section id="pengembanganDiriSection" style="display: none; animation: fadeIn 0.3s ease; margin-bottom: 40px;">
             <button class="btn-back-top" onclick="tampilkanBeranda()">⬅ Kembali ke Beranda</button>
             <div class="umkm-header">
@@ -293,6 +299,7 @@
             <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 24px; background-color: var(--text-muted); box-shadow: none;">⬅ Kembali ke Beranda</button>
         </section>
 
+        <!-- Bagian Laporan Keuangan (DIKOSONGKAN DATA NYA) -->
         <section id="keuanganSection" style="display: none; animation: fadeIn 0.3s ease; margin-bottom: 40px;">
             <button class="btn-back-top" onclick="tampilkanBeranda()">⬅ Kembali ke Beranda</button>
             <div class="umkm-header">
@@ -306,15 +313,15 @@
                 <div class="finance-summary">
                     <div class="finance-box masuk">
                         <h4>Total Pemasukan</h4>
-                        <div class="amount">Rp 5.500.000</div>
+                        <div class="amount">Rp 0</div>
                     </div>
                     <div class="finance-box keluar">
                         <h4>Total Pengeluaran</h4>
-                        <div class="amount">Rp 4.250.000</div>
+                        <div class="amount">Rp 0</div>
                     </div>
                     <div class="finance-box">
                         <h4>Sisa Saldo Kegiatan</h4>
-                        <div class="amount">Rp 1.250.000</div>
+                        <div class="amount">Rp 0</div>
                     </div>
                 </div>
 
@@ -329,39 +336,9 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>01/07/2026</td>
-                                <td>Pencairan Kas Utama Pemuda</td>
-                                <td class="text-right text-masuk">+ Rp 1.500.000</td>
-                            </tr>
-                            <tr>
-                                <td>05/07/2026</td>
-                                <td>Donasi & Iuran Warga (Kolektif)</td>
-                                <td class="text-right text-masuk">+ Rp 3.000.000</td>
-                            </tr>
-                            <tr>
-                                <td>10/07/2026</td>
-                                <td>Sponsor Hamba Allah</td>
-                                <td class="text-right text-masuk">+ Rp 1.000.000</td>
-                            </tr>
-                            <tr>
-                                <td>12/07/2026</td>
-                                <td>DP Sewa Panggung, Terop & Sound System</td>
-                                <td class="text-right text-keluar">- Rp 1.000.000</td>
-                            </tr>
-                            <tr>
-                                <td>14/07/2026</td>
-                                <td>Belanja Konsumsi Panitia & Tamu Undangan</td>
-                                <td class="text-right text-keluar">- Rp 1.500.000</td>
-                            </tr>
-                            <tr>
-                                <td>15/07/2026</td>
-                                <td>Santunan Anak Yatim Piatu (10 Orang)</td>
-                                <td class="text-right text-keluar">- Rp 1.500.000</td>
-                            </tr>
-                            <tr>
-                                <td>15/07/2026</td>
-                                <td>Cetak Banner Panggung & ID Card Panitia</td>
-                                <td class="text-right text-keluar">- Rp 250.000</td>
+                                <td>-</td>
+                                <td>Belum ada rincian kegiatan</td>
+                                <td class="text-right">-</td>
                             </tr>
                         </tbody>
                     </table>
@@ -371,6 +348,7 @@
             <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 10px; background-color: var(--text-muted); box-shadow: none;">⬅ Kembali ke Beranda</button>
         </section>
 
+        <!-- Bagian UMKM -->
         <section id="umkmSection" style="display: none; animation: fadeIn 0.3s ease; margin-bottom: 40px;">
             <button class="btn-back-top" onclick="tampilkanBeranda()">⬅ Kembali ke Beranda</button>
             <div class="umkm-header">
