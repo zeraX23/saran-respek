@@ -1,31 +1,77 @@
-<!DOCTYPE html>
-<html lang="id">
+
+Action: file_editor create /app/output/index.html --file-text "<!DOCTYPE html>
+<html lang=\"id\">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#A62122">
-    <title>Suara Pemuda RESPEK - Portal Aduan</title>
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover\">
+    <meta name=\"theme-color\" content=\"#A62122\">
+    <meta name=\"color-scheme\" content=\"light\">
+    <title>Suara Pemuda RESPEK - Portal Aduan & Aspirasi Kepuh</title>
 
-    <meta name="description" content="Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan. Portal aspirasi resmi Pemuda RESPEK.">
-    <meta property="og:title" content="Suara Pemuda RESPEK - Portal Aduan">
-    <meta property="og:description" content="Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/zeraX23/saran-respek/main/fotosampul.png">
-    <meta property="og:type" content="website">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>">
-    <link rel="manifest" href="manifest.json">
+    <!-- SEO -->
+    <meta name=\"description\" content=\"Sampaikan kritik, saran, dan laporan untuk kemajuan Dukuh Kepuh secara transparan. Portal aspirasi resmi Pemuda RESPEK.\">
+    <meta name=\"keywords\" content=\"Pemuda RESPEK, Kepuh, aspirasi, portal aduan, UMKM Kepuh, laporan keuangan pemuda\">
+    <meta name=\"author\" content=\"Pemuda RESPEK (Revolusi Pemuda Kepuh)\">
+    <meta name=\"robots\" content=\"index, follow\">
+    <link rel=\"canonical\" href=\"https://zerax23.github.io/saran-respek/\">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Open Graph -->
+    <meta property=\"og:title\" content=\"Suara Pemuda RESPEK - Portal Aduan\">
+    <meta property=\"og:description\" content=\"Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.\">
+    <meta property=\"og:image\" content=\"https://raw.githubusercontent.com/zeraX23/saran-respek/main/fotosampul.png\">
+    <meta property=\"og:image:alt\" content=\"Foto Sampul Portal Aduan Pemuda RESPEK\">
+    <meta property=\"og:type\" content=\"website\">
+    <meta property=\"og:url\" content=\"https://zerax23.github.io/saran-respek/\">
+    <meta property=\"og:site_name\" content=\"Suara Pemuda RESPEK\">
+    <meta property=\"og:locale\" content=\"id_ID\">
+
+    <!-- Twitter Card -->
+    <meta name=\"twitter:card\" content=\"summary_large_image\">
+    <meta name=\"twitter:title\" content=\"Suara Pemuda RESPEK - Portal Aduan\">
+    <meta name=\"twitter:description\" content=\"Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.\">
+    <meta name=\"twitter:image\" content=\"https://raw.githubusercontent.com/zeraX23/saran-respek/main/fotosampul.png\">
+
+    <!-- PWA -->
+    <meta name=\"apple-mobile-web-app-capable\" content=\"yes\">
+    <meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\">
+    <meta name=\"apple-mobile-web-app-title\" content=\"Suara RESPEK\">
+    <meta name=\"mobile-web-app-capable\" content=\"yes\">
+    <link rel=\"manifest\" href=\"manifest.json\">
+    <link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%E2%9C%8A</text></svg>\">
+    <link rel=\"apple-touch-icon\" href=\"https://raw.githubusercontent.com/zeraX23/saran-respek/main/logo.png\">
+
+    <!-- Performance: preconnect & preload -->
+    <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">
+    <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>
+    <link rel=\"preconnect\" href=\"https://omqxookhwflcmwvqmwyv.supabase.co\" crossorigin>
+    <link rel=\"dns-prefetch\" href=\"https://cdn.jsdelivr.net\">
+    <link href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap\" rel=\"stylesheet\">
+
+    <!-- Structured data -->
+    <script type=\"application/ld+json\">
+    {
+        \"@context\": \"https://schema.org\",
+        \"@type\": \"WebApplication\",
+        \"name\": \"Suara Pemuda RESPEK\",
+        \"description\": \"Portal aduan & aspirasi resmi Pemuda RESPEK Dukuh Kepuh.\",
+        \"applicationCategory\": \"GovernmentApplication\",
+        \"operatingSystem\": \"Any\",
+        \"inLanguage\": \"id-ID\",
+        \"publisher\": {
+            \"@type\": \"Organization\",
+            \"name\": \"Pemuda RESPEK (Revolusi Pemuda Kepuh)\"
+        }
+    }
+    </script>
 
     <style>
         :root {
             --primary: #A62122;
             --primary-hover: #8B1A1B;
+            --primary-rgb: 166, 33, 34;
             --text-main: #111827;
             --text-muted: #6B7280;
+            --text-soft: #4B5563;
             --bg-body: #F3F4F6;
             --bg-card: #FFFFFF;
             --border: #E5E7EB;
@@ -34,13 +80,28 @@
             --success-text: #065F46;
             --error-bg: #FEE2E2;
             --error-text: #991B1B;
+            --warning-bg: #FEF3C7;
+            --warning-text: #92400E;
+            --info-bg: #EFF6FF;
+            --info-text: #2563EB;
+            --info-border: #BFDBFE;
             --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
             --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
             --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
             --radius-md: 12px;
             --radius-lg: 16px;
+            --focus-ring: 0 0 0 3px rgba(var(--primary-rgb), 0.35);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        * { margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-body);
@@ -51,113 +112,189 @@
             flex-direction: column;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
+
+        /* Accessibility: skip link */
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+            top: 8px;
+            background: var(--primary);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            z-index: 9999;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .skip-link:focus { left: 8px; }
+
+        /* Focus-visible styles */
+        :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 6px; }
+        button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
         .container { max-width: 600px; margin: 10px auto 20px; flex: 1; width: 100%; }
         header { text-align: center; margin-bottom: 30px; }
-        .brand-logo { max-width: 180px; height: auto; margin: 0 auto 16px auto; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
-        .cover-photo { width: 100%; height: auto; border-radius: var(--radius-md); margin-bottom: 20px; box-shadow: var(--shadow-md); display: block; }
-        .cover-photo-banner { width: 100%; max-height: 220px; object-fit: cover; object-position: center top; border-radius: var(--radius-md); margin-bottom: 20px; box-shadow: var(--shadow-md); display: block; }
+        .brand-logo { max-width: 180px; height: auto; margin: 0 auto 16px; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
+        .cover-photo { width: 100%; height: auto; aspect-ratio: 1200/630; border-radius: var(--radius-md); margin-bottom: 20px; box-shadow: var(--shadow-md); display: block; object-fit: cover; background: var(--input-bg); }
+        .cover-photo-banner { width: 100%; height: auto; aspect-ratio: 1200/600; max-height: 220px; object-fit: cover; object-position: center top; border-radius: var(--radius-md); margin-bottom: 20px; box-shadow: var(--shadow-md); display: block; background: var(--input-bg); }
         header h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; color: var(--text-main); letter-spacing: -0.5px; }
         header p { color: var(--text-muted); font-size: 14px; font-weight: 500; }
 
         .ticker-wrap { width: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-hover)); padding: 12px 0; border-radius: var(--radius-md); margin-bottom: 24px; overflow: hidden; box-shadow: var(--shadow-md); position: relative; white-space: nowrap; }
         .ticker-text { display: inline-block; color: #FFFFFF; font-size: 14px; font-weight: 600; letter-spacing: 0.5px; padding-left: 100%; animation: ticker 18s linear infinite; }
+        .ticker-wrap:hover .ticker-text, .ticker-wrap:focus-within .ticker-text { animation-play-state: paused; }
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        .quick-menu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 32px; }
-        .menu-item { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 12px; text-align: center; text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: var(--shadow-sm); transition: all 0.3s ease; cursor: pointer; }
-        .menu-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--primary); color: var(--primary); }
-        .menu-icon { font-size: 28px; margin-bottom: 4px; }
+        .quick-menu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 32px; list-style: none; padding: 0; }
+        .menu-item { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 12px; text-align: center; text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: var(--shadow-sm); transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, color 0.25s ease; cursor: pointer; font-family: inherit; width: 100%; }
+        .menu-item:hover, .menu-item:focus-visible { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--primary); color: var(--primary); }
+        .menu-icon { font-size: 28px; margin-bottom: 4px; line-height: 1; }
         .menu-text { font-size: 13px; font-weight: 700; line-height: 1.3; }
 
         .form-card { background-color: var(--bg-card); padding: 32px; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); border: 1px solid rgba(255,255,255,0.5); margin-bottom: 40px; position: relative; overflow: hidden; }
         .form-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--primary), #D22B2D); }
         .form-group { margin-bottom: 24px; }
         label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: var(--text-main); }
-        input[type="text"], select, textarea { width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 15px; background-color: var(--input-bg); color: var(--text-main); transition: all 0.3s ease; font-family: inherit; }
-        input[type="text"]:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); background-color: var(--bg-card); box-shadow: 0 0 0 4px rgba(166,33,34,0.1); }
-        input[type="file"] { display: block; width: 100%; padding: 10px 0; font-size: 14px; color: var(--text-muted); }
-        input[type="file"]::file-selector-button { padding: 8px 16px; border-radius: 8px; border: none; background-color: var(--input-bg); border: 1px solid var(--border); color: var(--text-main); font-weight: 600; cursor: pointer; transition: 0.2s; margin-right: 12px; font-family: inherit; }
+        input[type=\"text\"], select, textarea {
+            width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-md);
+            font-size: 15px; background-color: var(--input-bg); color: var(--text-main);
+            transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+            font-family: inherit;
+        }
+        textarea { resize: vertical; min-height: 100px; }
+        input[type=\"text\"]:focus, select:focus, textarea:focus {
+            outline: none; border-color: var(--primary); background-color: var(--bg-card);
+            box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.1);
+        }
+        input[type=\"file\"] { display: block; width: 100%; padding: 10px 0; font-size: 14px; color: var(--text-muted); font-family: inherit; }
+        input[type=\"file\"]::file-selector-button { padding: 8px 16px; border-radius: 8px; background-color: var(--input-bg); border: 1px solid var(--border); color: var(--text-main); font-weight: 600; cursor: pointer; transition: background-color 0.2s ease; margin-right: 12px; font-family: inherit; }
+        input[type=\"file\"]::file-selector-button:hover { background-color: #E5E7EB; }
         small { display: block; margin-top: 6px; color: var(--text-muted); font-size: 12px; }
-        .form-checkbox { display: flex; align-items: center; margin-bottom: 28px; gap: 12px; }
-        .form-checkbox input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--primary); cursor: pointer; }
-        .form-checkbox label { margin-bottom: 0; font-weight: 500; cursor: pointer; color: var(--text-muted); }
-        .btn-submit { width: 100%; padding: 16px; background: var(--primary); color: #FFFFFF; border: none; border-radius: var(--radius-md); font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(166,33,34,0.25); font-family: inherit; }
-        .btn-submit:hover { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(166,33,34,0.3); }
-        .btn-submit:disabled { background: #D1D5DB; box-shadow: none; cursor: not-allowed; transform: none; color: #9CA3AF; }
+        .counter { text-align: right; }
+        .counter.warn { color: var(--error-text); font-weight: 600; }
 
-        /* ✅ FIX #11: Skeleton loading untuk board */
+        .form-checkbox { display: flex; align-items: center; margin-bottom: 28px; gap: 12px; }
+        .form-checkbox input[type=\"checkbox\"] { width: 20px; height: 20px; accent-color: var(--primary); cursor: pointer; flex-shrink: 0; }
+        .form-checkbox label { margin-bottom: 0; font-weight: 500; cursor: pointer; color: var(--text-muted); }
+
+        .btn-submit { width: 100%; padding: 16px; background: var(--primary); color: #FFFFFF; border: none; border-radius: var(--radius-md); font-size: 16px; font-weight: 700; cursor: pointer; transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease; box-shadow: 0 4px 6px rgba(var(--primary-rgb), 0.25); font-family: inherit; }
+        .btn-submit:hover:not(:disabled), .btn-submit:focus-visible:not(:disabled) { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(var(--primary-rgb), 0.3); }
+        .btn-submit:disabled { background: #D1D5DB; box-shadow: none; cursor: not-allowed; transform: none; color: #6B7280; }
+
         .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
         .skeleton-card { height: 120px; border-radius: var(--radius-lg); margin-bottom: 16px; }
         .skeleton-leader { height: 48px; border-radius: 10px; margin-bottom: 10px; }
 
-        .live-board-header { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .live-board-header { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
         .live-board-header h2 { font-size: 20px; font-weight: 700; color: var(--text-main); }
-        .badge-live { background-color: rgba(166,33,34,0.1); color: var(--primary); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+        .badge-live { background-color: rgba(var(--primary-rgb), 0.1); color: var(--primary); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
         .badge-live::before { content: ''; display: inline-block; width: 8px; height: 8px; background-color: var(--primary); border-radius: 50%; animation: pulseDot 2s infinite; }
-        @keyframes pulseDot { 0% { box-shadow: 0 0 0 0 rgba(166,33,34,0.4); } 70% { box-shadow: 0 0 0 6px rgba(166,33,34,0); } 100% { box-shadow: 0 0 0 0 rgba(166,33,34,0); } }
+        @keyframes pulseDot { 0% { box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.4); } 70% { box-shadow: 0 0 0 6px rgba(var(--primary-rgb), 0); } 100% { box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0); } }
 
-        .report-item { background-color: var(--bg-card); padding: 20px; border-radius: var(--radius-lg); margin-bottom: 16px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); transition: transform 0.2s; }
+        .leaderboard-card { background:#FFFFFF; padding:20px; border-radius:var(--radius-lg); border:1px solid var(--border); margin-bottom:24px; box-shadow:var(--shadow-sm); }
+        .leaderboard-title { display:flex; align-items:center; gap:8px; margin-bottom:14px; }
+        .leaderboard-title h2 { font-size:18px; font-weight:800; color:var(--text-main); }
+        .leaderboard-title .ico { font-size:22px; line-height:1; }
+        .leaderboard-list { display:flex; flex-direction:column; gap:10px; }
+        .leaderboard-row { display:flex; align-items:center; justify-content:space-between; background:#F9FAFB; padding:10px 14px; border-radius:10px; border-left:4px solid var(--border); }
+        .leaderboard-row .left { display:flex; align-items:center; gap:10px; min-width:0; flex:1; }
+        .leaderboard-row .medal { font-size:18px; flex-shrink:0; }
+        .leaderboard-row .title { font-size:13px; font-weight:700; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .leaderboard-row .votes { font-size:12px; background:rgba(var(--primary-rgb),0.1); color:var(--primary); padding:4px 10px; border-radius:12px; font-weight:800; white-space:nowrap; flex-shrink:0; margin-left:8px; }
+
+        .report-item { background-color: var(--bg-card); padding: 20px; border-radius: var(--radius-lg); margin-bottom: 16px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
         .report-header { display: flex; justify-content: space-between; margin-bottom: 10px; align-items: flex-start; gap: 12px; }
         .report-title { font-weight: 700; font-size: 16px; color: var(--text-main); line-height: 1.4; }
         .report-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.6; }
-        .report-desc { font-size: 14px; color: #4B5563; background-color: var(--input-bg); padding: 14px; border-radius: var(--radius-md); margin-bottom: 12px; line-height: 1.6; border: 1px solid #F3F4F6; }
-        .report-image { max-width: 100%; height: auto; border-radius: var(--radius-md); margin-top: 8px; max-height: 250px; object-fit: cover; }
+        .report-desc { font-size: 14px; color: var(--text-soft); background-color: var(--input-bg); padding: 14px; border-radius: var(--radius-md); margin-bottom: 12px; line-height: 1.6; border: 1px solid #F3F4F6; word-wrap: break-word; overflow-wrap: anywhere; }
+        .report-image { max-width: 100%; height: auto; border-radius: var(--radius-md); margin-top: 8px; max-height: 250px; object-fit: cover; display: block; }
         .status-badge { font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: 600; color: #374151; white-space: nowrap; }
+        .status-badge.s-selesai { background-color: var(--success-bg); color: var(--success-text); }
+        .status-badge.s-diproses { background-color: #DBEAFE; color: var(--info-text); }
+        .status-badge.s-menunggu { background-color: #E5E7EB; color: #374151; }
 
-        .btn-upvote { display: inline-flex; align-items: center; gap: 6px; background-color: #F3F4F6; color: var(--text-main); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; margin-top: 10px; }
-        .btn-upvote:hover { background-color: var(--error-bg); color: var(--primary); border-color: #FECACA; }
-        .btn-upvote.sudah-dukung { background-color: #E5E7EB; color: #9CA3AF; cursor: not-allowed; border-color: #E5E7EB; }
-
-        .btn-komen { display: inline-flex; align-items: center; gap: 6px; background-color: #F3F4F6; color: var(--text-main); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; margin-top: 10px; margin-left: 8px; }
-        .btn-komen:hover { background-color: #EFF6FF; color: #2563EB; border-color: #BFDBFE; }
-        .btn-komen.aktif { background-color: #EFF6FF; color: #2563EB; border-color: #BFDBFE; }
+        .btn-upvote, .btn-komen {
+            display: inline-flex; align-items: center; gap: 6px; background-color: #F3F4F6; color: var(--text-main);
+            border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
+            cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+            margin-top: 10px; font-family: inherit;
+        }
+        .btn-upvote:hover:not(:disabled) { background-color: var(--error-bg); color: var(--primary); border-color: #FECACA; }
+        .btn-upvote.sudah-dukung { background-color: #E5E7EB; color: #6B7280; cursor: not-allowed; border-color: #E5E7EB; }
+        .btn-komen { margin-left: 8px; }
+        .btn-komen:hover, .btn-komen.aktif { background-color: var(--info-bg); color: var(--info-text); border-color: var(--info-border); }
 
         .komen-section { display: none; margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; animation: fadeIn 0.25s ease; }
         .komen-section.terbuka { display: block; }
         .komen-list { margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
         .komen-item { background: var(--input-bg); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
         .komen-nama { font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 3px; }
-        .komen-isi { font-size: 13px; color: #4B5563; line-height: 1.5; }
+        .komen-isi { font-size: 13px; color: var(--text-soft); line-height: 1.5; word-wrap: break-word; overflow-wrap: anywhere; }
         .komen-waktu { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
         .komen-kosong { text-align: center; color: var(--text-muted); font-size: 13px; padding: 10px 0; }
 
         .komen-form { display: flex; flex-direction: column; gap: 8px; }
-        .komen-form input[type="text"] { padding: 9px 12px; font-size: 13px; border-radius: 10px; }
-        .komen-form textarea { padding: 9px 12px; font-size: 13px; border-radius: 10px; resize: none; }
-        .btn-kirim-komen { align-self: flex-end; background: var(--primary); color: #fff; border: none; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.2s; }
-        .btn-kirim-komen:hover { background: var(--primary-hover); }
+        .komen-form input[type=\"text\"], .komen-form textarea { padding: 9px 12px; font-size: 13px; border-radius: 10px; }
+        .komen-form textarea { resize: none; min-height: auto; }
+        .btn-kirim-komen { align-self: flex-end; background: var(--primary); color: #fff; border: none; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background-color 0.2s ease; }
+        .btn-kirim-komen:hover:not(:disabled) { background: var(--primary-hover); }
         .btn-kirim-komen:disabled { background: #D1D5DB; cursor: not-allowed; }
 
-        /* ✅ FIX: Honeypot benar-benar tersembunyi dengan CSS */
+        /* Honeypot - truly hidden but still in DOM */
         .honeypot-field { position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; opacity: 0 !important; pointer-events: none !important; }
 
         #alertBox { display: none; padding: 16px; margin-bottom: 24px; border-radius: var(--radius-md); font-size: 14px; font-weight: 600; text-align: center; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         .alert-success { background-color: var(--success-bg); color: var(--success-text); border: 1px solid #A7F3D0; }
         .alert-error { background-color: var(--error-bg); color: var(--error-text); border: 1px solid #FECACA; }
-        .alert-warning { background-color: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; }
+        .alert-warning { background-color: var(--warning-bg); color: var(--warning-text); border: 1px solid #FDE68A; }
 
         .app-footer { text-align: center; padding: 30px 0 10px; color: var(--text-muted); font-size: 13px; font-weight: 500; }
 
-        .umkm-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .umkm-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 12px; }
         .umkm-header h2 { font-size: 20px; font-weight: 700; color: var(--text-main); }
-        .btn-add-umkm { background-color: var(--primary); color: #FFFFFF; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; box-shadow: var(--shadow-sm); }
+        .btn-add-umkm { background-color: var(--primary); color: #FFFFFF; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; border: none; box-shadow: var(--shadow-sm); cursor: pointer; font-family: inherit; transition: background-color 0.2s ease; }
+        .btn-add-umkm:hover { background-color: var(--primary-hover); }
         .umkm-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; }
-        .umkm-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.2s; display: flex; flex-direction: column; }
+        .umkm-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.2s ease, box-shadow 0.2s ease; display: flex; flex-direction: column; }
         .umkm-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-        .umkm-img { width: 100%; height: 120px; object-fit: cover; border-bottom: 1px solid var(--border); }
+        .umkm-img { width: 100%; height: 120px; object-fit: cover; border-bottom: 1px solid var(--border); background: var(--input-bg); }
         .umkm-content { padding: 12px; display: flex; flex-direction: column; flex: 1; }
-        .umkm-category { font-size: 9px; background: var(--bg-body); color: var(--text-muted); padding: 4px 8px; border-radius: 12px; font-weight: 700; display: inline-block; align-self: flex-start; margin-bottom: 6px; }
-        .umkm-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--text-main); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .umkm-category { font-size: 9px; background: var(--bg-body); color: var(--text-muted); padding: 4px 8px; border-radius: 12px; font-weight: 700; display: inline-block; align-self: flex-start; margin-bottom: 6px; letter-spacing: 0.5px; }
+        .umkm-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--text-main); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .umkm-price { font-size: 14px; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
-        .umkm-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
+        .umkm-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
         .umkm-owner { font-size: 10px; color: var(--text-muted); margin-bottom: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
-        .btn-wa { display: block; text-align: center; background: #25D366; color: white; text-decoration: none; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 700; transition: 0.2s; }
+        .btn-wa { display: block; text-align: center; background: #25D366; color: white; text-decoration: none; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 700; transition: background-color 0.2s ease; }
         .btn-wa:hover { background: #1DA851; }
 
+        .preview-foto { display: none; width: 100%; max-height: 250px; object-fit: cover; border-radius: 12px; margin-top: 15px; border: 1px solid var(--border); }
+
+        .keuangan-filter { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+        .keuangan-summary { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: var(--shadow-sm); }
+        .keuangan-summary h3 { font-size: 13px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; }
+        .keuangan-saldo { font-size: 28px; font-weight: 800; color: var(--success-text); }
+        .keuangan-row { display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+        .keuangan-row .left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+        .keuangan-row .icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; flex-shrink: 0; }
+        .keuangan-row .desc { font-weight: 700; font-size: 13px; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px; }
+        .keuangan-row .date { font-size: 11px; color: var(--text-muted); }
+        .keuangan-row .amount { font-weight: 800; font-size: 14px; flex-shrink: 0; }
+        .btn-back { margin-top: 24px; background-color: var(--text-muted); box-shadow: none; }
+        .btn-back:hover:not(:disabled) { background-color: #4B5563; box-shadow: none; }
+
+        .empty-state { text-align: center; color: var(--text-muted); font-size: 14px; padding: 20px; }
+        .empty-state.grid-span { grid-column: 1 / -1; }
+        .error-state { text-align: center; color: var(--error-text); font-size: 14px; padding: 20px; }
+
         @media (max-width: 480px) {
+            body { padding: 16px; }
             .form-card { padding: 24px 20px; border-radius: 20px; }
             .report-item { padding: 16px; }
             .quick-menu { gap: 10px; }
@@ -168,779 +305,291 @@
             .umkm-img { height: 110px; }
             .umkm-content { padding: 10px; }
             .btn-wa { font-size: 11px; padding: 6px; }
+            header h1 { font-size: 22px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <a href=\"#mainContent\" class=\"skip-link\">Lewati ke konten utama</a>
+
+    <div class=\"container\">
         <header>
-            <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/fotosampul.png" alt="Foto Sampul Portal RESPEK" class="cover-photo">
-            <img src="banner_muharam.png" alt="Memperingati 1 Muharam - Malam Satu Suro di Dukuh Kepuh" class="cover-photo-banner">
-            <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/logo.png" alt="Logo Pemuda RESPEK" class="brand-logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>'">
-            <h1>Portal Aduan & Aspirasi</h1>
+            <img src=\"https://raw.githubusercontent.com/zeraX23/saran-respek/main/fotosampul.png\"
+                 alt=\"Foto sampul Portal Pemuda RESPEK\" class=\"cover-photo\"
+                 width=\"1200\" height=\"630\" loading=\"eager\" decoding=\"async\">
+            <img src=\"banner_muharam.png\"
+                 alt=\"Banner peringatan 1 Muharam - Malam Satu Suro di Dukuh Kepuh\" class=\"cover-photo-banner\"
+                 width=\"1200\" height=\"600\" loading=\"lazy\" decoding=\"async\">
+            <img src=\"https://raw.githubusercontent.com/zeraX23/saran-respek/main/logo.png\"
+                 alt=\"Logo Pemuda RESPEK\" class=\"brand-logo\"
+                 width=\"180\" height=\"180\" loading=\"eager\" decoding=\"async\"
+                 onerror=\"this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%E2%9C%8A%3C/text%3E%3C/svg%3E'\">
+            <h1>Portal Aduan &amp; Aspirasi</h1>
             <p>Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.</p>
         </header>
 
-        <div class="ticker-wrap">
-            <div class="ticker-text">
-                  Skil anda akan terlatih saat aktif dalam organisasi, INGAT !! Skil adalah aset.
+        <div class=\"ticker-wrap\" role=\"marquee\" aria-label=\"Pengumuman berjalan\">
+            <div class=\"ticker-text\">
+                Skill anda akan terlatih saat aktif dalam organisasi, INGAT!! Skill adalah aset.
             </div>
         </div>
 
-        <nav class="quick-menu">
-            <button class="menu-item" onclick="alert('Halaman Struktur Organisasi segera hadir!')">
-                <span class="menu-icon">👥</span>
-                <span class="menu-text">Struktur Organisasi</span>
+        <nav class=\"quick-menu\" aria-label=\"Menu cepat\">
+            <button type=\"button\" class=\"menu-item\" data-action=\"soon\" data-message=\"Halaman Struktur Organisasi segera hadir!\">
+                <span class=\"menu-icon\" aria-hidden=\"true\">👥</span>
+                <span class=\"menu-text\">Struktur Organisasi</span>
             </button>
-            <button class="menu-item" onclick="alert('Halaman Agenda Acara segera hadir!')">
-                <span class="menu-icon">📅</span>
-                <span class="menu-text">Agenda Acara</span>
+            <button type=\"button\" class=\"menu-item\" data-action=\"soon\" data-message=\"Halaman Agenda Acara segera hadir!\">
+                <span class=\"menu-icon\" aria-hidden=\"true\">📅</span>
+                <span class=\"menu-text\">Agenda Acara</span>
             </button>
-            <button class="menu-item" onclick="tampilkanPengembanganDiri()">
-                <span class="menu-icon">🌱</span>
-                <span class="menu-text">Pengembangan Diri</span>
+            <button type=\"button\" class=\"menu-item\" data-action=\"nav\" data-target=\"pengembangan\">
+                <span class=\"menu-icon\" aria-hidden=\"true\">🌱</span>
+                <span class=\"menu-text\">Pengembangan Diri</span>
             </button>
-            <button class="menu-item" onclick="tampilkanKeuangan()">
-                <span class="menu-icon">📊</span>
-                <span class="menu-text">Laporan Keuangan</span>
+            <button type=\"button\" class=\"menu-item\" data-action=\"nav\" data-target=\"keuangan\">
+                <span class=\"menu-icon\" aria-hidden=\"true\">📊</span>
+                <span class=\"menu-text\">Laporan Keuangan</span>
             </button>
-            <button class="menu-item" onclick="alert('Halaman Polling & Voting segera hadir!')">
-                <span class="menu-icon">🗳️</span>
-                <span class="menu-text">Polling & Voting</span>
+            <button type=\"button\" class=\"menu-item\" data-action=\"soon\" data-message=\"Halaman Polling &amp; Voting segera hadir!\">
+                <span class=\"menu-icon\" aria-hidden=\"true\">🗳️</span>
+                <span class=\"menu-text\">Polling &amp; Voting</span>
             </button>
-            <button class="menu-item" onclick="tampilkanUMKM()">
-                <span class="menu-icon">🏪</span>
-                <span class="menu-text">Usaha Pemuda (UMKM)</span>
+            <button type=\"button\" class=\"menu-item\" data-action=\"nav\" data-target=\"umkm\">
+                <span class=\"menu-icon\" aria-hidden=\"true\">🏪</span>
+                <span class=\"menu-text\">Usaha Pemuda (UMKM)</span>
             </button>
         </nav>
 
-        <main class="form-card" id="formSection">
-            <div id="alertBox" role="alert" aria-live="polite"></div>
-            <form id="formAduan" novalidate>
-                <input type="text" id="perangkapBot" class="honeypot-field" autocomplete="off" tabindex="-1" aria-hidden="true">
-                <div class="form-group">
-                    <label for="judul">Judul Laporan</label>
-                    <input type="text" id="judul" placeholder="Contoh: Ada pemuda yang sedang bertikai" maxlength="150" required>
+        <main id=\"mainContent\">
+            <section class=\"form-card\" id=\"formSection\" aria-labelledby=\"formSectionTitle\">
+                <h2 id=\"formSectionTitle\" class=\"sr-only\" style=\"position:absolute;left:-9999px;\">Form Pengiriman Aspirasi</h2>
+                <div id=\"alertBox\" role=\"status\" aria-live=\"polite\"></div>
+                <form id=\"formAduan\" novalidate>
+                    <!-- Honeypot anti-bot -->
+                    <div class=\"honeypot-field\" aria-hidden=\"true\">
+                        <label for=\"perangkapBot\">Jangan isi field ini</label>
+                        <input type=\"text\" id=\"perangkapBot\" name=\"perangkapBot\" autocomplete=\"off\" tabindex=\"-1\">
+                    </div>
+
+                    <div class=\"form-group\">
+                        <label for=\"judul\">Judul Laporan</label>
+                        <input type=\"text\" id=\"judul\" name=\"judul\" placeholder=\"Contoh: Ada pemuda yang sedang bertikai\" maxlength=\"150\" minlength=\"5\" autocomplete=\"off\" required>
+                    </div>
+                    <div class=\"form-group\">
+                        <label for=\"kategori\">Kategori</label>
+                        <select id=\"kategori\" name=\"kategori\" required>
+                            <option value=\"\">-- Pilih Kategori --</option>
+                            <option value=\"Infrastruktur\">Infrastruktur &amp; Fasilitas Umum</option>
+                            <option value=\"Lingkungan\">Lingkungan &amp; Kebersihan</option>
+                            <option value=\"Keamanan\">Ketertiban &amp; Keamanan</option>
+                            <option value=\"Program\">Ide Program &amp; Kegiatan</option>
+                            <option value=\"Lainnya\">Kritik &amp; Saran Lainnya</option>
+                        </select>
+                    </div>
+                    <div class=\"form-group\">
+                        <label for=\"deskripsi\">Deskripsi Detail</label>
+                        <textarea id=\"deskripsi\" name=\"deskripsi\" rows=\"4\" maxlength=\"2000\" minlength=\"20\" placeholder=\"Ceritakan detail keluhan atau gagasan Anda (minimal 20 karakter)...\" required></textarea>
+                        <small id=\"deskripsiCounter\" class=\"counter\" aria-live=\"polite\">0 / 2000 karakter (min. 20)</small>
+                    </div>
+                    <div class=\"form-group\">
+                        <label for=\"foto\">Unggah Bukti Foto (opsional)</label>
+                        <input type=\"file\" id=\"foto\" name=\"foto\" accept=\"image/jpeg,image/png,image/webp,image/gif\">
+                        <img id=\"previewFoto\" class=\"preview-foto\" alt=\"Pratinjau foto bukti yang akan diunggah\">
+                        <small>Sistem otomatis mengecilkan ukuran foto agar hemat kuota. Maks. 5MB.</small>
+                    </div>
+                    <div class=\"form-checkbox\">
+                        <input type=\"checkbox\" id=\"anonim\" name=\"anonim\">
+                        <label for=\"anonim\">Kirim sebagai Anonim (Nama disembunyikan)</label>
+                    </div>
+                    <button type=\"submit\" class=\"btn-submit\" id=\"btnKirim\">Kirim Laporan</button>
+                </form>
+            </section>
+
+            <section class=\"live-board\" id=\"boardSection\" aria-labelledby=\"boardTitle\">
+                <div class=\"leaderboard-card\">
+                    <div class=\"leaderboard-title\">
+                        <span class=\"ico\" aria-hidden=\"true\">🏆</span>
+                        <h2>3 Aspirasi Terbanyak Didukung</h2>
+                    </div>
+                    <div id=\"papanLeaderboard\" class=\"leaderboard-list\" aria-busy=\"true\" aria-live=\"polite\">
+                        <div class=\"skeleton skeleton-leader\" aria-hidden=\"true\"></div>
+                        <div class=\"skeleton skeleton-leader\" aria-hidden=\"true\"></div>
+                        <div class=\"skeleton skeleton-leader\" aria-hidden=\"true\"></div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="kategori">Kategori</label>
-                    <select id="kategori" required>
-                        <option value="">-- Pilih Kategori --</option>
-                        <option value="Infrastruktur">Infrastruktur & Fasilitas Umum</option>
-                        <option value="Lingkungan">Lingkungan & Kebersihan</option>
-                        <option value="Keamanan">Ketertiban & Keamanan</option>
-                        <option value="Program">Ide Program & Kegiatan</option>
-                        <option value="Lainnya">Kritik & Saran Lainnya</option>
-                    </select>
+
+                <div class=\"live-board-header\">
+                    <h2 id=\"boardTitle\">Semua Aspirasi Masuk</h2>
+                    <span class=\"badge-live\" aria-label=\"Data diperbarui secara live\">LIVE UPDATE</span>
                 </div>
-                <div class="form-group">
-                    <label for="deskripsi">Deskripsi Detail</label>
-                    <textarea id="deskripsi" rows="4" maxlength="2000" placeholder="Ceritakan detail keluhan atau gagasan Anda (minimal 20 karakter)..." required></textarea>
-                    <small id="deskripsiCounter" style="text-align:right;">0 / 2000 karakter (min. 20)</small>
+                <div id=\"daftarLaporan\" aria-busy=\"true\" aria-live=\"polite\">
+                    <div class=\"skeleton skeleton-card\" aria-hidden=\"true\"></div>
+                    <div class=\"skeleton skeleton-card\" aria-hidden=\"true\"></div>
+                    <div class=\"skeleton skeleton-card\" aria-hidden=\"true\"></div>
                 </div>
-                <div class="form-group">
-                    <label for="foto">Unggah Bukti Foto</label>
-                    <input type="file" id="foto" accept="image/jpeg,image/png,image/webp,image/gif">
-                    <img id="previewFoto" alt="Preview foto bukti" style="display:none; width:100%; max-height:250px; object-fit:cover; border-radius:12px; margin-top:15px; border:1px solid #E5E7EB;">
-                    <small>Sistem otomatis mengecilkan ukuran foto agar hemat kuota. Maks. 5MB.</small>
+            </section>
+
+            <section id=\"pengembanganDiriSection\" hidden aria-labelledby=\"pengembanganTitle\" style=\"margin-bottom:40px;\">
+                <div class=\"umkm-header\">
+                    <h2 id=\"pengembanganTitle\">Pusat Pengembangan Diri</h2>
                 </div>
-                <div class="form-checkbox">
-                    <input type="checkbox" id="anonim">
-                    <label for="anonim">Kirim sebagai Anonim (Nama disembunyikan)</label>
+                <p style=\"color:var(--text-muted); font-size:14px; margin-bottom:16px;\">Tingkatkan keahlianmu! Akses materi dan workshop khusus yang dirancang untuk pemuda Kepuh.</p>
+                <div class=\"umkm-grid\" id=\"daftarPengembangan\" aria-busy=\"true\" aria-live=\"polite\">
+                    <div class=\"skeleton\" style=\"height:200px; border-radius:var(--radius-md);\" aria-hidden=\"true\"></div>
+                    <div class=\"skeleton\" style=\"height:200px; border-radius:var(--radius-md);\" aria-hidden=\"true\"></div>
                 </div>
-                <button type="submit" class="btn-submit" id="btnKirim">Kirim Laporan</button>
-            </form>
+                <button type=\"button\" class=\"btn-submit btn-back\" data-action=\"nav\" data-target=\"beranda\">⬅ Kembali ke Beranda</button>
+            </section>
+
+            <section id=\"umkmSection\" hidden aria-labelledby=\"umkmTitle\" style=\"margin-bottom:40px;\">
+                <div class=\"umkm-header\">
+                    <h2 id=\"umkmTitle\">Lapak UMKM Pemuda</h2>
+                    <button type=\"button\" class=\"btn-add-umkm\" data-action=\"soon\" data-message=\"Formulir tambah usaha segera hadir!\">+ Tambah Usaha</button>
+                </div>
+                <p style=\"color:var(--text-muted); font-size:14px;\">Dukung ekonomi lokal! Harga jujur, kualitas terjamin karya pemuda Kepuh.</p>
+
+                <div class=\"umkm-grid\">
+                    <article class=\"umkm-card\">
+                        <img src=\"https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=400&amp;q=80\"
+                             alt=\"Foto produk Kripik Singkong Balado kemasan pouch\" class=\"umkm-img\"
+                             width=\"400\" height=\"240\" loading=\"lazy\" decoding=\"async\">
+                        <div class=\"umkm-content\">
+                            <span class=\"umkm-category\">KULINER</span>
+                            <h3 class=\"umkm-title\">Kripik Singkong Balado Mang Oleh</h3>
+                            <div class=\"umkm-price\">Rp 15.000</div>
+                            <p class=\"umkm-desc\">Renyah, gurih, bumbu balado asli pedas manis. Kemasan pouch ziplock 250 gram tahan lama.</p>
+                            <div class=\"umkm-owner\"><span aria-hidden=\"true\">👤</span> Budi Santoso</div>
+                            <a href=\"https://wa.me/6281234567890?text=Halo%20Budi,%20saya%20mau%20pesan%20Kripik%20Singkong\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"btn-wa\" aria-label=\"Pesan Kripik Singkong Balado via WhatsApp\">💬 Beli via WA</a>
+                        </div>
+                    </article>
+                    <article class=\"umkm-card\">
+                        <img src=\"https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=400&amp;q=80\"
+                             alt=\"Foto layanan servis laptop dan komputer PC\" class=\"umkm-img\"
+                             width=\"400\" height=\"240\" loading=\"lazy\" decoding=\"async\">
+                        <div class=\"umkm-content\">
+                            <span class=\"umkm-category\">JASA</span>
+                            <h3 class=\"umkm-title\">Servis PC &amp; Instal Ulang Windows</h3>
+                            <div class=\"umkm-price\">Mulai Rp 50.000</div>
+                            <p class=\"umkm-desc\">Melayani instal ulang Windows, format hardisk, tambah RAM, dan pembersihan virus. Bisa panggil ke rumah.</p>
+                            <div class=\"umkm-owner\"><span aria-hidden=\"true\">👤</span> Andi Pratama</div>
+                            <a href=\"https://wa.me/6281234567890\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"btn-wa\" aria-label=\"Hubungi Andi Pratama untuk servis PC via WhatsApp\">💬 Hubungi via WA</a>
+                        </div>
+                    </article>
+                </div>
+                <button type=\"button\" class=\"btn-submit btn-back\" data-action=\"nav\" data-target=\"beranda\">⬅ Kembali ke Beranda</button>
+            </section>
+
+            <section id=\"keuanganSection\" hidden aria-labelledby=\"keuanganTitle\" style=\"margin-bottom:40px;\">
+                <div class=\"umkm-header\">
+                    <h2 id=\"keuanganTitle\">Laporan Keuangan</h2>
+                </div>
+                <p style=\"color:var(--text-muted); font-size:14px; margin-bottom:16px;\">Transparansi aliran dana kas dan iuran pemuda RESPEK.</p>
+
+                <div class=\"keuangan-filter\" id=\"filterKeuangan\" role=\"tablist\" aria-label=\"Filter kategori keuangan\">
+                    <button type=\"button\" class=\"btn-upvote\" data-keuangan=\"Kas Pemuda\" role=\"tab\" aria-selected=\"true\">Kas Pemuda</button>
+                    <button type=\"button\" class=\"btn-upvote\" data-keuangan=\"Kas Futsal\" role=\"tab\" aria-selected=\"false\">Kas Futsal</button>
+                    <button type=\"button\" class=\"btn-upvote\" data-keuangan=\"Iuran Orkes\" role=\"tab\" aria-selected=\"false\">Iuran Orkes</button>
+                </div>
+
+                <div class=\"keuangan-summary\">
+                    <h3>Total Saldo Aktif</h3>
+                    <div id=\"totalSaldoKeuangan\" class=\"keuangan-saldo\" aria-live=\"polite\">Rp 0</div>
+                </div>
+
+                <h3 style=\"font-size: 15px; font-weight: 700; margin-bottom: 12px;\">Riwayat Transaksi</h3>
+                <div id=\"daftarKeuangan\" style=\"display: flex; flex-direction: column; gap: 12px;\" aria-live=\"polite\"></div>
+
+                <button type=\"button\" class=\"btn-submit btn-back\" data-action=\"nav\" data-target=\"beranda\">⬅ Kembali ke Beranda</button>
+            </section>
         </main>
-
-        <section class="live-board" id="boardSection">
-            <div style="background:#FFFFFF; padding:20px; border-radius:var(--radius-lg); border:1px solid var(--border); margin-bottom:24px; box-shadow:var(--shadow-sm);">
-                <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
-                    <span style="font-size:22px;">🏆</span>
-                    <h2 style="font-size:18px; font-weight:800; color:var(--text-main);">3 Aspirasi Terbanyak Didukung</h2>
-                </div>
-                <div id="papanLeaderboard" style="display:flex; flex-direction:column; gap:10px;">
-                    <div class="skeleton skeleton-leader"></div>
-                    <div class="skeleton skeleton-leader"></div>
-                    <div class="skeleton skeleton-leader"></div>
-                </div>
-            </div>
-
-            <div class="live-board-header">
-                <h2>Semua Aspirasi Masuk</h2>
-                <span class="badge-live">LIVE UPDATE</span>
-            </div>
-            <div id="daftarLaporan">
-                <div class="skeleton skeleton-card"></div>
-                <div class="skeleton skeleton-card"></div>
-                <div class="skeleton skeleton-card"></div>
-            </div>
-        </section>
-
-        <section id="pengembanganDiriSection" style="display:none; animation:fadeIn 0.3s ease; margin-bottom:40px;">
-            <div class="umkm-header">
-                <h2>Pusat Pengembangan Diri</h2>
-            </div>
-            <p style="color:var(--text-muted); font-size:14px; margin-bottom:16px;">Tingkatkan keahlianmu! Akses materi dan workshop khusus yang dirancang untuk pemuda Kepuh.</p>
-            <div class="umkm-grid" id="daftarPengembangan">
-                <div class="skeleton" style="height:200px; border-radius:var(--radius-md);"></div>
-                <div class="skeleton" style="height:200px; border-radius:var(--radius-md);"></div>
-            </div>
-            <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top:24px; background-color:var(--text-muted); box-shadow:none;">⬅ Kembali ke Beranda</button>
-        </section>
-
-        <section id="umkmSection" style="display:none; animation:fadeIn 0.3s ease; margin-bottom:40px;">
-            <div class="umkm-header">
-                <h2>Lapak UMKM Pemuda</h2>
-                <button class="btn-add-umkm" onclick="alert('Formulir tambah usaha segera hadir!')">+ Tambah Usaha</button>
-            </div>
-            <p style="color:var(--text-muted); font-size:14px;">Dukung ekonomi lokal! Harga jujur, kualitas terjamin karya pemuda Kepuh.</p>
-
-            <div class="umkm-grid">
-                <div class="umkm-card">
-                    <img src="https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Kripik Singkong Balado" class="umkm-img">
-                    <div class="umkm-content">
-                        <span class="umkm-category">KULINER</span>
-                        <h3 class="umkm-title">Kripik Singkong Balado Mang Oleh</h3>
-                        <div class="umkm-price">Rp 15.000</div>
-                        <p class="umkm-desc">Renyah, gurih, bumbu balado asli pedas manis. Kemasan pouch ziplock 250 gram tahan lama.</p>
-                        <div class="umkm-owner"><span>👤</span> Budi Santoso</div>
-                        <a href="https://wa.me/6281234567890?text=Halo%20Budi,%20saya%20mau%20pesan%20Kripik%20Singkong" target="_blank" rel="noopener noreferrer" class="btn-wa">💬 Beli via WA</a>
-                    </div>
-                </div>
-                <div class="umkm-card">
-                    <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Servis Laptop dan PC" class="umkm-img">
-                    <div class="umkm-content">
-                        <span class="umkm-category">JASA</span>
-                        <h3 class="umkm-title">Servis PC & Instal Ulang Windows</h3>
-                        <div class="umkm-price">Mulai Rp 50.000</div>
-                        <p class="umkm-desc">Melayani instal ulang Windows, format hardisk, tambah RAM, dan pembersihan virus. Bisa panggil ke rumah.</p>
-                        <div class="umkm-owner"><span>👤</span> Andi Pratama</div>
-                        <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="btn-wa">💬 Hubungi via WA</a>
-                    </div>
-                </div>
-            </div>
-            <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top:24px; background-color:var(--text-muted); box-shadow:none;">⬅ Kembali ke Beranda</button>
-        </section>
-
-        <section id="keuanganSection" style="display:none; animation:fadeIn 0.3s ease; margin-bottom:40px;">
-            <div class="umkm-header">
-                <h2>Laporan Keuangan</h2>
-            </div>
-            <p style="color:var(--text-muted); font-size:14px; margin-bottom:16px;">Transparansi aliran dana kas dan iuran pemuda RESPEK.</p>
-
-            <div style="display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px;" id="filterKeuangan">
-                <button class="btn-upvote" style="background:var(--primary); color:white; border-color:var(--primary);" onclick="fetchKeuangan('Kas Pemuda', this)">Kas Pemuda</button>
-                <button class="btn-upvote" onclick="fetchKeuangan('Kas Futsal', this)">Kas Futsal</button>
-                <button class="btn-upvote" onclick="fetchKeuangan('Iuran Orkes', this)">Iuran Orkes</button>
-            </div>
-
-            <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: var(--shadow-sm);">
-                <h3 style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px;">Total Saldo Aktif</h3>
-                <div id="totalSaldoKeuangan" style="font-size: 28px; font-weight: 800; color: #065F46;">Rp 0</div>
-            </div>
-
-            <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 12px;">Riwayat Transaksi</h3>
-            <div id="daftarKeuangan" style="display: flex; flex-direction: column; gap: 12px;">
-                </div>
-
-            <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top:24px; background-color:var(--text-muted); box-shadow:none;">⬅ Kembali ke Beranda</button>
-        </section>
     </div>
 
-    <footer class="app-footer">
-        &copy; 2026 Pemuda RESPEK (Revolusi Pemuda Kepuh)
+    <footer class=\"app-footer\">
+        &copy; <span id=\"copyYear\">2026</span> Pemuda RESPEK (Revolusi Pemuda Kepuh)
     </footer>
 
-    <script>
-        // =========================================================
-        // NAVIGASI
-        // =========================================================
-        function tampilkanUMKM() {
-            document.getElementById('formSection').style.display = 'none';
-            document.getElementById('boardSection').style.display = 'none';
-            document.querySelector('.ticker-wrap').style.display = 'none';
-            document.getElementById('pengembanganDiriSection').style.display = 'none';
-            document.getElementById('keuanganSection').style.display = 'none';
-            document.getElementById('umkmSection').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function tampilkanPengembanganDiri() {
-            document.getElementById('formSection').style.display = 'none';
-            document.getElementById('boardSection').style.display = 'none';
-            document.querySelector('.ticker-wrap').style.display = 'none';
-            document.getElementById('umkmSection').style.display = 'none';
-            document.getElementById('keuanganSection').style.display = 'none';
-            document.getElementById('pengembanganDiriSection').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            // ✅ FIX #10: Lazy load — fetch hanya saat section dibuka
-            fetchPengembanganDiri();
-        }
-
-        function tampilkanKeuangan() {
-            document.getElementById('formSection').style.display = 'none';
-            document.getElementById('boardSection').style.display = 'none';
-            document.querySelector('.ticker-wrap').style.display = 'none';
-            document.getElementById('umkmSection').style.display = 'none';
-            document.getElementById('pengembanganDiriSection').style.display = 'none';
-            document.getElementById('keuanganSection').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Ambil data 'Kas Pemuda' secara default sewaktu halaman dibuka
-            if (window.fetchKeuangan) {
-                const btnDefault = document.querySelector('#filterKeuangan button');
-                window.fetchKeuangan('Kas Pemuda', btnDefault);
-            }
-        }
-
-        function tampilkanBeranda() {
-            document.getElementById('formSection').style.display = 'block';
-            document.getElementById('boardSection').style.display = 'block';
-            document.querySelector('.ticker-wrap').style.display = 'block';
-            document.getElementById('umkmSection').style.display = 'none';
-            document.getElementById('pengembanganDiriSection').style.display = 'none';
-            document.getElementById('keuanganSection').style.display = 'none';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    </script>
-
-    <script type="module">
-        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+    <script type=\"module\">
+        import { createClient } from \"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm\";
 
         // =========================================================
-        // ✅ FIX #6: Konstanta terpusat — tidak ada magic numbers
+        // KONFIGURASI TERPUSAT
         // =========================================================
-        const CONFIG = {
+        const CONFIG = Object.freeze({
             SUPABASE_URL: 'https://omqxookhwflcmwvqmwyv.supabase.co',
             SUPABASE_KEY: 'sb_publishable_VqZJB-MLy7-f2lqyX3kZig_BVMSkIKX',
-            COOLDOWN_MS: 3 * 60 * 1000,       // 3 menit
-            MAX_REPORTS: 10,                   // batas fetch laporan
-            MAX_LEADERBOARD: 3,                // batas leaderboard
-            MAX_IMAGE_WIDTH: 800,              // px
+            COOLDOWN_MS: 3 * 60 * 1000,
+            MAX_REPORTS: 10,
+            MAX_LEADERBOARD: 3,
+            MAX_IMAGE_WIDTH: 800,
             IMAGE_QUALITY: 0.7,
             MAX_FILE_SIZE_MB: 5,
             DESKRIPSI_MIN: 20,
             DESKRIPSI_MAX: 2000,
+            JUDUL_MIN: 5,
+            JUDUL_MAX: 150,
+            KOMEN_MAX: 300,
             VALID_IMAGE_HOSTS: ['omqxookhwflcmwvqmwyv.supabase.co'],
             STORAGE_KEY_UPVOTES: 'respek_upvotes',
             STORAGE_KEY_LAST_REPORT: 'lastReportTime',
-        };
+        });
 
         const supabase = createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY);
 
-        const formAduan       = document.getElementById('formAduan');
-        const btnKirim        = document.getElementById('btnKirim');
-        const alertBox        = document.getElementById('alertBox');
-        const daftarLaporanEl = document.getElementById('daftarLaporan');
-        const deskripsiEl     = document.getElementById('deskripsi');
-        const counterEl       = document.getElementById('deskripsiCounter');
+        // Element refs
+        const $ = (id) => document.getElementById(id);
+        const formAduan       = $('formAduan');
+        const btnKirim        = $('btnKirim');
+        const alertBox        = $('alertBox');
+        const daftarLaporanEl = $('daftarLaporan');
+        const deskripsiEl     = $('deskripsi');
+        const counterEl       = $('deskripsiCounter');
+        const previewFotoEl   = $('previewFoto');
+        const fotoEl          = $('foto');
+
+        // Update footer year dynamically
+        $('copyYear').textContent = new Date().getFullYear();
 
         // =========================================================
-        // ✅ FIX #5: Sanitasi teks — aman untuk konten & atribut
+        // UTILITIES
         // =========================================================
-        function sanitasiTeks(str) {
+        // Sanitasi minimal & benar untuk konten HTML
+        const escapeHtml = (str) => {
             if (str === null || str === undefined) return '';
-            return String(str).replace(/[&<>"'`=\/]/g, tag => ({
+            return String(str).replace(/[&<>\"']/g, (ch) => ({
                 '&': '&amp;', '<': '&lt;', '>': '&gt;',
-                '"': '&quot;', "'": '&#x27;', '`': '&#x60;',
-                '=': '&#x3D;', '/': '&#x2F;'
-            }[tag] || tag));
-        }
+                '\"': '&quot;', \"'\": '&#39;'
+            })[ch]);
+        };
 
-        // ✅ FIX #4: Validasi URL image — hanya izinkan dari host Supabase kita
-        function urlImageAman(url) {
+        // Validasi URL gambar — hanya host kita sendiri
+        const urlImageAman = (url) => {
             if (!url || typeof url !== 'string') return false;
             try {
                 const parsed = new URL(url);
-                if (parsed.protocol !== 'https:') return false;
-                return CONFIG.VALID_IMAGE_HOSTS.some(host => parsed.hostname === host);
-            } catch {
-                return false;
-            }
-        }
+                return parsed.protocol === 'https:' && CONFIG.VALID_IMAGE_HOSTS.includes(parsed.hostname);
+            } catch { return false; }
+        };
 
-        // =========================================================
-        // ✅ FIX #8: Counter karakter deskripsi real-time
-        // =========================================================
-        deskripsiEl.addEventListener('input', () => {
-            const len = deskripsiEl.value.length;
-            counterEl.textContent = `${len} / ${CONFIG.DESKRIPSI_MAX} karakter (min. ${CONFIG.DESKRIPSI_MIN})`;
-            counterEl.style.color = len < CONFIG.DESKRIPSI_MIN ? 'var(--error-text)' : 'var(--text-muted)';
-        });
+        const urlHttpsAman = (url) => {
+            if (!url || typeof url !== 'string') return null;
+            try {
+                const parsed = new URL(url);
+                return parsed.protocol === 'https:' ? parsed.toString() : null;
+            } catch { return null; }
+        };
 
-        // =========================================================
-        // PREVIEW FOTO
-        // =========================================================
-        document.getElementById('foto').addEventListener('change', function () {
-            const preview = document.getElementById('previewFoto');
-            const file = this.files[0];
-            if (!file) { preview.style.display = 'none'; preview.src = ''; return; }
-
-            // ✅ FIX #8: Validasi ukuran file di frontend
-            if (file.size > CONFIG.MAX_FILE_SIZE_MB * 1024 * 1024) {
-                showAlert(`Ukuran foto maksimal ${CONFIG.MAX_FILE_SIZE_MB}MB.`, 'error');
-                this.value = '';
-                preview.style.display = 'none';
-                return;
-            }
-            preview.src = URL.createObjectURL(file);
-            preview.style.display = 'block';
-        });
-
-        // =========================================================
-        // KOMPRES GAMBAR
-        // =========================================================
-        async function compressImage(file) {
-            return new Promise((resolve, reject) => {
-                if (!file.type.startsWith('image/')) return resolve(file);
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onerror = () => reject(new Error('Gagal membaca file.'));
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onerror = () => reject(new Error('Gambar tidak valid.'));
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        if (img.width > CONFIG.MAX_IMAGE_WIDTH) {
-                            canvas.width = CONFIG.MAX_IMAGE_WIDTH;
-                            canvas.height = img.height * (CONFIG.MAX_IMAGE_WIDTH / img.width);
-                        } else {
-                            canvas.width = img.width;
-                            canvas.height = img.height;
-                        }
-                        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-                        canvas.toBlob(
-                            (blob) => {
-                                if (!blob) return reject(new Error('Kompresi gambar gagal.'));
-                                resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.jpg'), { type: 'image/jpeg' }));
-                            },
-                            'image/jpeg',
-                            CONFIG.IMAGE_QUALITY
-                        );
-                    };
-                };
-            });
-        }
-
-        // =========================================================
-        // ✅ FIX #11, #12: Render laporan — preserve state komentar terbuka
-        // =========================================================
-        function renderLaporan(data, komenCount) {
-            const sudahDukung = JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY_UPVOTES) || '[]');
-
-            // Simpan state seksi komentar yang sedang terbuka sebelum re-render
-            const komenTerbuka = new Set();
-            document.querySelectorAll('.komen-section.terbuka').forEach(el => {
-                komenTerbuka.add(el.id.replace('komen-', ''));
-            });
-
-            let html = '';
-            data.forEach(report => {
-                const tgl = new Date(report.created_at).toLocaleDateString('id-ID', {
+        const formatTanggal = (iso, opts = {}) => {
+            try {
+                return new Date(iso).toLocaleDateString('id-ID', {
                     day: 'numeric', month: 'long', year: 'numeric',
-                    hour: '2-digit', minute: '2-digit'
+                    hour: '2-digit', minute: '2-digit', ...opts
                 });
-
-                const statusColor = report.status === 'Selesai' ? '#D1FAE5'
-                    : report.status === 'Diproses' ? '#DBEAFE' : '#E5E7EB';
-
-                const sudah    = sudahDukung.includes(report.id);
-                const cekDukung  = sudah ? 'sudah-dukung' : '';
-                const teksTombol = sudah ? '✓ Didukung' : '🔺 Dukung Aspirasi';
-                const jumlahKomen = komenCount[report.id] || 0;
-
-                // ✅ FIX #4: Validasi URL image sebelum render
-                const imgTag = urlImageAman(report.image_url)
-                    ? `<img src="${sanitasiTeks(report.image_url)}" class="report-image" alt="Bukti foto laporan" loading="lazy">`
-                    : '';
-
-                // State komentar: terbuka jika sebelumnya terbuka
-                const komenTerbukaCls = komenTerbuka.has(String(report.id)) ? 'terbuka' : '';
-                const btnKomenAktifCls = komenTerbuka.has(String(report.id)) ? 'aktif' : '';
-
-                html += `
-                    <div class="report-item">
-                        <div class="report-header">
-                            <span class="report-title">${sanitasiTeks(report.title)}</span>
-                            <span class="status-badge" style="background-color:${statusColor}">${sanitasiTeks(report.status)}</span>
-                        </div>
-                        <div class="report-meta">
-                            👤 ${sanitasiTeks(report.author_name)} | 🏷️ ${sanitasiTeks(report.category)}<br>🕒 ${tgl}
-                        </div>
-                        <div class="report-desc">"${sanitasiTeks(report.description)}"</div>
-                        ${imgTag}
-                        <div>
-                            <button class="btn-upvote ${cekDukung}"
-                                onclick="dukungAspirasi('${sanitasiTeks(report.id)}', ${Number(report.upvotes) || 0})"
-                                ${sudah ? 'disabled' : ''}>
-                                ${teksTombol} (${Number(report.upvotes) || 0})
-                            </button>
-                            <button class="btn-komen ${btnKomenAktifCls}" id="btnKomen-${sanitasiTeks(report.id)}"
-                                onclick="toggleKomen('${sanitasiTeks(report.id)}')">
-                                💬 Komentar (${jumlahKomen})
-                            </button>
-                        </div>
-                        <div class="komen-section ${komenTerbukaCls}" id="komen-${sanitasiTeks(report.id)}">
-                            <div class="komen-list" id="listKomen-${sanitasiTeks(report.id)}">
-                                <p class="komen-kosong">Memuat komentar...</p>
-                            </div>
-                            <div class="komen-form">
-                                <input type="text" id="namaKomen-${sanitasiTeks(report.id)}"
-                                    placeholder="Nama kamu (kosongkan jika anonim)" maxlength="50">
-                                <textarea id="isiKomen-${sanitasiTeks(report.id)}"
-                                    rows="2" placeholder="Tulis komentarmu..." maxlength="300" required></textarea>
-                                <button class="btn-kirim-komen" id="btnKirimKomen-${sanitasiTeks(report.id)}"
-                                    onclick="kirimKomen('${sanitasiTeks(report.id)}')">Kirim</button>
-                            </div>
-                        </div>
-                    </div>`;
-            });
-
-            daftarLaporanEl.innerHTML = html;
-
-            // ✅ FIX #12: Re-fetch komentar untuk seksi yang terbuka ulang
-            komenTerbuka.forEach(id => fetchKomentar(id));
-        }
-
-        // =========================================================
-        // FETCH LAPORAN
-        // =========================================================
-        async function fetchLaporan() {
-            try {
-                const { data, error } = await supabase
-                    .from('reports')
-                    .select('*')
-                    .order('created_at', { ascending: false })
-                    .limit(CONFIG.MAX_REPORTS);
-
-                if (error) throw error;
-
-                if (!data || data.length === 0) {
-                    daftarLaporanEl.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px;">Belum ada laporan masuk.</p>';
-                    return;
-                }
-
-                // Ambil jumlah komentar sekaligus (1 query)
-                const reportIds = data.map(r => r.id);
-                const { data: komenData } = await supabase
-                    .from('comments')
-                    .select('report_id')
-                    .in('report_id', reportIds);
-
-                const komenCount = {};
-                (komenData || []).forEach(k => {
-                    komenCount[k.report_id] = (komenCount[k.report_id] || 0) + 1;
-                });
-
-                renderLaporan(data, komenCount);
-            } catch (err) {
-                daftarLaporanEl.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px;">Gagal memuat laporan. Periksa koneksi internet kamu.</p>';
-            }
-        }
-
-        // =========================================================
-        // FETCH LEADERBOARD
-        // =========================================================
-        async function fetchLeaderboard() {
-            const container = document.getElementById('papanLeaderboard');
-            try {
-                const { data, error } = await supabase
-                    .from('reports')
-                    .select('id, title, upvotes')
-                    .gt('upvotes', 0)
-                    .order('upvotes', { ascending: false })
-                    .limit(CONFIG.MAX_LEADERBOARD);
-
-                if (error) throw error;
-
-                if (!data || data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; color:#9CA3AF; font-size:12px; padding:10px; background:#F9FAFB; border-radius:8px;">Belum ada peringkat.</p>';
-                    return;
-                }
-
-                const medali    = ['🥇', '🥈', '🥉'];
-                const warnaBatas = ['#FBBF24', '#9CA3AF', '#F59E0B'];
-
-                container.innerHTML = data.map((item, idx) => `
-                    <div style="display:flex; align-items:center; justify-content:space-between; background:#F9FAFB; padding:10px 14px; border-radius:10px; border-left:4px solid ${warnaBatas[idx]}">
-                        <div style="display:flex; align-items:center; gap:10px; width:75%; min-width:0;">
-                            <span style="font-size:18px; flex-shrink:0;">${medali[idx]}</span>
-                            <span style="font-size:13px; font-weight:700; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; width:100%;">
-                                ${sanitasiTeks(item.title)}
-                            </span>
-                        </div>
-                        <span style="font-size:12px; background:rgba(166,33,34,0.1); color:var(--primary); padding:4px 10px; border-radius:12px; font-weight:800; white-space:nowrap; flex-shrink:0;">
-                            🔺 ${Number(item.upvotes)}
-                        </span>
-                    </div>`).join('');
-            } catch {
-                container.innerHTML = '<p style="text-align:center; color:#9CA3AF; font-size:12px; padding:10px;">Gagal memuat peringkat.</p>';
-            }
-        }
-
-        // =========================================================
-        // DUKUNG ASPIRASI (UPVOTE)
-        // =========================================================
-        window.dukungAspirasi = async function (id, currentUpvotes) {
-            let listDukung = JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY_UPVOTES) || '[]');
-            if (listDukung.includes(id)) {
-                showAlert('Kamu sudah memberikan dukungan untuk aspirasi ini.', 'warning');
-                return;
-            }
-            try {
-                const { error } = await supabase
-                    .from('reports')
-                    .update({ upvotes: Number(currentUpvotes) + 1 })
-                    .eq('id', id);
-                if (error) throw error;
-
-                listDukung.push(id);
-                localStorage.setItem(CONFIG.STORAGE_KEY_UPVOTES, JSON.stringify(listDukung));
-                fetchLaporan();
-                fetchLeaderboard();
-            } catch {
-                showAlert('Gagal mengirim dukungan. Periksa koneksi internet kamu.', 'error');
-            }
+            } catch { return ''; }
         };
 
         // =========================================================
-        // TOGGLE & FETCH KOMENTAR
-        // =========================================================
-        window.toggleKomen = async function (reportId) {
-            const section = document.getElementById(`komen-${reportId}`);
-            const btn     = document.getElementById(`btnKomen-${reportId}`);
-            if (!section) return;
-
-            const sedangTerbuka = section.classList.contains('terbuka');
-            if (sedangTerbuka) {
-                section.classList.remove('terbuka');
-                btn.classList.remove('aktif');
-            } else {
-                section.classList.add('terbuka');
-                btn.classList.add('aktif');
-                await fetchKomentar(reportId);
-            }
-        };
-
-        async function fetchKomentar(reportId) {
-            const list = document.getElementById(`listKomen-${reportId}`);
-            if (!list) return;
-            try {
-                const { data, error } = await supabase
-                    .from('comments')
-                    .select('*')
-                    .eq('report_id', reportId)
-                    .order('created_at', { ascending: true });
-
-                if (error) throw error;
-
-                if (!data || data.length === 0) {
-                    list.innerHTML = '<p class="komen-kosong">Belum ada komentar. Jadilah yang pertama! 👇</p>';
-                    return;
-                }
-
-                list.innerHTML = data.map(k => {
-                    const waktu = new Date(k.created_at).toLocaleDateString('id-ID', {
-                        day: 'numeric', month: 'short', year: 'numeric',
-                        hour: '2-digit', minute: '2-digit'
-                    });
-                    return `<div class="komen-item">
-                        <div class="komen-nama">👤 ${sanitasiTeks(k.author_name || 'Anonim')}</div>
-                        <div class="komen-isi">${sanitasiTeks(k.content)}</div>
-                        <div class="komen-waktu">🕒 ${waktu}</div>
-                    </div>`;
-                }).join('');
-            } catch {
-                list.innerHTML = '<p class="komen-kosong">Gagal memuat komentar.</p>';
-            }
-        }
-
-        // =========================================================
-        // KIRIM KOMENTAR
-        // =========================================================
-        window.kirimKomen = async function (reportId) {
-            const namaEl    = document.getElementById(`namaKomen-${reportId}`);
-            const isiEl     = document.getElementById(`isiKomen-${reportId}`);
-            const btnEl     = document.getElementById(`btnKirimKomen-${reportId}`);
-            const btnKomenEl = document.getElementById(`btnKomen-${reportId}`);
-
-            const isi = isiEl.value.trim();
-            if (!isi) { showAlert('Isi komentar tidak boleh kosong!', 'error'); return; }
-            if (isi.length > 300) { showAlert('Komentar maksimal 300 karakter.', 'error'); return; }
-
-            btnEl.disabled = true;
-            btnEl.textContent = 'Mengirim...';
-            try {
-                const { error } = await supabase.from('comments').insert([{
-                    report_id: reportId,
-                    author_name: namaEl.value.trim() || 'Anonim',
-                    content: isi
-                }]);
-                if (error) throw error;
-
-                namaEl.value = '';
-                isiEl.value  = '';
-
-                // ✅ FIX #7: Ambil count real dari DB setelah insert
-                await fetchKomentar(reportId);
-                const { count } = await supabase
-                    .from('comments')
-                    .select('id', { count: 'exact', head: true })
-                    .eq('report_id', reportId);
-                if (btnKomenEl && count !== null) {
-                    btnKomenEl.textContent = `💬 Komentar (${count})`;
-                }
-            } catch (err) {
-                // ✅ FIX #9: Pesan error lebih spesifik
-                const pesanError = err?.message?.includes('network')
-                    ? 'Koneksi internet terputus. Coba lagi.'
-                    : 'Gagal mengirim komentar. Coba beberapa saat lagi.';
-                showAlert(pesanError, 'error');
-            } finally {
-                btnEl.disabled = false;
-                btnEl.textContent = 'Kirim';
-            }
-        };
-
-        // =========================================================
-        // FETCH PENGEMBANGAN DIRI — ✅ FIX #10: dipanggil lazy
-        // =========================================================
-        window.fetchPengembanganDiri = async function () {
-            const container = document.getElementById('daftarPengembangan');
-            // Hindari double-fetch jika sudah terisi
-            if (container.querySelector('.umkm-card')) return;
-            try {
-                const { data, error } = await supabase
-                    .from('self_developments')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-
-                if (!data || data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px; grid-column:span 2;">Belum ada program kelas/pelatihan.</p>';
-                    return;
-                }
-
-                container.innerHTML = data.map(item => {
-                    const imgUrl = urlImageAman(item.image_url)
-                        ? item.image_url
-                        : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80';
-
-                    // Validasi link_url hanya izinkan https
-                    let linkUrl = '#';
-                    try {
-                        const parsed = new URL(item.link_url);
-                        if (parsed.protocol === 'https:') linkUrl = item.link_url;
-                    } catch { /* tetap '#' jika tidak valid */ }
-
-                    return `
-                        <div class="umkm-card">
-                            <img src="${sanitasiTeks(imgUrl)}" class="umkm-img" alt="${sanitasiTeks(item.title)}" loading="lazy">
-                            <div class="umkm-content">
-                                <span class="umkm-category">${sanitasiTeks(item.category).toUpperCase()}</span>
-                                <h3 class="umkm-title">${sanitasiTeks(item.title)}</h3>
-                                <div class="umkm-price" style="font-size:11px; color:var(--text-muted); font-weight:600; margin-bottom:6px;">
-                                    👤 Mentor: ${sanitasiTeks(item.instructor)}
-                                </div>
-                                <p class="umkm-desc">${sanitasiTeks(item.description)}</p>
-                                <a href="${sanitasiTeks(linkUrl)}" target="_blank" rel="noopener noreferrer" class="btn-wa" style="background:var(--primary);">🚀 Ikuti Kelas</a>
-                            </div>
-                        </div>`;
-                }).join('');
-            } catch {
-                container.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px; grid-column:span 2;">Gagal memuat program.</p>';
-            }
-        };
-
-        // =========================================================
-        // INTEGRASI LAPORAN KEUANGAN SUPABASE
-        // =========================================================
-        window.fetchKeuangan = async function (kategori, btnEl = null) {
-            const container = document.getElementById('daftarKeuangan');
-            const saldoContainer = document.getElementById('totalSaldoKeuangan');
-
-            // Set styling tab filter aktif secara visual
-            if (btnEl) {
-                document.querySelectorAll('#filterKeuangan button').forEach(b => {
-                    b.style.background = '#F3F4F6';
-                    b.style.color = 'var(--text-main)';
-                    b.style.borderColor = 'var(--border)';
-                });
-                btnEl.style.background = 'var(--primary)';
-                btnEl.style.color = 'white';
-                btnEl.style.borderColor = 'var(--primary)';
-            }
-
-            // Render skeleton loading
-            container.innerHTML = '<div class="skeleton" style="height:60px; margin-bottom:10px;"></div><div class="skeleton" style="height:60px;"></div>';
-
-            try {
-                // Fetch data dari tabel 'finances' di Supabase
-                const { data, error } = await supabase
-                    .from('finances')
-                    .select('*')
-                    .eq('category', kategori)
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-
-                if (!data || data.length === 0) {
-                    container.innerHTML = `<p style="text-align:center; color:#6B7280; font-size:13px; padding:20px; background:var(--input-bg); border-radius:10px;">Belum ada catatan transaksi untuk ${sanitasiTeks(kategori)}.</p>`;
-                    saldoContainer.textContent = 'Rp 0';
-                    saldoContainer.style.color = '#065F46';
-                    return;
-                }
-
-                let saldo = 0;
-                let html = '';
-
-                data.forEach(item => {
-                    const nominal = Number(item.amount) || 0;
-                    const isPemasukan = item.type === 'Pemasukan';
-                    
-                    // Kalkulasi total saldo
-                    if (isPemasukan) saldo += nominal;
-                    else saldo -= nominal;
-
-                    const tgl = new Date(item.created_at).toLocaleDateString('id-ID', {
-                        day: 'numeric', month: 'short', year: 'numeric'
-                    });
-
-                    const color = isPemasukan ? '#065F46' : '#991B1B';
-                    const sign = isPemasukan ? '+' : '-';
-                    const bgIcon = isPemasukan ? '#D1FAE5' : '#FEE2E2';
-
-                    html += `
-                    <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
-                        <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
-                            <div style="background: ${bgIcon}; color: ${color}; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; flex-shrink: 0;">
-                                ${isPemasukan ? '↓' : '↑'}
-                            </div>
-                            <div style="min-width: 0; text-align: left;">
-                                <div style="font-weight: 700; font-size: 13px; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">${sanitasiTeks(item.description)}</div>
-                                <div style="font-size: 11px; color: var(--text-muted);">${tgl}</div>
-                            </div>
-                        </div>
-                        <div style="font-weight: 800; font-size: 14px; color: ${color}; flex-shrink: 0;">
-                            ${sign} Rp ${nominal.toLocaleString('id-ID')}
-                        </div>
-                    </div>`;
-                });
-
-                // Tampilkan total saldo akumulatif
-                saldoContainer.textContent = (saldo >= 0 ? '' : '-') + 'Rp ' + Math.abs(saldo).toLocaleString('id-ID');
-                saldoContainer.style.color = saldo >= 0 ? '#065F46' : '#991B1B';
-                container.innerHTML = html;
-
-            } catch (err) {
-                container.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px;">Gagal memuat laporan keuangan. Periksa koneksi internet Anda.</p>';
-            }
-        };
-
-        // =========================================================
-        // TAMPILKAN ALERT
+        // ALERT
         // =========================================================
         let alertTimer = null;
         function showAlert(msg, type = 'error') {
@@ -954,32 +603,525 @@
         }
 
         // =========================================================
-        // ✅ FIX #8: Validasi form sebelum submit (tidak andalkan HTML saja)
+        // NAVIGASI
+        // =========================================================
+        const SECTIONS = {
+            beranda:      ['formSection', 'boardSection'],
+            umkm:         ['umkmSection'],
+            pengembangan: ['pengembanganDiriSection'],
+            keuangan:     ['keuanganSection'],
+        };
+        const ALL_SECTIONS = ['formSection', 'boardSection', 'umkmSection', 'pengembanganDiriSection', 'keuanganSection'];
+        const tickerEl = document.querySelector('.ticker-wrap');
+
+        function navigate(target) {
+            ALL_SECTIONS.forEach(id => { const el = $(id); if (el) el.hidden = true; });
+            (SECTIONS[target] || SECTIONS.beranda).forEach(id => { const el = $(id); if (el) el.hidden = false; });
+            if (tickerEl) tickerEl.hidden = (target !== 'beranda');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Lazy load section data
+            if (target === 'pengembangan') fetchPengembanganDiri();
+            if (target === 'keuangan') {
+                const defaultBtn = document.querySelector('#filterKeuangan button[data-keuangan]');
+                fetchKeuangan('Kas Pemuda', defaultBtn);
+            }
+        }
+
+        // Event delegation untuk semua tombol nav & action
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('[data-action]');
+            if (!target) return;
+            const action = target.dataset.action;
+            if (action === 'nav') {
+                navigate(target.dataset.target);
+            } else if (action === 'soon') {
+                const msg = target.dataset.message || 'Fitur segera hadir!';
+                showAlert(msg, 'warning');
+            }
+        });
+
+        // =========================================================
+        // FORM: COUNTER DESKRIPSI
+        // =========================================================
+        deskripsiEl.addEventListener('input', () => {
+            const len = deskripsiEl.value.length;
+            counterEl.textContent = `${len} / ${CONFIG.DESKRIPSI_MAX} karakter (min. ${CONFIG.DESKRIPSI_MIN})`;
+            counterEl.classList.toggle('warn', len < CONFIG.DESKRIPSI_MIN);
+        });
+
+        // =========================================================
+        // PREVIEW & CLEANUP FOTO
+        // =========================================================
+        let currentPreviewURL = null;
+        fotoEl.addEventListener('change', function () {
+            // Cleanup previous object URL untuk hindari memory leak
+            if (currentPreviewURL) {
+                URL.revokeObjectURL(currentPreviewURL);
+                currentPreviewURL = null;
+            }
+            const file = this.files[0];
+            if (!file) { previewFotoEl.style.display = 'none'; previewFotoEl.removeAttribute('src'); return; }
+
+            if (file.size > CONFIG.MAX_FILE_SIZE_MB * 1024 * 1024) {
+                showAlert(`Ukuran foto maksimal ${CONFIG.MAX_FILE_SIZE_MB}MB.`, 'error');
+                this.value = '';
+                previewFotoEl.style.display = 'none';
+                return;
+            }
+            currentPreviewURL = URL.createObjectURL(file);
+            previewFotoEl.src = currentPreviewURL;
+            previewFotoEl.style.display = 'block';
+        });
+
+        // =========================================================
+        // KOMPRES GAMBAR — listener dipasang SEBELUM trigger
+        // =========================================================
+        async function compressImage(file) {
+            return new Promise((resolve, reject) => {
+                if (!file.type.startsWith('image/')) return resolve(file);
+
+                const reader = new FileReader();
+                reader.onerror = () => reject(new Error('Gagal membaca file.'));
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onerror = () => reject(new Error('Gambar tidak valid.'));
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        if (img.width > CONFIG.MAX_IMAGE_WIDTH) {
+                            canvas.width = CONFIG.MAX_IMAGE_WIDTH;
+                            canvas.height = Math.round(img.height * (CONFIG.MAX_IMAGE_WIDTH / img.width));
+                        } else {
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                        }
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        canvas.toBlob(
+                            (blob) => {
+                                if (!blob) return reject(new Error('Kompresi gambar gagal.'));
+                                resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.jpg'), { type: 'image/jpeg' }));
+                            },
+                            'image/jpeg',
+                            CONFIG.IMAGE_QUALITY
+                        );
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // =========================================================
+        // RENDER LAPORAN — gunakan data-id, hindari inline JS strings
+        // =========================================================
+        function renderLaporan(data, komenCount) {
+            const sudahDukung = JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY_UPVOTES) || '[]');
+
+            // Preserve state komentar terbuka
+            const komenTerbuka = new Set();
+            document.querySelectorAll('.komen-section.terbuka').forEach(el => {
+                komenTerbuka.add(el.id.replace('komen-', ''));
+            });
+
+            const html = data.map(report => {
+                const id = escapeHtml(report.id);
+                const tgl = formatTanggal(report.created_at);
+                const statusCls = report.status === 'Selesai' ? 's-selesai'
+                    : report.status === 'Diproses' ? 's-diproses' : 's-menunggu';
+                const sudah = sudahDukung.includes(report.id);
+                const upvotes = Number(report.upvotes) || 0;
+                const jumlahKomen = komenCount[report.id] || 0;
+                const imgTag = urlImageAman(report.image_url)
+                    ? `<img src=\"${escapeHtml(report.image_url)}\" class=\"report-image\" alt=\"Bukti foto laporan: ${escapeHtml(report.title)}\" loading=\"lazy\" decoding=\"async\">`
+                    : '';
+                const isOpen = komenTerbuka.has(String(report.id));
+
+                return `
+                    <article class=\"report-item\">
+                        <header class=\"report-header\">
+                            <span class=\"report-title\">${escapeHtml(report.title)}</span>
+                            <span class=\"status-badge ${statusCls}\">${escapeHtml(report.status)}</span>
+                        </header>
+                        <div class=\"report-meta\">
+                            <span aria-hidden=\"true\">👤</span> ${escapeHtml(report.author_name)}
+                            <span aria-hidden=\"true\">| 🏷️</span> ${escapeHtml(report.category)}<br>
+                            <span aria-hidden=\"true\">🕒</span> ${escapeHtml(tgl)}
+                        </div>
+                        <blockquote class=\"report-desc\">\"${escapeHtml(report.description)}\"</blockquote>
+                        ${imgTag}
+                        <div>
+                            <button type=\"button\" class=\"btn-upvote ${sudah ? 'sudah-dukung' : ''}\"
+                                data-upvote-id=\"${id}\" data-current=\"${upvotes}\"
+                                aria-label=\"${sudah ? 'Sudah didukung' : 'Dukung aspirasi ini'}\"
+                                ${sudah ? 'disabled' : ''}>
+                                ${sudah ? '✓ Didukung' : '🔺 Dukung Aspirasi'} (${upvotes})
+                            </button>
+                            <button type=\"button\" class=\"btn-komen ${isOpen ? 'aktif' : ''}\"
+                                id=\"btnKomen-${id}\" data-toggle-komen=\"${id}\"
+                                aria-expanded=\"${isOpen}\" aria-controls=\"komen-${id}\">
+                                💬 Komentar (${jumlahKomen})
+                            </button>
+                        </div>
+                        <div class=\"komen-section ${isOpen ? 'terbuka' : ''}\" id=\"komen-${id}\">
+                            <div class=\"komen-list\" id=\"listKomen-${id}\">
+                                <p class=\"komen-kosong\">Memuat komentar...</p>
+                            </div>
+                            <div class=\"komen-form\">
+                                <label for=\"namaKomen-${id}\" class=\"sr-only\" style=\"position:absolute;left:-9999px;\">Nama</label>
+                                <input type=\"text\" id=\"namaKomen-${id}\" placeholder=\"Nama kamu (kosongkan jika anonim)\" maxlength=\"50\" autocomplete=\"off\">
+                                <label for=\"isiKomen-${id}\" class=\"sr-only\" style=\"position:absolute;left:-9999px;\">Isi komentar</label>
+                                <textarea id=\"isiKomen-${id}\" rows=\"2\" placeholder=\"Tulis komentarmu...\" maxlength=\"${CONFIG.KOMEN_MAX}\" required></textarea>
+                                <button type=\"button\" class=\"btn-kirim-komen\" id=\"btnKirimKomen-${id}\" data-kirim-komen=\"${id}\">Kirim</button>
+                            </div>
+                        </div>
+                    </article>`;
+            }).join('');
+
+            daftarLaporanEl.innerHTML = html;
+            daftarLaporanEl.setAttribute('aria-busy', 'false');
+
+            // Re-fetch komentar untuk section yang sebelumnya terbuka
+            komenTerbuka.forEach(id => fetchKomentar(id));
+        }
+
+        // Event delegation untuk tombol di dalam daftar laporan
+        daftarLaporanEl.addEventListener('click', (e) => {
+            const upBtn = e.target.closest('[data-upvote-id]');
+            if (upBtn && !upBtn.disabled) {
+                dukungAspirasi(upBtn.dataset.upvoteId, Number(upBtn.dataset.current) || 0);
+                return;
+            }
+            const toggleBtn = e.target.closest('[data-toggle-komen]');
+            if (toggleBtn) { toggleKomen(toggleBtn.dataset.toggleKomen); return; }
+            const kirimBtn = e.target.closest('[data-kirim-komen]');
+            if (kirimBtn) kirimKomen(kirimBtn.dataset.kirimKomen);
+        });
+
+        // =========================================================
+        // FETCH LAPORAN + JUMLAH KOMEN (1 round-trip pair)
+        // =========================================================
+        async function fetchLaporan() {
+            daftarLaporanEl.setAttribute('aria-busy', 'true');
+            try {
+                const { data, error } = await supabase
+                    .from('reports')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(CONFIG.MAX_REPORTS);
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    daftarLaporanEl.innerHTML = '<p class=\"empty-state\">Belum ada laporan masuk.</p>';
+                    daftarLaporanEl.setAttribute('aria-busy', 'false');
+                    return;
+                }
+
+                const reportIds = data.map(r => r.id);
+                const { data: komenData } = await supabase
+                    .from('comments')
+                    .select('report_id')
+                    .in('report_id', reportIds);
+
+                const komenCount = {};
+                (komenData || []).forEach(k => {
+                    komenCount[k.report_id] = (komenCount[k.report_id] || 0) + 1;
+                });
+                renderLaporan(data, komenCount);
+            } catch (err) {
+                daftarLaporanEl.innerHTML = '<p class=\"error-state\">Gagal memuat laporan. Periksa koneksi internet kamu.</p>';
+                daftarLaporanEl.setAttribute('aria-busy', 'false');
+            }
+        }
+
+        // =========================================================
+        // LEADERBOARD
+        // =========================================================
+        async function fetchLeaderboard() {
+            const container = $('papanLeaderboard');
+            container.setAttribute('aria-busy', 'true');
+            try {
+                const { data, error } = await supabase
+                    .from('reports')
+                    .select('id, title, upvotes')
+                    .gt('upvotes', 0)
+                    .order('upvotes', { ascending: false })
+                    .limit(CONFIG.MAX_LEADERBOARD);
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p class=\"empty-state\" style=\"background:#F9FAFB; border-radius:8px;\">Belum ada peringkat.</p>';
+                    container.setAttribute('aria-busy', 'false');
+                    return;
+                }
+
+                const medali = ['🥇', '🥈', '🥉'];
+                const warnaBatas = ['#FBBF24', '#9CA3AF', '#F59E0B'];
+
+                container.innerHTML = data.map((item, idx) => `
+                    <div class=\"leaderboard-row\" style=\"border-left-color:${warnaBatas[idx]}\">
+                        <div class=\"left\">
+                            <span class=\"medal\" aria-hidden=\"true\">${medali[idx]}</span>
+                            <span class=\"title\">${escapeHtml(item.title)}</span>
+                        </div>
+                        <span class=\"votes\" aria-label=\"${Number(item.upvotes)} dukungan\">🔺 ${Number(item.upvotes)}</span>
+                    </div>`).join('');
+                container.setAttribute('aria-busy', 'false');
+            } catch {
+                container.innerHTML = '<p class=\"empty-state\">Gagal memuat peringkat.</p>';
+                container.setAttribute('aria-busy', 'false');
+            }
+        }
+
+        // =========================================================
+        // UPVOTE
+        // =========================================================
+        async function dukungAspirasi(id, currentUpvotes) {
+            const listDukung = JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY_UPVOTES) || '[]');
+            if (listDukung.includes(id)) {
+                showAlert('Kamu sudah memberikan dukungan untuk aspirasi ini.', 'warning');
+                return;
+            }
+            try {
+                const { error } = await supabase
+                    .from('reports')
+                    .update({ upvotes: Number(currentUpvotes) + 1 })
+                    .eq('id', id);
+                if (error) throw error;
+
+                listDukung.push(id);
+                localStorage.setItem(CONFIG.STORAGE_KEY_UPVOTES, JSON.stringify(listDukung));
+                await Promise.all([fetchLaporan(), fetchLeaderboard()]);
+            } catch {
+                showAlert('Gagal mengirim dukungan. Periksa koneksi internet kamu.', 'error');
+            }
+        }
+
+        // =========================================================
+        // KOMENTAR
+        // =========================================================
+        async function toggleKomen(reportId) {
+            const section = $(`komen-${reportId}`);
+            const btn = $(`btnKomen-${reportId}`);
+            if (!section || !btn) return;
+
+            const open = section.classList.toggle('terbuka');
+            btn.classList.toggle('aktif', open);
+            btn.setAttribute('aria-expanded', String(open));
+            if (open) await fetchKomentar(reportId);
+        }
+
+        async function fetchKomentar(reportId) {
+            const list = $(`listKomen-${reportId}`);
+            if (!list) return;
+            try {
+                const { data, error } = await supabase
+                    .from('comments')
+                    .select('*')
+                    .eq('report_id', reportId)
+                    .order('created_at', { ascending: true });
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    list.innerHTML = '<p class=\"komen-kosong\">Belum ada komentar. Jadilah yang pertama! 👇</p>';
+                    return;
+                }
+
+                list.innerHTML = data.map(k => {
+                    const waktu = formatTanggal(k.created_at, { month: 'short' });
+                    return `<div class=\"komen-item\">
+                        <div class=\"komen-nama\"><span aria-hidden=\"true\">👤</span> ${escapeHtml(k.author_name || 'Anonim')}</div>
+                        <div class=\"komen-isi\">${escapeHtml(k.content)}</div>
+                        <div class=\"komen-waktu\"><span aria-hidden=\"true\">🕒</span> ${escapeHtml(waktu)}</div>
+                    </div>`;
+                }).join('');
+            } catch {
+                list.innerHTML = '<p class=\"komen-kosong\">Gagal memuat komentar.</p>';
+            }
+        }
+
+        async function kirimKomen(reportId) {
+            const namaEl = $(`namaKomen-${reportId}`);
+            const isiEl = $(`isiKomen-${reportId}`);
+            const btnEl = $(`btnKirimKomen-${reportId}`);
+            const btnKomenEl = $(`btnKomen-${reportId}`);
+            if (!isiEl || !btnEl) return;
+
+            const isi = isiEl.value.trim();
+            if (!isi) { showAlert('Isi komentar tidak boleh kosong!', 'error'); return; }
+            if (isi.length > CONFIG.KOMEN_MAX) { showAlert(`Komentar maksimal ${CONFIG.KOMEN_MAX} karakter.`, 'error'); return; }
+
+            btnEl.disabled = true;
+            btnEl.textContent = 'Mengirim...';
+            try {
+                const { error } = await supabase.from('comments').insert([{
+                    report_id: reportId,
+                    author_name: namaEl.value.trim() || 'Anonim',
+                    content: isi
+                }]);
+                if (error) throw error;
+
+                namaEl.value = '';
+                isiEl.value  = '';
+                await fetchKomentar(reportId);
+
+                const { count } = await supabase
+                    .from('comments')
+                    .select('id', { count: 'exact', head: true })
+                    .eq('report_id', reportId);
+                if (btnKomenEl && count !== null) {
+                    btnKomenEl.textContent = `💬 Komentar (${count})`;
+                }
+            } catch (err) {
+                const pesan = err?.message?.toLowerCase().includes('network')
+                    ? 'Koneksi internet terputus. Coba lagi.'
+                    : 'Gagal mengirim komentar. Coba beberapa saat lagi.';
+                showAlert(pesan, 'error');
+            } finally {
+                btnEl.disabled = false;
+                btnEl.textContent = 'Kirim';
+            }
+        }
+
+        // =========================================================
+        // PENGEMBANGAN DIRI (lazy)
+        // =========================================================
+        async function fetchPengembanganDiri() {
+            const container = $('daftarPengembangan');
+            if (container.dataset.loaded === '1') return;
+            container.setAttribute('aria-busy', 'true');
+            try {
+                const { data, error } = await supabase
+                    .from('self_developments')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p class=\"empty-state grid-span\">Belum ada program kelas/pelatihan.</p>';
+                    container.setAttribute('aria-busy', 'false');
+                    container.dataset.loaded = '1';
+                    return;
+                }
+
+                container.innerHTML = data.map(item => {
+                    const imgUrl = urlImageAman(item.image_url)
+                        ? item.image_url
+                        : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80';
+                    const linkUrl = urlHttpsAman(item.link_url) || '#';
+                    return `
+                        <article class=\"umkm-card\">
+                            <img src=\"${escapeHtml(imgUrl)}\" class=\"umkm-img\" alt=\"${escapeHtml(item.title)}\"
+                                 width=\"400\" height=\"240\" loading=\"lazy\" decoding=\"async\">
+                            <div class=\"umkm-content\">
+                                <span class=\"umkm-category\">${escapeHtml(String(item.category || '').toUpperCase())}</span>
+                                <h3 class=\"umkm-title\">${escapeHtml(item.title)}</h3>
+                                <div style=\"font-size:11px; color:var(--text-muted); font-weight:600; margin-bottom:6px;\">
+                                    <span aria-hidden=\"true\">👤</span> Mentor: ${escapeHtml(item.instructor)}
+                                </div>
+                                <p class=\"umkm-desc\">${escapeHtml(item.description)}</p>
+                                <a href=\"${escapeHtml(linkUrl)}\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"btn-wa\" style=\"background:var(--primary);\">🚀 Ikuti Kelas</a>
+                            </div>
+                        </article>`;
+                }).join('');
+                container.setAttribute('aria-busy', 'false');
+                container.dataset.loaded = '1';
+            } catch {
+                container.innerHTML = '<p class=\"error-state grid-span\">Gagal memuat program.</p>';
+                container.setAttribute('aria-busy', 'false');
+            }
+        }
+
+        // =========================================================
+        // KEUANGAN
+        // =========================================================
+        async function fetchKeuangan(kategori, btnEl = null) {
+            const container = $('daftarKeuangan');
+            const saldoEl = $('totalSaldoKeuangan');
+
+            // Set tab styling
+            document.querySelectorAll('#filterKeuangan button').forEach(b => {
+                const aktif = (b === btnEl);
+                b.style.background = aktif ? 'var(--primary)' : '#F3F4F6';
+                b.style.color = aktif ? '#fff' : 'var(--text-main)';
+                b.style.borderColor = aktif ? 'var(--primary)' : 'var(--border)';
+                b.setAttribute('aria-selected', String(aktif));
+            });
+
+            container.innerHTML = '<div class=\"skeleton\" style=\"height:60px; margin-bottom:10px;\"></div><div class=\"skeleton\" style=\"height:60px;\"></div>';
+            try {
+                const { data, error } = await supabase
+                    .from('finances')
+                    .select('*')
+                    .eq('category', kategori)
+                    .order('created_at', { ascending: false });
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = `<p class=\"empty-state\" style=\"background:var(--input-bg); border-radius:10px;\">Belum ada catatan transaksi untuk ${escapeHtml(kategori)}.</p>`;
+                    saldoEl.textContent = 'Rp 0';
+                    saldoEl.style.color = 'var(--success-text)';
+                    return;
+                }
+
+                let saldo = 0;
+                const html = data.map(item => {
+                    const nominal = Number(item.amount) || 0;
+                    const isPemasukan = item.type === 'Pemasukan';
+                    saldo += isPemasukan ? nominal : -nominal;
+                    const tgl = formatTanggal(item.created_at, { month: 'short', hour: undefined, minute: undefined });
+                    const color = isPemasukan ? 'var(--success-text)' : 'var(--error-text)';
+                    const bgIcon = isPemasukan ? 'var(--success-bg)' : 'var(--error-bg)';
+                    const sign = isPemasukan ? '+' : '-';
+                    return `
+                    <div class=\"keuangan-row\">
+                        <div class=\"left\">
+                            <div class=\"icon\" style=\"background:${bgIcon}; color:${color};\" aria-hidden=\"true\">${isPemasukan ? '↓' : '↑'}</div>
+                            <div style=\"min-width:0;\">
+                                <div class=\"desc\">${escapeHtml(item.description)}</div>
+                                <div class=\"date\">${escapeHtml(tgl)}</div>
+                            </div>
+                        </div>
+                        <div class=\"amount\" style=\"color:${color};\">${sign} Rp ${nominal.toLocaleString('id-ID')}</div>
+                    </div>`;
+                }).join('');
+
+                saldoEl.textContent = (saldo >= 0 ? '' : '-') + 'Rp ' + Math.abs(saldo).toLocaleString('id-ID');
+                saldoEl.style.color = saldo >= 0 ? 'var(--success-text)' : 'var(--error-text)';
+                container.innerHTML = html;
+            } catch {
+                container.innerHTML = '<p class=\"error-state\">Gagal memuat laporan keuangan. Periksa koneksi internet Anda.</p>';
+            }
+        }
+
+        // Event listener untuk filter keuangan
+        document.getElementById('filterKeuangan').addEventListener('click', (e) => {
+            const btn = e.target.closest('button[data-keuangan]');
+            if (btn) fetchKeuangan(btn.dataset.keuangan, btn);
+        });
+
+        // =========================================================
+        // VALIDASI FORM
         // =========================================================
         function validasiForm() {
-            const judul     = document.getElementById('judul').value.trim();
-            const kategori  = document.getElementById('kategori').value;
+            const judul = $('judul').value.trim();
+            const kategori = $('kategori').value;
             const deskripsi = deskripsiEl.value.trim();
 
-            if (!judul || judul.length < 5) {
-                showAlert('Judul laporan minimal 5 karakter.', 'error');
-                return false;
+            if (judul.length < CONFIG.JUDUL_MIN) {
+                showAlert(`Judul laporan minimal ${CONFIG.JUDUL_MIN} karakter.`, 'error'); return false;
             }
-            if (judul.length > 150) {
-                showAlert('Judul laporan maksimal 150 karakter.', 'error');
-                return false;
+            if (judul.length > CONFIG.JUDUL_MAX) {
+                showAlert(`Judul laporan maksimal ${CONFIG.JUDUL_MAX} karakter.`, 'error'); return false;
             }
             if (!kategori) {
-                showAlert('Silakan pilih kategori laporan.', 'error');
-                return false;
+                showAlert('Silakan pilih kategori laporan.', 'error'); return false;
             }
             if (deskripsi.length < CONFIG.DESKRIPSI_MIN) {
-                showAlert(`Deskripsi minimal ${CONFIG.DESKRIPSI_MIN} karakter.`, 'error');
-                return false;
+                showAlert(`Deskripsi minimal ${CONFIG.DESKRIPSI_MIN} karakter.`, 'error'); return false;
             }
             if (deskripsi.length > CONFIG.DESKRIPSI_MAX) {
-                showAlert(`Deskripsi maksimal ${CONFIG.DESKRIPSI_MAX} karakter.`, 'error');
-                return false;
+                showAlert(`Deskripsi maksimal ${CONFIG.DESKRIPSI_MAX} karakter.`, 'error'); return false;
             }
             return true;
         }
@@ -990,44 +1132,44 @@
         formAduan.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // ✅ FIX #2: Cek honeypot
-            if (document.getElementById('perangkapBot').value !== '') {
+            // Honeypot — silently fake success
+            if ($('perangkapBot').value !== '') {
                 showAlert('Laporan berhasil dikirim!', 'success');
                 formAduan.reset();
                 return;
             }
 
-            // ✅ FIX #3: Cek rate limit (tetap di frontend, didukung RLS di backend)
+            // Rate limit (frontend; backend wajib pakai RLS rate limit)
             const waktuTerakhir = localStorage.getItem(CONFIG.STORAGE_KEY_LAST_REPORT);
-            if (waktuTerakhir && (Date.now() - parseInt(waktuTerakhir) < CONFIG.COOLDOWN_MS)) {
-                const sisaDetik = Math.ceil((CONFIG.COOLDOWN_MS - (Date.now() - parseInt(waktuTerakhir))) / 1000);
-                const sisaMenit = Math.ceil(sisaDetik / 60);
+            if (waktuTerakhir && (Date.now() - parseInt(waktuTerakhir, 10) < CONFIG.COOLDOWN_MS)) {
+                const sisaMs = CONFIG.COOLDOWN_MS - (Date.now() - parseInt(waktuTerakhir, 10));
+                const sisaMenit = Math.max(1, Math.ceil(sisaMs / 60000));
                 showAlert(`Harap tunggu ${sisaMenit} menit sebelum mengirim laporan baru.`, 'warning');
                 return;
             }
 
-            // ✅ FIX #8: Validasi JS mandiri
             if (!validasiForm()) return;
 
-            btnKirim.disabled    = true;
+            btnKirim.disabled = true;
             btnKirim.textContent = 'Memproses...';
             alertBox.style.display = 'none';
 
-            const judul    = document.getElementById('judul').value.trim();
-            const kategori = document.getElementById('kategori').value;
+            const judul = $('judul').value.trim();
+            const kategori = $('kategori').value;
             const deskripsi = deskripsiEl.value.trim();
-            const fotoFile = document.getElementById('foto').files[0];
-            const isAnonim = document.getElementById('anonim').checked;
-            let imageUrl   = '';
+            const fotoFile = fotoEl.files[0];
+            const isAnonim = $('anonim').checked;
+            let imageUrl = '';
 
             try {
                 if (fotoFile) {
-                    // ✅ FIX #9: Tangkap error upload foto secara spesifik
                     let fotoKompres;
                     try {
                         fotoKompres = await compressImage(fotoFile);
                     } catch {
                         showAlert('Gagal memproses foto. Coba gunakan foto lain.', 'error');
+                        btnKirim.disabled = false;
+                        btnKirim.textContent = 'Kirim Laporan';
                         return;
                     }
 
@@ -1037,8 +1179,7 @@
                         .upload(namaUnik, fotoKompres);
 
                     if (uploadError) {
-                        showAlert('Gagal mengunggah foto. Laporan tetap bisa dikirim tanpa foto.', 'error');
-                        // Lanjutkan tanpa foto daripada batalkan seluruhnya
+                        showAlert('Gagal mengunggah foto. Laporan tetap dikirim tanpa foto.', 'warning');
                     } else {
                         imageUrl = supabase.storage.from('foto-bukti').getPublicUrl(namaUnik).data.publicUrl;
                     }
@@ -1053,36 +1194,42 @@
                     upvotes: 0,
                     author_name: isAnonim ? 'Anonim' : 'Warga Kepuh'
                 }]);
-
                 if (insertError) throw insertError;
 
                 localStorage.setItem(CONFIG.STORAGE_KEY_LAST_REPORT, String(Date.now()));
                 showAlert('✅ Laporan berhasil dikirim! Terima kasih atas aspirasimu.', 'success');
                 formAduan.reset();
-                document.getElementById('previewFoto').style.display = 'none';
+                previewFotoEl.style.display = 'none';
+                if (currentPreviewURL) {
+                    URL.revokeObjectURL(currentPreviewURL);
+                    currentPreviewURL = null;
+                }
                 counterEl.textContent = `0 / ${CONFIG.DESKRIPSI_MAX} karakter (min. ${CONFIG.DESKRIPSI_MIN})`;
-                counterEl.style.color = 'var(--text-muted)';
-                fetchLaporan();
-                fetchLeaderboard();
-
+                counterEl.classList.remove('warn');
+                await Promise.all([fetchLaporan(), fetchLeaderboard()]);
             } catch (err) {
-                // ✅ FIX #9: Pesan error spesifik
-                const pesanError = err?.message?.includes('network') || err?.message?.includes('fetch')
+                const msg = err?.message?.toLowerCase() || '';
+                const pesan = (msg.includes('network') || msg.includes('fetch'))
                     ? 'Koneksi internet terputus. Periksa jaringan dan coba lagi.'
                     : `Gagal mengirim laporan: ${err?.message || 'Terjadi kesalahan tidak dikenal.'}`;
-                showAlert(pesanError, 'error');
+                showAlert(pesan, 'error');
             } finally {
-                btnKirim.disabled    = false;
+                btnKirim.disabled = false;
                 btnKirim.textContent = 'Kirim Laporan';
             }
         });
 
-        // =========================================================
-        // INIT — ✅ FIX #10: fetchPengembanganDiri TIDAK dipanggil di sini
-        // =========================================================
-        fetchLaporan();
-        fetchLeaderboard();
+        // Cleanup object URL on page unload (jaga-jaga)
+        window.addEventListener('beforeunload', () => {
+            if (currentPreviewURL) URL.revokeObjectURL(currentPreviewURL);
+        });
 
+        // =========================================================
+        // INIT — paralel
+        // =========================================================
+        Promise.all([fetchLaporan(), fetchLeaderboard()]).catch(() => {});
     </script>
 </body>
 </html>
+"
+Observation: Create successful: /app/output/index.html
