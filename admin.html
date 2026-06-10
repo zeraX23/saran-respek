@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Suara Pemuda RESPEK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #A62122;
+            --primary-hover: #8B1A1B;
+            --text-main: #111827;
+            --text-muted: #6B7280;
+            --bg-body: #F3F4F6;
+            --bg-card: #FFFFFF;
+            --border: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-body); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; }
+        
+        /* Form Login Admin */
+        #loginSection { display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; }
+        .login-card { background: var(--bg-card); padding: 40px; border-radius: 16px; box-shadow: var(--shadow-md); width: 100%; max-width: 400px; text-align: center; }
+        .login-card h2 { color: var(--primary); margin-bottom: 8px; font-weight: 800; }
+        .login-card p { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+        .form-group { margin-bottom: 16px; text-align: left; }
+        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+        input[type="email"], input[type="password"] { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; }
+        input:focus { outline: none; border-color: var(--primary); }
+        .btn-primary { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn-primary:hover { background: var(--primary-hover); }
+        #loginAlert { color: #991B1B; background: #FEE2E2; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; display: none; font-weight: 600; }
+
+        /* Layout Admin Dashboard */
+        #adminSection { display: none; flex: 1; height: 100vh; overflow: hidden; }
+        .admin-layout { display: flex; height: 100%; width: 100%; }
+        
+        /* Sidebar */
+        .sidebar { width: 250px; background: #111827; color: white; display: flex; flex-direction: column; padding: 20px 0; }
+        .sidebar-brand { padding: 0 20px 20px; border-bottom: 1px solid #374151; margin-bottom: 20px; }
+        .sidebar-brand h2 { font-size: 18px; font-weight: 800; color: #FFFFFF; }
+        .sidebar-brand span { color: var(--primary); }
+        .nav-link { display: block; padding: 12px 20px; color: #D1D5DB; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
+        .nav-link:hover, .nav-link.active { background: #1F2937; color: white; border-left: 4px solid var(--primary); }
+        .btn-logout { margin-top: auto; padding: 12px 20px; color: #FCA5A5; text-decoration: none; font-weight: 600; cursor: pointer; transition: 0.2s; background: none; border: none; text-align: left; width: 100%; font-family: inherit; font-size: 14px; }
+        .btn-logout:hover { background: #311313; color: white; }
+
+        /* Area Konten Utama */
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; background: var(--bg-body); }
+        .header-title { font-size: 24px; font-weight: 800; margin-bottom: 24px; }
+        
+        /* Tabel Data */
+        .card-table { background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        th, td { padding: 14px 20px; border-bottom: 1px solid var(--border); }
+        th { background: #F9FAFB; font-weight: 700; color: var(--text-muted); }
+        tr:hover { background: #F9FAFB; }
+        .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+        .status-menunggu { background: #FEF3C7; color: #92400E; }
+        .status-diproses { background: #DBEAFE; color: #1E40AF; }
+        .status-selesai { background: #D1FAE5; color: #065F46; }
+        
+        select.action-select { padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-size: 13px; font-family: inherit; font-weight: 600; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- HALAMAN LOGIN -->
+    <div id="loginSection">
+        <div class="login-card">
+            <h2>Portal Admin</h2>
+            <p>Pengurus RESPEK Kepuh</p>
+            <div id="loginAlert">Email atau password salah!</div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Admin</label>
+                    <input type="email" id="email" required placeholder="admin@respek.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-primary" id="btnLogin">Masuk ke Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- HALAMAN DASHBOARD -->
+    <div id="adminSection">
+        <div class="admin-layout">
+            <div class="sidebar">
+                <div class="sidebar-brand">
+                    <h2>Admin<span>RESPEK</span></h2>
+                </div>
+                <a href="#" class="nav-link active">Laporan Warga</a>
+                <a href="#" class="nav-link" onclick="alert('Modul Keuangan sedang disiapkan!'); return false;">Laporan Keuangan</a>
+                <a href="#" class="nav-link" onclick="alert('Modul UMKM sedang disiapkan!'); return false;">Kelola UMKM</a>
+                
+                <button class="btn-logout" id="btnLogout">⎋ Keluar (Log Out)</button>
+            </div>
+            
+            <div class="main-content">
+                <h1 class="header-title">Kelola Laporan Warga</h1>
+                
+                <div class="card-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Judul Laporan</th>
+                                <th>Kategori</th>
+                                <th>Status</th>
+                                <th>Aksi Ubah Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableAduan">
+                            <tr><td colspan="5" style="text-align:center; padding: 20px;">Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+        
+        // Gunakan kredensial yang sama persis dengan index.html
+        const supabaseUrl = 'https://omqxookhwflcmwvqmwyv.supabase.co';
+        const supabaseKey = 'sb_publishable_VqZJB-MLy7-f2lqyX3kZig_BVMSkIKX';
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        const loginSection = document.getElementById('loginSection');
+        const adminSection = document.getElementById('adminSection');
+        const loginAlert = document.getElementById('loginAlert');
+
+        // 1. CEK STATUS LOGIN SAAT HALAMAN DIBUKA
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                loginSection.style.display = 'none';
+                adminSection.style.display = 'flex';
+                loadDataAduan(); // Ambil data tabel
+            } else {
+                loginSection.style.display = 'flex';
+                adminSection.style.display = 'none';
+            }
+        }
+        checkSession();
+
+        // 2. FUNGSI LOGIN
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('btnLogin');
+            
+            btn.innerText = 'Memeriksa...'; btn.disabled = true; loginAlert.style.display = 'none';
+            
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            
+            if (error) {
+                loginAlert.innerText = "Gagal masuk! Periksa email dan password.";
+                loginAlert.style.display = 'block';
+                btn.innerText = 'Masuk ke Dashboard'; btn.disabled = false;
+            } else {
+                window.location.reload(); // Refresh untuk masuk ke dashboard
+            }
+        });
+
+        // 3. FUNGSI LOGOUT
+        document.getElementById('btnLogout').addEventListener('click', async () => {
+            await supabase.auth.signOut();
+            window.location.reload();
+        });
+
+        // 4. MENGAMBIL DATA LAPORAN KE DALAM TABEL
+        async function loadDataAduan() {
+            const tbody = document.getElementById('tableAduan');
+            const { data, error } = await supabase.from('reports').select('*').order('created_at', { ascending: false });
+            
+            if (error) { tbody.innerHTML = '<tr><td colspan="5">Gagal memuat data</td></tr>'; return; }
+            
+            let html = '';
+            data.forEach(report => {
+                const tgl = new Date(report.created_at).toLocaleDateString('id-ID');
+                
+                // Menentukan warna badge status
+                let badgeClass = report.status === 'Selesai' ? 'status-selesai' : report.status === 'Diproses' ? 'status-diproses' : 'status-menunggu';
+
+                html += `
+                    <tr>
+                        <td>${tgl}</td>
+                        <td style="font-weight:600;">${report.title}</td>
+                        <td>${report.category}</td>
+                        <td><span class="status-badge ${badgeClass}">${report.status}</span></td>
+                        <td>
+                            <select class="action-select" onchange="updateStatus('${report.id}', this.value)">
+                                <option value="" disabled selected>Ubah Status</option>
+                                <option value="Menunggu">Menunggu</option>
+                                <option value="Diproses">Diproses</option>
+                                <option value="Selesai">Selesai</option>
+                            </select>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        // 5. MENGUBAH STATUS LAPORAN (UPDATE DATABASE)
+        window.updateStatus = async function(id, statusBaru) {
+            if(!confirm(`Yakin ubah status menjadi ${statusBaru}?`)) return loadDataAduan(); // Batal
+            
+            const { error } = await supabase.from('reports').update({ status: statusBaru }).eq('id', id);
+            if(error) alert('Gagal mengubah status');
+            loadDataAduan(); // Refresh tabel
+        }
+    </script>
+</body>
+</html>
