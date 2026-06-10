@@ -9,7 +9,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>">
     
-    <!-- Link Manifest PWA (Agar web bisa di-install di HP) -->
     <link rel="manifest" href="manifest.json">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -292,7 +291,6 @@
                 <div class="form-group">
                     <label for="deskripsi">Deskripsi Detail</label>
                     <textarea id="deskripsi" rows="4" placeholder="Ceritakan detail keluhan atau gagasan Anda (minimal 20 karakter)..." required></textarea>
-                    <!-- Tambahan Fitur Penghitung Karakter -->
                     <div id="charCount" style="font-size: 11px; color: var(--text-muted); text-align: right; margin-top: 4px; font-weight: 600;">0 karakter (Minimal 20)</div>
                 </div>
                 <div class="form-group">
@@ -325,7 +323,6 @@
                 <span class="badge-live">LIVE UPDATE</span>
             </div>
             
-            <!-- Tambahan Fitur Filter Kategori -->
             <div style="margin-bottom: 16px;">
                 <select id="filterKategoriLaporan" onchange="filterLaporanSisiKlien()" style="padding: 8px 12px; font-size: 12px; border-radius: 20px; background-color: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); font-weight: 600; cursor: pointer; outline: none; box-shadow: var(--shadow-sm);">
                     <option value="Semua">🔍 Semua Kategori</option>
@@ -631,6 +628,9 @@
                     const cekDukung = sudahDukung.includes(report.id) ? 'sudah-dukung' : '';
                     const teksTombol = sudahDukung.includes(report.id) ? '✓ Didukung' : '🔺 Dukung Aspirasi';
 
+                    const pesanWA = `Mari dukung aspirasi warga Kepuh di Portal Pemuda RESPEK! ✊\n\n📌 *${report.title}*\n\nYuk bantu upvote dan lihat selengkapnya di sini:\n${window.location.href}`;
+                    const linkWA = `https://wa.me/?text=${encodeURIComponent(pesanWA)}`;
+
                     htmlContent += `
                         <div class="report-item">
                             <div class="report-header">
@@ -644,8 +644,7 @@
                                 <button class="btn-upvote ${cekDukung}" onclick="dukungAspirasi('${report.id}', ${report.upvotes || 0})">
                                     ${teksTombol} (${report.upvotes || 0})
                                 </button>
-                                <!-- Tambahan Fitur Tombol WhatsApp -->
-                                <a href="https://api.whatsapp.com/send?text=Mari dukung aspirasi warga Kepuh: *${encodeURIComponent(report.title)}* di Portal Pemuda RESPEK! ✊" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; background-color: #25D366; color: white; border: none; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; margin-top: 10px; margin-left: 8px; transition: 0.2s;">
+                                <a href="${linkWA}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; background-color: #25D366; color: white; border: none; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; margin-top: 10px; margin-left: 8px; transition: 0.2s;">
                                     💬 Bagikan
                                 </a>
                             </div>
