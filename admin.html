@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Suara Pemuda RESPEK</title>
     
-    <!-- Konfigurasi PWA Admin Agar Bisa Diinstal di HP -->
     <link rel="manifest" href="manifest-admin.json">
     <meta name="theme-color" content="#A62122">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -74,6 +73,65 @@
         
         select.action-select { padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-size: 13px; font-family: inherit; font-weight: 600; cursor: pointer; }
         .finance-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; align-items: end; }
+
+        /* --- PENGATURAN RESPONSIVE MOBILE --- */
+        .card-box {
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch; 
+        }
+
+        .mobile-header { display: none; }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 16px;
+            }
+            .header-title {
+                font-size: 20px;
+            }
+            .mobile-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+                background: var(--bg-card);
+                padding: 12px 16px;
+                border-radius: 8px;
+                box-shadow: var(--shadow-sm);
+            }
+            .mobile-header h2 {
+                font-size: 16px;
+                font-weight: 800;
+                color: var(--primary);
+            }
+            .btn-hamburger {
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: var(--text-main);
+            }
+            
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                top: 0;
+                bottom: 0;
+                z-index: 999;
+                transition: left 0.3s ease-in-out;
+                box-shadow: 4px 0 10px rgba(0,0,0,0.3);
+            }
+            .sidebar.open {
+                left: 0; 
+            }
+            
+            .finance-form-grid {
+                grid-template-columns: 1fr;
+            }
+            .finance-form-grid > div[style*="grid-column: span"] {
+                grid-column: span 1 !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -103,6 +161,11 @@
             </div>
             
             <div class="main-content">
+                
+                <div class="mobile-header">
+                    <h2>Admin RESPEK</h2>
+                    <button class="btn-hamburger" id="btnHamburger">☰</button>
+                </div>
                 
                 <div id="section-laporan" class="panel-section active">
                     <h1 class="header-title">Kelola Laporan Warga</h1>
@@ -251,14 +314,19 @@
         const loginAlert = document.getElementById('loginAlert');
 
         async function checkSession() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                loginSection.style.display = 'none';
-                adminSection.style.display = 'flex';
-                loadDataAduan(); fetchFinances(); fetchAgendasAdmin(); fetchUMKMAdmin();
-            } else {
-                loginSection.style.display = 'flex';
-                adminSection.style.display = 'none';
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                if (error) throw error;
+                if (session) {
+                    loginSection.style.display = 'none';
+                    adminSection.style.display = 'flex';
+                    loadDataAduan(); fetchFinances(); fetchAgendasAdmin(); fetchUMKMAdmin();
+                } else {
+                    loginSection.style.display = 'flex';
+                    adminSection.style.display = 'none';
+                }
+            } catch (err) {
+                console.error("Session check error:", err);
             }
         }
         checkSession();
@@ -270,6 +338,7 @@
             const { data, error } = await supabase.auth.signInWithPassword({ email: document.getElementById('email').value, password: document.getElementById('password').value });
             
             if (error) {
+                console.error("Login error:", error);
                 loginAlert.innerText = "Gagal masuk! Periksa email dan password."; loginAlert.style.display = 'block';
                 btn.innerText = 'Masuk ke Dashboard'; btn.disabled = false;
             } else {
@@ -298,12 +367,34 @@
         });
 
         // ======================
+        // LOGIKA MOBILE MENU
+        // ======================
+        const btnHamburger = document.getElementById('btnHamburger');
+        const sidebar = document.querySelector('.sidebar');
+
+        btnHamburger.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('open');
+                }
+            });
+        });
+
+        // ======================
         // LAPORAN WARGA
         // ======================
         async function loadDataAduan() {
             const tbody = document.getElementById('tableAduan');
             const { data, error } = await supabase.from('reports').select('*').order('created_at', { ascending: false });
-            if (error) { tbody.innerHTML = '<tr><td colspan="5">Gagal memuat.</td></tr>'; return; }
+            if (error) { 
+                console.error("Error loading reports:", error);
+                tbody.innerHTML = '<tr><td colspan="5">Gagal memuat.</td></tr>'; 
+                return; 
+            }
             if (data.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Kosong.</td></tr>'; return; }
             let html = '';
             data.forEach(report => {
@@ -316,7 +407,9 @@
 
         window.updateStatus = async function(id, statusBaru) {
             if(!confirm(`Yakin mengubah status menjadi ${statusBaru}?`)) { loadDataAduan(); return; }
-            await supabase.from('reports').update({ status: statusBaru }).eq('id', id); loadDataAduan(); 
+            const { error } = await supabase.from('reports').update({ status: statusBaru }).eq('id', id); 
+            if (error) console.error("Error updating status:", error);
+            loadDataAduan(); 
         }
 
         // ======================
@@ -324,16 +417,27 @@
         // ======================
         document.getElementById('formFinance').addEventListener('submit', async (e) => {
             e.preventDefault(); const btn = document.getElementById('btnSaveFinance'); btn.innerText = 'Menyimpan...'; btn.disabled = true;
-            const data = { date: document.getElementById('finDate').value, category: document.getElementById('finCat').value, type: document.getElementById('finType').value, description: document.getElementById('finDesc').value, amount: parseInt(document.getElementById('finAmount').value) };
+            const data = { 
+                date: document.getElementById('finDate').value, 
+                category: document.getElementById('finCat').value, 
+                type: document.getElementById('finType').value, 
+                description: document.getElementById('finDesc').value, 
+                amount: Number(document.getElementById('finAmount').value) 
+            };
             const { error } = await supabase.from('finances').insert([data]);
-            if (!error) { alert('Tersimpan!'); document.getElementById('formFinance').reset(); fetchFinances(); } else { alert('Gagal!'); }
+            if (!error) { alert('Tersimpan!'); document.getElementById('formFinance').reset(); fetchFinances(); } else { console.error("Error inserting finance:", error); alert('Gagal!'); }
             btn.innerText = 'Simpan Data'; btn.disabled = false;
         });
 
         async function fetchFinances() {
             const tbody = document.getElementById('tableFinance');
             const { data, error } = await supabase.from('finances').select('*').order('date', { ascending: false });
-            if (error || !data.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Kosong.</td></tr>'; return; }
+            if (error) {
+                console.error("Error fetching finances:", error);
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Gagal memuat data keuangan.</td></tr>';
+                return;
+            }
+            if (!data.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Kosong.</td></tr>'; return; }
             let html = '';
             data.forEach(item => {
                 const tgl = new Date(item.date).toLocaleDateString('id-ID'); const isMasuk = item.type.toLowerCase() === 'masuk';
@@ -341,7 +445,13 @@
             });
             tbody.innerHTML = html;
         }
-        window.deleteFinance = async (id) => { if(confirm('Hapus?')) { await supabase.from('finances').delete().eq('id', id); fetchFinances(); } }
+        window.deleteFinance = async (id) => { 
+            if(confirm('Hapus?')) { 
+                const { error } = await supabase.from('finances').delete().eq('id', id); 
+                if (error) console.error("Error deleting finance:", error);
+                fetchFinances(); 
+            } 
+        }
 
         // ======================
         // AGENDA
@@ -350,24 +460,35 @@
             e.preventDefault(); const btn = document.getElementById('btnSaveAgenda'); btn.innerText = 'Menyimpan...'; btn.disabled = true;
             const data = { title: document.getElementById('ageTitle').value, date: document.getElementById('ageDate').value, time: document.getElementById('ageTime').value, location: document.getElementById('ageLoc').value, description: document.getElementById('ageDesc').value };
             const { error } = await supabase.from('agendas').insert([data]);
-            if (!error) { alert('Tersimpan!'); document.getElementById('formAgenda').reset(); fetchAgendasAdmin(); }
+            if (!error) { alert('Tersimpan!'); document.getElementById('formAgenda').reset(); fetchAgendasAdmin(); } else { console.error("Error inserting agenda:", error); }
             btn.innerText = 'Simpan Agenda'; btn.disabled = false;
         });
 
         async function fetchAgendasAdmin() {
             const tbody = document.getElementById('tableAgenda');
             const { data, error } = await supabase.from('agendas').select('*').order('date', { ascending: true });
-            if (error || !data.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Kosong.</td></tr>'; return; }
+            if (error) {
+                console.error("Error fetching agendas:", error);
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Gagal memuat agenda.</td></tr>';
+                return;
+            }
+            if (!data.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Kosong.</td></tr>'; return; }
             let html = '';
             data.forEach(item => {
                 html += `<tr><td>${new Date(item.date).toLocaleDateString('id-ID')}</td><td>${item.time}</td><td style="font-weight:600;">${item.title}</td><td>${item.location}</td><td>${item.description}</td><td><button class="btn-danger" onclick="deleteAgenda('${item.id}')">Hapus</button></td></tr>`;
             });
             tbody.innerHTML = html;
         }
-        window.deleteAgenda = async (id) => { if(confirm('Hapus?')) { await supabase.from('agendas').delete().eq('id', id); fetchAgendasAdmin(); } }
+        window.deleteAgenda = async (id) => { 
+            if(confirm('Hapus?')) { 
+                const { error } = await supabase.from('agendas').delete().eq('id', id); 
+                if (error) console.error("Error deleting agenda:", error);
+                fetchAgendasAdmin(); 
+            } 
+        }
 
         // ======================
-        // UMKM (BARU)
+        // UMKM
         // ======================
         document.getElementById('formUMKM').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -380,8 +501,11 @@
                 
                 if (fotoFile) {
                     const img = new Image();
-                    img.src = URL.createObjectURL(fotoFile);
+                    const objectUrl = URL.createObjectURL(fotoFile);
+                    img.src = objectUrl;
                     await new Promise(r => img.onload = r);
+                    URL.revokeObjectURL(objectUrl);
+                    
                     const canvas = document.createElement('canvas');
                     canvas.width = 600; canvas.height = img.height * (600 / img.width);
                     canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -413,6 +537,7 @@
                 fetchUMKMAdmin();
                 
             } catch (error) {
+                console.error("UMKM Save Error:", error);
                 alert('Gagal menyimpan UMKM: Pastikan Storage bucket "foto-umkm" sudah ada. Error: ' + error.message);
             } finally {
                 btn.innerText = 'Simpan UMKM'; btn.disabled = false;
@@ -424,7 +549,12 @@
             if(!tbody) return;
             const { data, error } = await supabase.from('umkm').select('*').order('created_at', { ascending: false });
             
-            if (error || !data || data.length === 0) { 
+            if (error) {
+                console.error("Error fetching UMKM:", error);
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Gagal memuat data UMKM.</td></tr>';
+                return;
+            }
+            if (!data || data.length === 0) { 
                 tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Belum ada data UMKM.</td></tr>'; return; 
             }
             
@@ -447,8 +577,12 @@
         window.deleteUMKM = async (id) => {
             if(!confirm('Anda yakin ingin menghapus data usaha ini?')) return;
             const { error } = await supabase.from('umkm').delete().eq('id', id);
-            if(error) alert('Gagal menghapus.');
-            else fetchUMKMAdmin();
+            if(error) {
+                console.error("Error deleting UMKM:", error);
+                alert('Gagal menghapus.');
+            } else {
+                fetchUMKMAdmin();
+            }
         }
 
         // SISTEM REGISTRASI SERVICE WORKER PWA
