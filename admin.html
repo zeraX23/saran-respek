@@ -75,7 +75,6 @@
 </head>
 <body>
 
-    <!-- HALAMAN LOGIN -->
     <div id="loginSection">
         <div class="login-card">
             <h2>Portal Admin</h2>
@@ -95,10 +94,8 @@
         </div>
     </div>
 
-    <!-- HALAMAN DASHBOARD -->
     <div id="adminSection">
         <div class="admin-layout">
-            <!-- Sidebar Navigation -->
             <div class="sidebar">
                 <div class="sidebar-brand">
                     <h2>Admin<span>RESPEK</span></h2>
@@ -110,10 +107,8 @@
                 <button class="btn-logout" id="btnLogout">⎋ Keluar (Log Out)</button>
             </div>
             
-            <!-- Main Content Area -->
             <div class="main-content">
                 
-                <!-- SECTION: LAPORAN WARGA -->
                 <div id="section-laporan" class="panel-section active">
                     <h1 class="header-title">Kelola Laporan Warga</h1>
                     <div class="card-box">
@@ -134,11 +129,9 @@
                     </div>
                 </div>
 
-                <!-- SECTION: LAPORAN KEUANGAN -->
                 <div id="section-keuangan" class="panel-section">
                     <h1 class="header-title">Kelola Laporan Keuangan</h1>
                     
-                    <!-- Form Tambah Keuangan -->
                     <div class="card-box card-box-padding">
                         <h3 style="margin-bottom: 16px; font-size: 16px;">➕ Tambah Transaksi Baru</h3>
                         <form id="formFinance" class="finance-form-grid">
@@ -168,7 +161,7 @@
                             </div>
                             <div>
                                 <label style="font-size: 12px; margin-bottom: 4px;">Nominal (Rp)</label>
-                                <input type="number" id="finAmount" placeholder="Contoh: 50000" required>
+                                <input type="number" id="finAmount" min="1" placeholder="Contoh: 50000" required>
                             </div>
                             <div>
                                 <button type="submit" class="btn-primary" id="btnSaveFinance">Simpan Data</button>
@@ -176,7 +169,6 @@
                         </form>
                     </div>
 
-                    <!-- Tabel Data Keuangan -->
                     <div class="card-box">
                         <table>
                             <thead>
@@ -211,15 +203,13 @@
         const adminSection = document.getElementById('adminSection');
         const loginAlert = document.getElementById('loginAlert');
 
-        // ==========================================
-        // 1. SISTEM AUTENTIKASI (LOGIN & LOGOUT)
-        // ==========================================
         async function checkSession() {
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
                 loginSection.style.display = 'none';
                 adminSection.style.display = 'flex';
                 loadDataAduan(); 
+                fetchFinances();
             } else {
                 loginSection.style.display = 'flex';
                 adminSection.style.display = 'none';
@@ -234,7 +224,6 @@
             const btn = document.getElementById('btnLogin');
             
             btn.innerText = 'Memeriksa...'; btn.disabled = true; loginAlert.style.display = 'none';
-            
             const { data, error } = await supabase.auth.signInWithPassword({ email, password });
             
             if (error) {
@@ -242,7 +231,10 @@
                 loginAlert.style.display = 'block';
                 btn.innerText = 'Masuk ke Dashboard'; btn.disabled = false;
             } else {
-                window.location.reload(); 
+                loginSection.style.display = 'none';
+                adminSection.style.display = 'flex';
+                loadDataAduan();
+                fetchFinances();
             }
         });
 
@@ -251,31 +243,20 @@
             window.location.reload();
         });
 
-        // ==========================================
-        // 2. SISTEM NAVIGASI TAB MENU SIDEBAR
-        // ==========================================
         document.querySelectorAll('.nav-link[data-target]').forEach(link => {
             link.addEventListener('click', function() {
-                // Hapus active dari semua link sidebar
                 document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
                 
-                // Sembunyikan semua section
                 document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
-                
-                // Tampilkan section yang diklik
                 const targetId = this.getAttribute('data-target');
                 document.getElementById(targetId).classList.add('active');
 
-                // Load data jika tab spesifik dibuka
                 if(targetId === 'section-laporan') loadDataAduan();
                 if(targetId === 'section-keuangan') fetchFinances();
             });
         });
 
-        // ==========================================
-        // 3. FITUR KELOLA LAPORAN WARGA
-        // ==========================================
         async function loadDataAduan() {
             const tbody = document.getElementById('tableAduan');
             const { data, error } = await supabase.from('reports').select('*').order('created_at', { ascending: false });
@@ -287,7 +268,6 @@
             data.forEach(report => {
                 const tgl = new Date(report.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
                 let badgeClass = report.status === 'Selesai' ? 'status-selesai' : report.status === 'Diproses' ? 'status-diproses' : 'status-menunggu';
-
                 html += `
                     <tr>
                         <td>${tgl}</td>
@@ -309,18 +289,12 @@
         }
 
         window.updateStatus = async function(id, statusBaru) {
-            if(!confirm(`Yakin ingin mengubah status laporan ini menjadi ${statusBaru}?`)) {
-                loadDataAduan(); 
-                return;
-            }
+            if(!confirm(`Yakin ingin mengubah status laporan ini menjadi ${statusBaru}?`)) { loadDataAduan(); return; }
             const { error } = await supabase.from('reports').update({ status: statusBaru }).eq('id', id);
             if(error) alert('Terjadi kesalahan, gagal mengubah status!');
             loadDataAduan(); 
         }
 
-        // ==========================================
-        // 4. FITUR KELOLA LAPORAN KEUANGAN
-        // ==========================================
         document.getElementById('formFinance').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btnSaveFinance');
@@ -355,8 +329,9 @@
             
             let html = '';
             data.forEach(item => {
-                const tglFormat = new Date(item.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-                const typeLabel = item.type === 'masuk' ? '<span style="color:#065F46; font-weight:bold;">🟢 Masuk</span>' : '<span style="color:#991B1B; font-weight:bold;">🔴 Keluar</span>';
+                const tglFormat = new Date(item.date).toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                const isMasuk = item.type.toLowerCase() === 'masuk';
+                const typeLabel = isMasuk ? '<span style="color:#065F46; font-weight:bold;">🟢 Masuk</span>' : '<span style="color:#991B1B; font-weight:bold;">🔴 Keluar</span>';
                 const formatNominal = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(item.amount);
 
                 html += `
@@ -365,7 +340,7 @@
                         <td style="font-weight:600;">${item.category}</td>
                         <td>${item.description}</td>
                         <td>${typeLabel}</td>
-                        <td style="font-weight:bold;">${formatNominal}</td>
+                        <td style="font-weight:bold; color:${isMasuk ? '#065F46' : '#991B1B'}">${isMasuk ? '+' : '-'} ${formatNominal}</td>
                         <td><button class="btn-danger" onclick="deleteFinance('${item.id}')">Hapus</button></td>
                     </tr>
                 `;
