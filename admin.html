@@ -3,382 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Suara Pemuda RESPEK</title>
+    <title>Portal Suara Pemuda RESPEK</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #A62122;
             --primary-hover: #8B1A1B;
+            --bg-body: #F3F5F7;
             --text-main: #111827;
             --text-muted: #6B7280;
-            --bg-body: #F3F4F6;
-            --bg-card: #FFFFFF;
+            --card-bg: #FFFFFF;
             --border: #E5E7EB;
-            --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
         }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-body); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; }
-        
-        /* Form Login Admin */
-        #loginSection { display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; }
-        .login-card { background: var(--bg-card); padding: 40px; border-radius: 16px; box-shadow: var(--shadow-md); width: 100%; max-width: 400px; text-align: center; }
-        .login-card h2 { color: var(--primary); margin-bottom: 8px; font-weight: 800; }
-        .login-card p { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
-        .form-group { margin-bottom: 16px; text-align: left; }
-        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-        input[type="email"], input[type="password"], input[type="text"], input[type="number"], input[type="date"], select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; }
-        input:focus, select:focus { outline: none; border-color: var(--primary); }
-        .btn-primary { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; font-family: inherit;}
-        .btn-primary:hover { background: var(--primary-hover); }
-        .btn-danger { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s;}
-        .btn-danger:hover { background: #FECACA; }
-        #loginAlert { color: #991B1B; background: #FEE2E2; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; display: none; font-weight: 600; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-body); color: var(--text-main); line-height: 1.5; padding-bottom: 40px;}
 
-        /* Layout Admin Dashboard */
-        #adminSection { display: none; flex: 1; height: 100vh; overflow: hidden; }
-        .admin-layout { display: flex; height: 100%; width: 100%; }
+        /* Container & Banner */
+        .container { max-width: 480px; margin: 0 auto; padding: 0 16px; }
+        .banner-img { width: 100%; border-radius: 12px; margin-top: 16px; object-fit: cover; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .logo-text { text-align: center; margin: 24px 0; color: var(--primary); font-weight: 800; font-size: 20px; }
         
-        /* Sidebar */
-        .sidebar { width: 250px; background: #111827; color: white; display: flex; flex-direction: column; padding: 20px 0; }
-        .sidebar-brand { padding: 0 20px 20px; border-bottom: 1px solid #374151; margin-bottom: 20px; }
-        .sidebar-brand h2 { font-size: 18px; font-weight: 800; color: #FFFFFF; }
-        .sidebar-brand span { color: var(--primary); }
-        .nav-link { display: block; padding: 12px 20px; color: #D1D5DB; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; cursor: pointer; border-left: 4px solid transparent;}
-        .nav-link:hover, .nav-link.active { background: #1F2937; color: white; border-left: 4px solid var(--primary); }
-        .btn-logout { margin-top: auto; padding: 12px 20px; color: #FCA5A5; text-decoration: none; font-weight: 600; cursor: pointer; transition: 0.2s; background: none; border: none; text-align: left; width: 100%; font-family: inherit; font-size: 14px; }
-        .btn-logout:hover { background: #311313; color: white; }
+        /* Grid Menu Utama */
+        .menu-header { text-align: center; margin-bottom: 24px; }
+        .menu-header h2 { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+        .menu-header p { font-size: 12px; color: var(--text-muted); }
+        .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+        .menu-card { background: var(--card-bg); padding: 20px 10px; border-radius: 12px; text-align: center; cursor: pointer; border: 1px solid var(--border); box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: 0.2s; text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center;}
+        .menu-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+        .menu-icon { font-size: 24px; margin-bottom: 8px; }
+        .menu-text { font-size: 12px; font-weight: 600; }
 
-        /* Area Konten Utama */
-        .main-content { flex: 1; padding: 30px; overflow-y: auto; background: var(--bg-body); }
-        .header-title { font-size: 24px; font-weight: 800; margin-bottom: 24px; }
-        .panel-section { display: none; animation: fadeIn 0.3s ease; }
-        .panel-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Tabel Data & Form Box */
-        .card-box { background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); overflow: hidden; margin-bottom: 24px; }
-        .card-box-padding { padding: 20px; }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-        th, td { padding: 14px 20px; border-bottom: 1px solid var(--border); }
-        th { background: #F9FAFB; font-weight: 700; color: var(--text-muted); }
-        tr:hover { background: #F9FAFB; }
-        .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
-        .status-menunggu { background: #FEF3C7; color: #92400E; }
-        .status-diproses { background: #DBEAFE; color: #1E40AF; }
-        .status-selesai { background: #D1FAE5; color: #065F46; }
-        
-        select.action-select { padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-size: 13px; font-family: inherit; font-weight: 600; cursor: pointer; }
+        /* Navigasi Section */
+        .section-view { display: none; animation: fadeIn 0.3s ease; }
+        .section-view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .btn-back { display: inline-block; padding: 8px 16px; background: #E5E7EB; color: #374151; font-size: 12px; font-weight: 600; border-radius: 20px; cursor: pointer; border: none; margin-bottom: 20px; text-decoration: none;}
+        .btn-back.full { width: 100%; background: #6B7280; color: white; padding: 14px; text-align: center; font-size: 14px; margin-top: 20px; border-radius: 8px;}
 
-        .finance-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; align-items: end; }
+        /* Desain Laporan Keuangan */
+        .finance-title { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+        .finance-subtitle { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+        
+        /* Tab Keuangan */
+        .tabs-container { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; scrollbar-width: none; }
+        .tabs-container::-webkit-scrollbar { display: none; }
+        .tab-btn { padding: 8px 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; white-space: nowrap; font-family: inherit; transition: 0.2s;}
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* Box Saldo & Tabel */
+        .finance-box { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .finance-box-header { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        .saldo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center; margin-bottom: 20px; }
+        .saldo-item { background: var(--bg-body); padding: 10px 5px; border-radius: 8px; }
+        .saldo-item p { font-size: 10px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
+        .saldo-item h5 { font-size: 12px; font-weight: 800; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        th { text-align: left; padding: 8px; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border); }
+        td { padding: 10px 8px; border-bottom: 1px solid var(--border); vertical-align: top;}
+        .td-nominal { text-align: right; font-weight: 700; white-space: nowrap;}
+        .text-green { color: #065F46; }
+        .text-red { color: #991B1B; }
     </style>
 </head>
 <body>
 
-    <!-- HALAMAN LOGIN -->
-    <div id="loginSection">
-        <div class="login-card">
-            <h2>Portal Admin</h2>
-            <p>Pengurus RESPEK Kepuh</p>
-            <div id="loginAlert">Email atau password salah!</div>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="email">Email Admin</label>
-                    <input type="email" id="email" required placeholder="admin@respek.com">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" required placeholder="••••••••">
-                </div>
-                <button type="submit" class="btn-primary" id="btnLogin">Masuk ke Dashboard</button>
-            </form>
-        </div>
-    </div>
+    <div class="container">
+        <!-- GAMBAR BANNERS (Bisa Anda ganti link-nya jika username github berubah) -->
+        <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/banner_popup.png" alt="Banner 1" class="banner-img">
+        <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/fotosampul.png" alt="Banner 2" class="banner-img">
 
-    <!-- HALAMAN DASHBOARD -->
-    <div id="adminSection">
-        <div class="admin-layout">
-            <!-- Sidebar Navigation -->
-            <div class="sidebar">
-                <div class="sidebar-brand">
-                    <h2>Admin<span>RESPEK</span></h2>
-                </div>
-                <div class="nav-link active" data-target="section-laporan">📝 Laporan Warga</div>
-                <div class="nav-link" data-target="section-keuangan">💰 Laporan Keuangan</div>
-                <div class="nav-link" onclick="alert('Modul UMKM sedang disiapkan!');">🏪 Kelola UMKM</div>
-                
-                <button class="btn-logout" id="btnLogout">⎋ Keluar (Log Out)</button>
+        <div class="logo-text">RESPEK<br><span style="font-size: 10px; font-weight: 600; color: #6B7280;">Revolusi Pemuda Kepuh</span></div>
+
+        <!-- ============================================== -->
+        <!-- VIEW 1: MENU UTAMA (BERANDA)                   -->
+        <!-- ============================================== -->
+        <div id="viewBeranda" class="section-view active">
+            <div class="menu-header">
+                <h2>Portal Aduan & Aspirasi</h2>
+                <p>Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.</p>
             </div>
+
+            <div class="grid-menu">
+                <div class="menu-card" onclick="alert('Fitur sedang dikembangkan!')">
+                    <div class="menu-icon">👥</div>
+                    <div class="menu-text">Struktur Organisasi</div>
+                </div>
+                <div class="menu-card" onclick="alert('Fitur sedang dikembangkan!')">
+                    <div class="menu-icon">📅</div>
+                    <div class="menu-text">Agenda Acara</div>
+                </div>
+                <div class="menu-card" onclick="alert('Fitur sedang dikembangkan!')">
+                    <div class="menu-icon">🌱</div>
+                    <div class="menu-text">Pengembangan Diri</div>
+                </div>
+                <!-- Tombol Menuju Keuangan -->
+                <div class="menu-card" onclick="pindahHalaman('viewKeuangan')" style="border-color: #A62122; background: #FEF2F2;">
+                    <div class="menu-icon">📊</div>
+                    <div class="menu-text" style="color: #A62122;">Laporan Keuangan</div>
+                </div>
+                <div class="menu-card" onclick="alert('Fitur sedang dikembangkan!')">
+                    <div class="menu-icon">🗳️</div>
+                    <div class="menu-text">Polling & Voting</div>
+                </div>
+                <div class="menu-card" onclick="alert('Fitur sedang dikembangkan!')">
+                    <div class="menu-icon">🏪</div>
+                    <div class="menu-text">Usaha Pemuda (UMKM)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- VIEW 2: LAPORAN KEUANGAN TRANSPARAN            -->
+        <!-- ============================================== -->
+        <div id="viewKeuangan" class="section-view">
+            <button class="btn-back" onclick="pindahHalaman('viewBeranda')">← Kembali ke Beranda</button>
             
-            <!-- Main Content Area -->
-            <div class="main-content">
-                
-                <!-- SECTION: LAPORAN WARGA -->
-                <div id="section-laporan" class="panel-section active">
-                    <h1 class="header-title">Kelola Laporan Warga</h1>
-                    <div class="card-box">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Tanggal</th>
-                                    <th>Judul Laporan</th>
-                                    <th>Kategori</th>
-                                    <th>Status</th>
-                                    <th>Aksi Ubah Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableAduan">
-                                <tr><td colspan="5" style="text-align:center; padding: 20px;">Memuat data...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <h2 class="finance-title">Laporan Keuangan Transparan</h2>
+            <p class="finance-subtitle">Rincian aliran dana kegiatan pemuda dan kas RESPEK Kepuh untuk menjaga akuntabilitas.</p>
 
-                <!-- SECTION: LAPORAN KEUANGAN -->
-                <div id="section-keuangan" class="panel-section">
-                    <h1 class="header-title">Kelola Laporan Keuangan</h1>
-                    
-                    <!-- Form Tambah Keuangan -->
-                    <div class="card-box card-box-padding">
-                        <h3 style="margin-bottom: 16px; font-size: 16px;">➕ Tambah Transaksi Baru</h3>
-                        <form id="formFinance" class="finance-form-grid">
-                            <div>
-                                <label style="font-size: 12px; margin-bottom: 4px;">Tanggal</label>
-                                <input type="date" id="finDate" required>
-                            </div>
-                            <div>
-                                <label style="font-size: 12px; margin-bottom: 4px;">Kategori Tab</label>
-                                <select id="finCat" required>
-                                    <option value="Kas Pemuda">Kas Pemuda</option>
-                                    <option value="Malam 1 Suro">Malam 1 Suro</option>
-                                    <option value="17 Agustus">17 Agustus</option>
-                                    <option value="Maulid Nabi">Maulid Nabi</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label style="font-size: 12px; margin-bottom: 4px;">Jenis Arus Kas</label>
-                                <select id="finType" required>
-                                    <option value="masuk">Pemasukan (Masuk)</option>
-                                    <option value="keluar">Pengeluaran (Keluar)</option>
-                                </select>
-                            </div>
-                            <div style="grid-column: span 2;">
-                                <label style="font-size: 12px; margin-bottom: 4px;">Keterangan / Rincian</label>
-                                <input type="text" id="finDesc" placeholder="Contoh: Iuran warga RT 01" required>
-                            </div>
-                            <div>
-                                <label style="font-size: 12px; margin-bottom: 4px;">Nominal (Rp)</label>
-                                <input type="number" id="finAmount" placeholder="Contoh: 50000" required>
-                            </div>
-                            <div>
-                                <button type="submit" class="btn-primary" id="btnSaveFinance">Simpan Data</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- Tabel Data Keuangan -->
-                    <div class="card-box">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Tanggal</th>
-                                    <th>Kategori Tab</th>
-                                    <th>Keterangan</th>
-                                    <th>Jenis</th>
-                                    <th>Nominal</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableFinance">
-                                <tr><td colspan="6" style="text-align:center; padding: 20px;">Memuat data keuangan...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
+            <!-- TABS PILIHAN KATEGORI -->
+            <div class="tabs-container">
+                <button class="tab-btn active" onclick="pilihTabKeuangan('Kas Pemuda', this)">Kas Pemuda</button>
+                <button class="tab-btn" onclick="pilihTabKeuangan('Malam 1 Suro', this)">Malam 1 Suro</button>
+                <button class="tab-btn" onclick="pilihTabKeuangan('17 Agustus', this)">17 Agustus</button>
+                <button class="tab-btn" onclick="pilihTabKeuangan('Maulid Nabi', this)">Maulid Nabi</button>
             </div>
+
+            <!-- KOTAK DATA KEUANGAN -->
+            <div class="finance-box">
+                <div class="finance-box-header" id="judulKegiatan">Data Kegiatan: Kas Pemuda</div>
+                
+                <!-- 3 Box Saldo -->
+                <div class="saldo-grid">
+                    <div class="saldo-item">
+                        <p>Total Pemasukan</p>
+                        <h5 id="txtTotalMasuk" class="text-green">Rp 0</h5>
+                    </div>
+                    <div class="saldo-item">
+                        <p>Total Pengeluaran</p>
+                        <h5 id="txtTotalKeluar" class="text-red">Rp 0</h5>
+                    </div>
+                    <div class="saldo-item">
+                        <p>Sisa Saldo Kegiatan</p>
+                        <h5 id="txtSisaSaldo">Rp 0</h5>
+                    </div>
+                </div>
+
+                <!-- Tabel Riwayat Transaksi -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Keterangan / Rincian</th>
+                            <th style="text-align: right;">Nominal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyTabelKeuangan">
+                        <tr><td colspan="3" style="text-align:center; padding: 20px;">Memuat data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="btn-back full" onclick="pindahHalaman('viewBeranda')">← Kembali ke Beranda</button>
+        </div>
+
+        <!-- Pintu Masuk Rahasia Admin -->
+        <div style="text-align: center; margin-top: 40px; padding-bottom: 20px;">
+            <a href="admin.html" style="color: #D1D5DB; font-size: 11px; text-decoration: none;">Akses Admin</a>
         </div>
     </div>
 
+    <!-- ============================================== -->
+    <!-- SCRIPT LOGIKA & KONEKSI SUPABASE               -->
+    <!-- ============================================== -->
     <script type="module">
         import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
         
+        // Kredensial Database Anda
         const supabaseUrl = 'https://omqxookhwflcmwvqmwyv.supabase.co';
         const supabaseKey = 'sb_publishable_VqZJB-MLy7-f2lqyX3kZig_BVMSkIKX';
         const supabase = createClient(supabaseUrl, supabaseKey);
 
-        const loginSection = document.getElementById('loginSection');
-        const adminSection = document.getElementById('adminSection');
-        const loginAlert = document.getElementById('loginAlert');
+        // FUNGSI 1: Navigasi Pindah Halaman
+        window.pindahHalaman = function(idView) {
+            document.querySelectorAll('.section-view').forEach(view => view.classList.remove('active'));
+            document.getElementById(idView).classList.add('active');
+            window.scrollTo(0, 0);
 
-        // ==========================================
-        // 1. SISTEM AUTENTIKASI (LOGIN & LOGOUT)
-        // ==========================================
-        async function checkSession() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                loginSection.style.display = 'none';
-                adminSection.style.display = 'flex';
-                loadDataAduan(); 
-            } else {
-                loginSection.style.display = 'flex';
-                adminSection.style.display = 'none';
+            // Jika buka menu keuangan, otomatis muat tab 17 Agustus
+            if(idView === 'viewKeuangan') {
+                // Cari tombol 17 Agustus dan klik otomatis
+                const tab17 = Array.from(document.querySelectorAll('.tab-btn')).find(el => el.textContent === '17 Agustus');
+                if(tab17) pilihTabKeuangan('17 Agustus', tab17);
             }
-        }
-        checkSession();
+        };
 
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const btn = document.getElementById('btnLogin');
+        // FUNGSI 2: Ganti Tab Keuangan (Ubah Warna Tombol)
+        window.pilihTabKeuangan = function(kategori, element) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            if(element) element.classList.add('active');
             
-            btn.innerText = 'Memeriksa...'; btn.disabled = true; loginAlert.style.display = 'none';
-            
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-            
+            // Panggil data dari database
+            muatDataKeuangan(kategori);
+        };
+
+        // FUNGSI 3: Tarik Data Keuangan dari Database Supabase
+        async function muatDataKeuangan(kategori) {
+            document.getElementById('judulKegiatan').innerText = `Data Kegiatan: ${kategori}`;
+            const tbody = document.getElementById('bodyTabelKeuangan');
+            tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding: 20px;">Memuat riwayat kas...</td></tr>';
+
+            // Tarik data dari tabel 'finances' yang kategorinya sesuai tab
+            const { data, error } = await supabase
+                .from('finances')
+                .select('*')
+                .eq('category', kategori)
+                .order('date', { ascending: false });
+
             if (error) {
-                loginAlert.innerText = "Gagal masuk! Periksa email dan password.";
-                loginAlert.style.display = 'block';
-                btn.innerText = 'Masuk ke Dashboard'; btn.disabled = false;
-            } else {
-                window.location.reload(); 
-            }
-        });
-
-        document.getElementById('btnLogout').addEventListener('click', async () => {
-            await supabase.auth.signOut();
-            window.location.reload();
-        });
-
-        // ==========================================
-        // 2. SISTEM NAVIGASI TAB MENU SIDEBAR
-        // ==========================================
-        document.querySelectorAll('.nav-link[data-target]').forEach(link => {
-            link.addEventListener('click', function() {
-                // Hapus active dari semua link sidebar
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Sembunyikan semua section
-                document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
-                
-                // Tampilkan section yang diklik
-                const targetId = this.getAttribute('data-target');
-                document.getElementById(targetId).classList.add('active');
-
-                // Load data jika tab spesifik dibuka
-                if(targetId === 'section-laporan') loadDataAduan();
-                if(targetId === 'section-keuangan') fetchFinances();
-            });
-        });
-
-        // ==========================================
-        // 3. FITUR KELOLA LAPORAN WARGA
-        // ==========================================
-        async function loadDataAduan() {
-            const tbody = document.getElementById('tableAduan');
-            const { data, error } = await supabase.from('reports').select('*').order('created_at', { ascending: false });
-            
-            if (error) { tbody.innerHTML = '<tr><td colspan="5">Gagal memuat data laporan.</td></tr>'; return; }
-            if (data.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Belum ada laporan masuk.</td></tr>'; return; }
-
-            let html = '';
-            data.forEach(report => {
-                const tgl = new Date(report.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-                let badgeClass = report.status === 'Selesai' ? 'status-selesai' : report.status === 'Diproses' ? 'status-diproses' : 'status-menunggu';
-
-                html += `
-                    <tr>
-                        <td>${tgl}</td>
-                        <td style="font-weight:600;">${report.title}</td>
-                        <td>${report.category}</td>
-                        <td><span class="status-badge ${badgeClass}">${report.status}</span></td>
-                        <td>
-                            <select class="action-select" onchange="updateStatus('${report.id}', this.value)">
-                                <option value="" disabled selected>Ubah Status</option>
-                                <option value="Menunggu">Menunggu</option>
-                                <option value="Diproses">Diproses</option>
-                                <option value="Selesai">Selesai</option>
-                            </select>
-                        </td>
-                    </tr>
-                `;
-            });
-            tbody.innerHTML = html;
-        }
-
-        window.updateStatus = async function(id, statusBaru) {
-            if(!confirm(`Yakin ingin mengubah status laporan ini menjadi ${statusBaru}?`)) {
-                loadDataAduan(); 
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:red;">Gagal terhubung ke database.</td></tr>';
                 return;
             }
-            const { error } = await supabase.from('reports').update({ status: statusBaru }).eq('id', id);
-            if(error) alert('Terjadi kesalahan, gagal mengubah status!');
-            loadDataAduan(); 
-        }
 
-        // ==========================================
-        // 4. FITUR KELOLA LAPORAN KEUANGAN
-        // ==========================================
-        document.getElementById('formFinance').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btnSaveFinance');
-            btn.innerText = 'Menyimpan...'; btn.disabled = true;
+            let totalMasuk = 0;
+            let totalKeluar = 0;
+            let htmlRows = '';
 
-            const data = {
-                date: document.getElementById('finDate').value,
-                category: document.getElementById('finCat').value,
-                type: document.getElementById('finType').value,
-                description: document.getElementById('finDesc').value,
-                amount: parseInt(document.getElementById('finAmount').value)
-            };
-            
-            const { error } = await supabase.from('finances').insert([data]);
-            
-            if (error) {
-                alert('Gagal menyimpan data: ' + error.message);
-            } else {
-                alert('Data Keuangan Berhasil Disimpan!'); 
-                document.getElementById('formFinance').reset(); 
-                fetchFinances(); 
+            // Jika data kosong
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding: 20px;">Belum ada rincian kegiatan</td></tr>';
+                perbaruiTampilanSaldo(0, 0, 0);
+                return;
             }
-            btn.innerText = 'Simpan Data'; btn.disabled = false;
-        });
 
-        async function fetchFinances() {
-            const tbody = document.getElementById('tableFinance');
-            const { data, error } = await supabase.from('finances').select('*').order('date', { ascending: false });
-            
-            if (error) { tbody.innerHTML = '<tr><td colspan="6">Gagal memuat data keuangan.</td></tr>'; return; }
-            if (data.length === 0) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Belum ada riwayat transaksi.</td></tr>'; return; }
-            
-            let html = '';
+            // Jika ada data, hitung dan buat baris tabel
             data.forEach(item => {
                 const tglFormat = new Date(item.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-                const typeLabel = item.type === 'masuk' ? '<span style="color:#065F46; font-weight:bold;">🟢 Masuk</span>' : '<span style="color:#991B1B; font-weight:bold;">🔴 Keluar</span>';
                 const formatNominal = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(item.amount);
+                
+                let kelasWarna = '';
+                let simbol = '';
 
-                html += `
+                if (item.type === 'masuk') {
+                    totalMasuk += item.amount;
+                    kelasWarna = 'text-green';
+                    simbol = '(+) ';
+                } else {
+                    totalKeluar += item.amount;
+                    kelasWarna = 'text-red';
+                    simbol = '(-) ';
+                }
+
+                htmlRows += `
                     <tr>
                         <td>${tglFormat}</td>
-                        <td style="font-weight:600;">${item.category}</td>
                         <td>${item.description}</td>
-                        <td>${typeLabel}</td>
-                        <td style="font-weight:bold;">${formatNominal}</td>
-                        <td><button class="btn-danger" onclick="deleteFinance('${item.id}')">Hapus</button></td>
+                        <td class="td-nominal ${kelasWarna}">${simbol}${formatNominal}</td>
                     </tr>
                 `;
             });
-            tbody.innerHTML = html;
+
+            const sisaSaldo = totalMasuk - totalKeluar;
+            
+            // Tampilkan ke layar
+            perbaruiTampilanSaldo(totalMasuk, totalKeluar, sisaSaldo);
+            tbody.innerHTML = htmlRows;
         }
 
-        window.deleteFinance = async (id) => {
-            if(!confirm('Anda yakin ingin menghapus data transaksi ini secara permanen?')) return;
-            const { error } = await supabase.from('finances').delete().eq('id', id);
-            if(error) alert('Gagal menghapus data.');
-            else fetchFinances();
+        // FUNGSI BANTUAN: Format Angka ke Rupiah
+        function perbaruiTampilanSaldo(masuk, keluar, sisa) {
+            const formatRupiah = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(angka);
+            
+            document.getElementById('txtTotalMasuk').innerText = formatRupiah(masuk);
+            document.getElementById('txtTotalKeluar').innerText = formatRupiah(keluar);
+            document.getElementById('txtSisaSaldo').innerText = formatRupiah(sisa);
         }
+
     </script>
 </body>
 </html>
