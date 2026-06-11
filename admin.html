@@ -102,6 +102,7 @@
                 </div>
                 <div class="nav-link active" data-target="section-laporan">📝 Laporan Warga</div>
                 <div class="nav-link" data-target="section-keuangan">💰 Laporan Keuangan</div>
+                <div class="nav-link" data-target="section-agenda">📅 Kelola Agenda Acara</div>
                 <div class="nav-link" onclick="alert('Modul UMKM sedang disiapkan!');">🏪 Kelola UMKM</div>
                 
                 <button class="btn-logout" id="btnLogout">⎋ Keluar (Log Out)</button>
@@ -188,6 +189,57 @@
                     </div>
                 </div>
 
+                <div id="section-agenda" class="panel-section">
+                    <h1 class="header-title">Kelola Agenda Acara</h1>
+                    
+                    <div class="card-box card-box-padding">
+                        <h3 style="margin-bottom: 16px; font-size: 16px;">➕ Tambah Agenda Acara Baru</h3>
+                        <form id="formAgenda" class="finance-form-grid">
+                            <div style="grid-column: span 2;">
+                                <label style="font-size: 12px; margin-bottom: 4px;">Nama / Judul Acara</label>
+                                <input type="text" id="ageTitle" placeholder="Contoh: Rapat Pleno Pemuda RT 02" required>
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; margin-bottom: 4px;">Tanggal</label>
+                                <input type="date" id="ageDate" required>
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; margin-bottom: 4px;">Waktu (WIB)</label>
+                                <input type="text" id="ageTime" placeholder="Contoh: 19:30 - Selesai" required>
+                            </div>
+                            <div style="grid-column: span 2;">
+                                <label style="font-size: 12px; margin-bottom: 4px;">Tempat / Lokasi</label>
+                                <input type="text" id="ageLoc" placeholder="Contoh: Balai Desa / Rumah Ketua RT" required>
+                            </div>
+                            <div style="grid-column: span 3;">
+                                <label style="font-size: 12px; margin-bottom: 4px;">Deskripsi / Keterangan Acara</label>
+                                <input type="text" id="ageDesc" placeholder="Contoh: Pembahasan iuran, evaluasi acara malam suran, dll." required>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn-primary" id="btnSaveAgenda">Simpan Agenda</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card-box">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Waktu</th>
+                                    <th>Judul Acara</th>
+                                    <th>Lokasi</th>
+                                    <th>Keterangan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableAgenda">
+                                <tr><td colspan="6" style="text-align:center; padding: 20px;">Memuat data agenda...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -210,6 +262,7 @@
                 adminSection.style.display = 'flex';
                 loadDataAduan(); 
                 fetchFinances();
+                fetchAgendasAdmin();
             } else {
                 loginSection.style.display = 'flex';
                 adminSection.style.display = 'none';
@@ -235,6 +288,7 @@
                 adminSection.style.display = 'flex';
                 loadDataAduan();
                 fetchFinances();
+                fetchAgendasAdmin();
             }
         });
 
@@ -254,9 +308,11 @@
 
                 if(targetId === 'section-laporan') loadDataAduan();
                 if(targetId === 'section-keuangan') fetchFinances();
+                if(targetId === 'section-agenda') fetchAgendasAdmin();
             });
         });
 
+        // MANAGEMENT LAPORAN ADUAN
         async function loadDataAduan() {
             const tbody = document.getElementById('tableAduan');
             const { data, error } = await supabase.from('reports').select('*').order('created_at', { ascending: false });
@@ -295,6 +351,7 @@
             loadDataAduan(); 
         }
 
+        // MANAGEMENT LAPORAN KEUANGAN
         document.getElementById('formFinance').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btnSaveFinance');
@@ -353,6 +410,64 @@
             const { error } = await supabase.from('finances').delete().eq('id', id);
             if(error) alert('Gagal menghapus data.');
             else fetchFinances();
+        }
+
+        // MANAGEMENT AGENDA ACARA
+        document.getElementById('formAgenda').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnSaveAgenda');
+            btn.innerText = 'Menyimpan...'; btn.disabled = true;
+
+            const data = {
+                title: document.getElementById('ageTitle').value,
+                date: document.getElementById('ageDate').value,
+                time: document.getElementById('ageTime').value,
+                location: document.getElementById('ageLoc').value,
+                description: document.getElementById('ageDesc').value
+            };
+            
+            const { error } = await supabase.from('agendas').insert([data]);
+            
+            if (error) {
+                alert('Gagal menyimpan agenda: ' + error.message);
+            } else {
+                alert('Agenda Acara Berhasil Disimpan!'); 
+                document.getElementById('formAgenda').reset(); 
+                fetchAgendasAdmin(); 
+            }
+            btn.innerText = 'Simpan Agenda'; btn.disabled = false;
+        });
+
+        async function fetchAgendasAdmin() {
+            const tbody = document.getElementById('tableAgenda');
+            if(!tbody) return;
+            const { data, error } = await supabase.from('agendas').select('*').order('date', { ascending: true });
+            
+            if (error) { tbody.innerHTML = '<tr><td colspan="6">Gagal memuat data agenda.</td></tr>'; return; }
+            if (data.length === 0) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Belum ada agenda kegiatan yang terdaftar.</td></tr>'; return; }
+            
+            let html = '';
+            data.forEach(item => {
+                const tglFormat = new Date(item.date).toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                html += `
+                    <tr>
+                        <td>${tglFormat}</td>
+                        <td>${item.time}</td>
+                        <td style="font-weight:600;">${item.title}</td>
+                        <td>${item.location}</td>
+                        <td>${item.description}</td>
+                        <td><button class="btn-danger" onclick="deleteAgenda('${item.id}')">Hapus</button></td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        window.deleteAgenda = async (id) => {
+            if(!confirm('Anda yakin ingin menghapus agenda kegiatan ini?')) return;
+            const { error } = await supabase.from('agendas').delete().eq('id', id);
+            if(error) alert('Gagal menghapus agenda.');
+            else fetchAgendasAdmin();
         }
     </script>
 </body>
