@@ -9,8 +9,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>">
     
-    <link rel="manifest" href="manifest.json">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -128,13 +126,10 @@
         .btn-back-top { display: inline-block; background: var(--bg-body); color: var(--text-main); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 16px; transition: all 0.2s; }
         .btn-back-top:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* CSS Khusus Laporan Keuangan & Tab */
         .finance-tabs { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 5px; scrollbar-width: none; }
         .finance-tabs::-webkit-scrollbar { display: none; }
         .finance-tab-btn { background: var(--input-bg); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.2s ease; font-family: inherit; }
         .finance-tab-btn.active { background: var(--primary); color: #FFFFFF; border-color: var(--primary); box-shadow: 0 2px 4px rgba(166, 33, 34, 0.2); }
-        .finance-content { display: none; animation: fadeIn 0.3s ease; }
-        
         .finance-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; text-align: center; }
         .finance-box { background: var(--input-bg); padding: 15px 10px; border-radius: var(--radius-md); border: 1px solid var(--border); }
         .finance-box h4 { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; }
@@ -149,7 +144,6 @@
         .text-masuk { color: var(--success-text); font-weight: 700; }
         .text-keluar { color: var(--error-text); font-weight: 700; }
 
-        /* CSS Khusus Pop-up Banner */
         .popup-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(2px);
@@ -180,7 +174,6 @@
         }
         .popup-close:hover { background-color: var(--primary-hover); transform: scale(1.1); }
 
-        /* CSS Animasi Loading */
         .loader {
             border: 4px solid var(--border);
             border-top: 4px solid var(--primary);
@@ -194,12 +187,7 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .loading-box {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-muted);
-            font-size: 13px;
-        }
+        .loading-box { text-align: center; padding: 20px; color: var(--text-muted); font-size: 13px; }
 
         @media (max-width: 480px) {
             .form-card { padding: 24px 20px; border-radius: 20px; }
@@ -230,7 +218,7 @@
     <div class="container">
         <header>
             <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/fotosampul.png" alt="Foto Sampul Portal RESPEK" class="cover-photo">
-            <img src="banner_muharam.png" alt="Memperingati 1 Muharam - Malam Satu Suro di Dukuh Kepuh" class="cover-photo-banner">
+            <img src="banner_muharam.png" alt="Memperingati 1 Muharam - Malam Satu Suro di Dukuh Kepuh" class="cover-photo-banner" onerror="this.style.display='none'">
             <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/logo.png" alt="Logo Pemuda RESPEK" class="brand-logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>'">
             <h1>Portal Aduan & Aspirasi</h1>
             <p>Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.</p>
@@ -359,77 +347,32 @@
             <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">Rincian aliran dana kegiatan pemuda dan kas RESPEK Kepuh untuk menjaga akuntabilitas.</p>
 
             <div class="finance-tabs">
-                <button class="finance-tab-btn active" onclick="bukaTabKeuangan(event, 'tabKasPemuda')">Kas Pemuda</button>
-                <button class="finance-tab-btn" onclick="bukaTabKeuangan(event, 'tab1Suro')">Malam 1 Suro</button>
-                <button class="finance-tab-btn" onclick="bukaTabKeuangan(event, 'tab17Agustus')">17 Agustus</button>
-                <button class="finance-tab-btn" onclick="bukaTabKeuangan(event, 'tabMaulid')">Maulid Nabi</button>
+                <button class="finance-tab-btn active" onclick="gantiTabKeuangan(event, 'Kas Pemuda')">Kas Pemuda</button>
+                <button class="finance-tab-btn" onclick="gantiTabKeuangan(event, 'Malam 1 Suro')">Malam 1 Suro</button>
+                <button class="finance-tab-btn" onclick="gantiTabKeuangan(event, '17 Agustus')">17 Agustus</button>
+                <button class="finance-tab-btn" onclick="gantiTabKeuangan(event, 'Maulid Nabi')">Maulid Nabi</button>
             </div>
 
-            <div id="tabKasPemuda" class="finance-content" style="display: block;">
-                <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 24px;">
-                    <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Laporan: Kas Pemuda RESPEK</h3>
-                    <div class="finance-summary">
-                        <div class="finance-box masuk"><h4>Total Pemasukan</h4><div class="amount">Rp 0</div></div>
-                        <div class="finance-box keluar"><h4>Total Pengeluaran</h4><div class="amount">Rp 0</div></div>
-                        <div class="finance-box"><h4>Sisa Saldo Kas</h4><div class="amount">Rp 0</div></div>
-                    </div>
-                    <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
-                        <table class="finance-table">
-                            <thead><tr><th>Tanggal</th><th>Keterangan / Rincian</th><th class="text-right">Nominal</th></tr></thead>
-                            <tbody><tr><td>-</td><td>Belum ada rincian kegiatan</td><td class="text-right">-</td></tr></tbody>
-                        </table>
-                    </div>
+            <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 24px;">
+                <h3 id="judulTabKeuangan" style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Laporan: Kas Pemuda</h3>
+                <div class="finance-summary">
+                    <div class="finance-box masuk"><h4>Total Pemasukan</h4><div id="totalMasuk" class="amount">Rp 0</div></div>
+                    <div class="finance-box keluar"><h4>Total Pengeluaran</h4><div id="totalKeluar" class="amount">Rp 0</div></div>
+                    <div class="finance-box"><h4>Sisa Saldo</h4><div id="sisaSaldo" class="amount">Rp 0</div></div>
                 </div>
-            </div>
-
-            <div id="tab1Suro" class="finance-content">
-                <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 24px;">
-                    <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Kegiatan: Malam 1 Suro</h3>
-                    <div class="finance-summary">
-                        <div class="finance-box masuk"><h4>Total Pemasukan</h4><div class="amount">Rp 0</div></div>
-                        <div class="finance-box keluar"><h4>Total Pengeluaran</h4><div class="amount">Rp 0</div></div>
-                        <div class="finance-box"><h4>Sisa Saldo Kegiatan</h4><div class="amount">Rp 0</div></div>
-                    </div>
-                    <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
-                        <table class="finance-table">
-                            <thead><tr><th>Tanggal</th><th>Keterangan / Rincian</th><th class="text-right">Nominal</th></tr></thead>
-                            <tbody><tr><td>-</td><td>Belum ada rincian kegiatan</td><td class="text-right">-</td></tr></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tab17Agustus" class="finance-content">
-                <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 24px;">
-                    <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Kegiatan: 17 Agustus</h3>
-                    <div class="finance-summary">
-                        <div class="finance-box masuk"><h4>Total Pemasukan</h4><div class="amount">Rp 0</div></div>
-                        <div class="finance-box keluar"><h4>Total Pengeluaran</h4><div class="amount">Rp 0</div></div>
-                        <div class="finance-box"><h4>Sisa Saldo Kegiatan</h4><div class="amount">Rp 0</div></div>
-                    </div>
-                    <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
-                        <table class="finance-table">
-                            <thead><tr><th>Tanggal</th><th>Keterangan / Rincian</th><th class="text-right">Nominal</th></tr></thead>
-                            <tbody><tr><td>-</td><td>Belum ada rincian kegiatan</td><td class="text-right">-</td></tr></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tabMaulid" class="finance-content">
-                <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 24px;">
-                    <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Kegiatan: Maulid Nabi</h3>
-                    <div class="finance-summary">
-                        <div class="finance-box masuk"><h4>Total Pemasukan</h4><div class="amount">Rp 0</div></div>
-                        <div class="finance-box keluar"><h4>Total Pengeluaran</h4><div class="amount">Rp 0</div></div>
-                        <div class="finance-box"><h4>Sisa Saldo Kegiatan</h4><div class="amount">Rp 0</div></div>
-                    </div>
-                    <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
-                        <table class="finance-table">
-                            <thead><tr><th>Tanggal</th><th>Keterangan / Rincian</th><th class="text-right">Nominal</th></tr></thead>
-                            <tbody><tr><td>-</td><td>Belum ada rincian kegiatan</td><td class="text-right">-</td></tr></tbody>
-                        </table>
-                    </div>
+                <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
+                    <table class="finance-table">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Keterangan / Rincian</th>
+                                <th class="text-right">Nominal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="badanTabelKeuangan">
+                            <tr><td colspan="3" style="text-align:center;">Memuat data keuangan...</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -476,83 +419,6 @@
         &copy; 2026 Pemuda RESPEK (Revolusi Pemuda Kepuh)
     </footer>
 
-    <script>
-        // Logika Pop-up Banner
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                const popup = document.getElementById('popupBanner');
-                if(popup) popup.classList.add('show');
-            }, 1000); 
-        });
-
-        function tutupPopup() {
-            const popup = document.getElementById('popupBanner');
-            if(popup) popup.classList.remove('show');
-        }
-
-        document.getElementById('popupBanner').addEventListener('click', function(e) {
-            if (e.target === this) {
-                tutupPopup();
-            }
-        });
-
-        // Fungsi Buka Tab Laporan Keuangan
-        function bukaTabKeuangan(evt, namaTab) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("finance-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("finance-tab-btn");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(namaTab).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-
-        // Fungsi Navigasi Halaman Utama
-        function tampilkanUMKM() {
-            document.getElementById('formSection').style.display = 'none';
-            document.getElementById('boardSection').style.display = 'none';
-            document.querySelector('.ticker-wrap').style.display = 'none'; 
-            document.getElementById('pengembanganDiriSection').style.display = 'none';
-            document.getElementById('keuanganSection').style.display = 'none';
-            document.getElementById('umkmSection').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        function tampilkanPengembanganDiri() {
-            document.getElementById('formSection').style.display = 'none';
-            document.getElementById('boardSection').style.display = 'none';
-            document.querySelector('.ticker-wrap').style.display = 'none'; 
-            document.getElementById('umkmSection').style.display = 'none';
-            document.getElementById('keuanganSection').style.display = 'none';
-            document.getElementById('pengembanganDiriSection').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        function tampilkanKeuangan() {
-            document.getElementById('formSection').style.display = 'none';
-            document.getElementById('boardSection').style.display = 'none';
-            document.querySelector('.ticker-wrap').style.display = 'none'; 
-            document.getElementById('umkmSection').style.display = 'none';
-            document.getElementById('pengembanganDiriSection').style.display = 'none';
-            document.getElementById('keuanganSection').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        function tampilkanBeranda() {
-            document.getElementById('formSection').style.display = 'block';
-            document.getElementById('boardSection').style.display = 'block';
-            document.querySelector('.ticker-wrap').style.display = 'block'; 
-            document.getElementById('umkmSection').style.display = 'none';
-            document.getElementById('pengembanganDiriSection').style.display = 'none';
-            document.getElementById('keuanganSection').style.display = 'none';
-            // Kembalikan filter ke Semua saat kembali ke beranda
-            document.getElementById('filterKategoriLaporan').value = 'Semua';
-            if(window.filterLaporanSisiKlien) window.filterLaporanSisiKlien();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    </script>
-
     <script type="module">
         import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
         const supabaseUrl = 'https://omqxookhwflcmwvqmwyv.supabase.co';
@@ -564,52 +430,102 @@
         const alertBox = document.getElementById('alertBox');
         const daftarLaporanContainer = document.getElementById('daftarLaporan');
         
-        document.getElementById('foto').addEventListener('change', function() {
-            const preview = document.getElementById('previewFoto');
-            const file = this.files[0];
-            if (file) {
-                const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-                if (!allowedTypes.includes(file.type)) {
-                    alert('Hanya file gambar (JPG, PNG, WebP, GIF) yang diperbolehkan.');
-                    this.value = '';
-                    preview.style.display = 'none';
-                    return;
-                }
-                preview.src = URL.createObjectURL(file);
-                preview.style.display = 'block';
-            } else {
-                preview.style.display = 'none';
-                preview.src = "";
+        window.kategoriKeuanganAktif = "Kas Pemuda";
+
+        // Fitur UI Sederhana (Navigasi & Tabs)
+        window.tampilkanUMKM = function() { hideAll(); document.getElementById('umkmSection').style.display = 'block'; window.scrollTo(0,0); }
+        window.tampilkanPengembanganDiri = function() { hideAll(); document.getElementById('pengembanganDiriSection').style.display = 'block'; window.scrollTo(0,0); }
+        window.tampilkanKeuangan = function() { 
+            hideAll(); 
+            document.getElementById('keuanganSection').style.display = 'block'; 
+            window.fetchKeuanganWarga(); 
+            window.scrollTo(0,0); 
+        }
+        window.tampilkanBeranda = function() {
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('boardSection').style.display = 'block';
+            document.querySelector('.ticker-wrap').style.display = 'block'; 
+            document.getElementById('umkmSection').style.display = 'none';
+            document.getElementById('pengembanganDiriSection').style.display = 'none';
+            document.getElementById('keuanganSection').style.display = 'none';
+            document.getElementById('filterKategoriLaporan').value = 'Semua';
+            window.filterLaporanSisiKlien();
+            window.scrollTo(0,0);
+        }
+
+        function hideAll() {
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('boardSection').style.display = 'none';
+            document.querySelector('.ticker-wrap').style.display = 'none'; 
+            document.getElementById('umkmSection').style.display = 'none';
+            document.getElementById('pengembanganDiriSection').style.display = 'none';
+            document.getElementById('keuanganSection').style.display = 'none';
+        }
+
+        window.tutupPopup = function() {
+            const popup = document.getElementById('popupBanner');
+            if(popup) popup.classList.remove('show');
+        }
+
+        window.gantiTabKeuangan = function(evt, kategori) {
+            const tablinks = document.getElementsByClassName("finance-tab-btn");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
-        });
-        
+            evt.currentTarget.className += " active";
+            window.kategoriKeuanganAktif = kategori;
+            window.fetchKeuanganWarga();
+        }
+
+        // Data Management Sisi Klien
         function bersihkanTeks(str) {
             if (!str) return "";
             return str.replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag]));
         }
-        
-        async function compressImage(file) {
-            return new Promise((resolve) => {
-                if (!file.type.startsWith('image/')) return resolve(file);
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const scaleSize = 800 / img.width;
-                        if(img.width > 800) { canvas.width = 800; canvas.height = img.height * scaleSize; } 
-                        else { canvas.width = img.width; canvas.height = img.height; }
-                        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-                        canvas.toBlob((blob) => { resolve(new File([blob], file.name, { type: 'image/jpeg' })); }, 'image/jpeg', 0.7);
-                    };
-                };
-            });
+
+        function formatRupiah(angka) {
+            return "Rp " + Number(angka).toLocaleString('id-ID');
+        }
+
+        window.fetchKeuanganWarga = async function() {
+            const badanTabel = document.getElementById('badanTabelKeuangan');
+            document.getElementById('judulTabKeuangan').innerText = `Data Laporan: ${window.kategoriKeuanganAktif}`;
+            badanTabel.innerHTML = '<tr><td colspan="3" style="text-align:center;"><div class="loader" style="width:20px;height:20px;"></div> Memuat...</td></tr>';
+
+            try {
+                const { data, error } = await supabase.from('finances').select('*').eq('category', window.kategoriKeuanganAktif).order('date', { ascending: false });
+                if (error) throw error;
+                if (!data || data.length === 0) {
+                    badanTabel.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#9CA3AF;">Belum ada rincian data keuangan untuk kategori ini.</td></tr>';
+                    document.getElementById('totalMasuk').innerText = "Rp 0";
+                    document.getElementById('totalKeluar').innerText = "Rp 0";
+                    document.getElementById('sisaSaldo').innerText = "Rp 0";
+                    return;
+                }
+
+                let totalMasuk = 0, totalKeluar = 0, htmlBaris = '';
+                data.forEach(item => {
+                    const nominal = Number(item.amount);
+                    const isMasuk = item.type.toLowerCase() === 'masuk';
+                    if (isMasuk) totalMasuk += nominal; else totalKeluar += nominal;
+                    const tglSaja = new Date(item.date).toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                    htmlBaris += `
+                        <tr>
+                            <td>${tglSaja}</td>
+                            <td>${bersihkanTeks(item.description)}</td>
+                            <td class="text-right ${isMasuk ? 'text-masuk' : 'text-keluar'}">${isMasuk ? '+' : '-'} ${formatRupiah(nominal)}</td>
+                        </tr>`;
+                });
+                badanTabel.innerHTML = htmlBaris;
+                document.getElementById('totalMasuk').innerText = formatRupiah(totalMasuk);
+                document.getElementById('totalKeluar').innerText = formatRupiah(totalKeluar);
+                document.getElementById('sisaSaldo').innerText = formatRupiah(totalMasuk - totalKeluar);
+            } catch (err) {
+                badanTabel.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--error-text);">⚠️ Gagal memuat data keuangan.</td></tr>';
+            }
         }
 
         async function fetchLaporan() {
-            daftarLaporanContainer.innerHTML = '<div class="loading-box"><div class="loader"></div>Memuat data laporan...</div>';
             try {
                 const { data, error } = await supabase.from('reports').select('*').order('created_at', { ascending: false }).limit(20);
                 if (error) throw error;
@@ -617,20 +533,15 @@
                     daftarLaporanContainer.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px;">Belum ada laporan masuk.</p>';
                     return;
                 }
-                
                 const sudahDukung = JSON.parse(localStorage.getItem('respek_upvotes') || '[]');
                 let htmlContent = '';
-                
                 data.forEach(report => {
                     const tgl = new Date(report.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute:'2-digit' });
                     let statusColor = report.status === 'Selesai' ? '#D1FAE5' : report.status === 'Diproses' ? '#DBEAFE' : '#FEF3C7';
-                    
                     const cekDukung = sudahDukung.includes(report.id) ? 'sudah-dukung' : '';
                     const teksTombol = sudahDukung.includes(report.id) ? '✓ Didukung' : '🔺 Dukung Aspirasi';
-
-                    const pesanWA = `Mari dukung aspirasi warga Kepuh di Portal Pemuda RESPEK! ✊\n\n📌 *${report.title}*\n\nYuk bantu upvote dan lihat selengkapnya di sini:\n${window.location.href}`;
-                    const linkWA = `https://wa.me/?text=${encodeURIComponent(pesanWA)}`;
-
+                    const linkWA = `https://wa.me/?text=${encodeURIComponent(`Mari dukung aspirasi warga Kepuh!\n\n📌 *${report.title}*\n\nYuk bantu upvote di sini:\n${window.location.href}`)}`;
+                    
                     htmlContent += `
                         <div class="report-item">
                             <div class="report-header">
@@ -641,81 +552,54 @@
                             <div class="report-desc">"${bersihkanTeks(report.description)}"</div>
                             ${report.image_url ? `<img src="${report.image_url}" class="report-image">` : ''}
                             <div style="display:flex; flex-wrap:wrap;">
-                                <button class="btn-upvote ${cekDukung}" onclick="dukungAspirasi('${report.id}', ${report.upvotes || 0})">
-                                    ${teksTombol} (${report.upvotes || 0})
-                                </button>
-                                <a href="${linkWA}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; background-color: #25D366; color: white; border: none; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; margin-top: 10px; margin-left: 8px; transition: 0.2s;">
-                                    💬 Bagikan
-                                </a>
+                                <button class="btn-upvote ${cekDukung}" onclick="dukungAspirasi('${report.id}', ${report.upvotes || 0})">${teksTombol} (${report.upvotes || 0})</button>
+                                <a href="${linkWA}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; background-color: #25D366; color: white; border: none; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; margin-top: 10px; margin-left: 8px;">💬 Bagikan</a>
                             </div>
                         </div>`;
                 });
                 daftarLaporanContainer.innerHTML = htmlContent;
-                // Aplikasikan filter saat data selesai dimuat
-                if(window.filterLaporanSisiKlien) window.filterLaporanSisiKlien();
+                window.filterLaporanSisiKlien();
             } catch (error) {
-                console.error(error);
-                daftarLaporanContainer.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px;">⚠️ Gagal memuat laporan. Periksa koneksi Anda.</p>';
+                daftarLaporanContainer.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px;">⚠️ Gagal memuat laporan.</p>';
             }
         }
 
         async function fetchLeaderboard() {
             const container = document.getElementById('papanLeaderboard');
-            container.innerHTML = '<div class="loading-box" style="padding:10px;"><div class="loader" style="width: 24px; height: 24px; border-width: 3px;"></div>Memuat papan peringkat...</div>';
             try {
                 const { data, error } = await supabase.from('reports').select('id, title, upvotes').gt('upvotes', 0).order('upvotes', { ascending: false }).limit(3);
-                if (error) throw error;
-                if (!data || data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; color:#9CA3AF; font-size:12px; padding:10px; background:#F9FAFB; border-radius:8px;">Belum ada peringkat.</p>'; return;
-                }
-                
+                if (error || !data.length) { container.innerHTML = '<p style="text-align:center; color:#9CA3AF; font-size:12px; padding:10px; background:#F9FAFB; border-radius:8px;">Belum ada peringkat.</p>'; return; }
                 let htmlContent = '';
-                const medali = ['🥇', '🥈', '🥉'];
-                const warnaBatas = ['#FBBF24', '#9CA3AF', '#F59E0B'];
-                
+                const medali = ['🥇', '🥈', '🥉'], warnaBatas = ['#FBBF24', '#9CA3AF', '#F59E0B'];
                 data.forEach((item, index) => {
                     htmlContent += `
                         <div style="display: flex; align-items: center; justify-content: space-between; background: #F9FAFB; padding: 10px 14px; border-radius: 10px; border-left: 4px solid ${warnaBatas[index]}">
                             <div style="display: flex; align-items: center; gap: 10px; width: 75%;">
                                 <span style="font-size: 18px;">${medali[index]}</span>
-                                <span style="font-size: 13px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%;">
-                                    ${bersihkanTeks(item.title)}
-                                </span>
+                                <span style="font-size: 13px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%;">${bersihkanTeks(item.title)}</span>
                             </div>
-                            <span style="font-size: 12px; background: rgba(166,33,34,0.1); color: var(--primary); padding: 4px 10px; border-radius: 12px; font-weight: 800; white-space: nowrap;">
-                                🔺 ${item.upvotes}
-                            </span>
+                            <span style="font-size: 12px; background: rgba(166,33,34,0.1); color: var(--primary); padding: 4px 10px; border-radius: 12px; font-weight: 800;">🔺 ${item.upvotes}</span>
                         </div>`;
                 });
                 container.innerHTML = htmlContent;
-            } catch (error) {
-                console.error(error);
-                container.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:12px; padding:10px;">⚠️ Gagal memuat leaderboard.</p>';
-            }
+            } catch (error) {}
         }
 
         window.dukungAspirasi = async function(id, currentUpvotes) {
             let listDukung = JSON.parse(localStorage.getItem('respek_upvotes') || '[]');
-            if (listDukung.includes(id)) { alert("Kamu sudah memberikan dukungan untuk aspirasi ini sebelumnya!"); return; }
+            if (listDukung.includes(id)) { alert("Kamu sudah memberikan dukungan!"); return; }
             try {
-                const { error } = await supabase.from('reports').update({ upvotes: currentUpvotes + 1 }).eq('id', id);
-                if (error) throw error;
-                listDukung.push(id);
-                localStorage.setItem('respek_upvotes', JSON.stringify(listDukung));
-                fetchLaporan();
-                fetchLeaderboard();
-            } catch (error) { alert("Gagal mengirim dukungan, periksa jaringan kamu."); }
+                await supabase.from('reports').update({ upvotes: currentUpvotes + 1 }).eq('id', id);
+                listDukung.push(id); localStorage.setItem('respek_upvotes', JSON.stringify(listDukung));
+                fetchLaporan(); fetchLeaderboard();
+            } catch (error) { alert("Gagal mengirim dukungan."); }
         }
 
         async function fetchPengembanganDiri() {
             const container = document.getElementById('daftarPengembangan');
-            container.innerHTML = '<div class="loading-box" style="grid-column: span 2;"><div class="loader"></div>Memuat program pelatihan...</div>';
             try {
                 const { data, error } = await supabase.from('self_developments').select('*').order('created_at', { ascending: false });
-                if (error) throw error;
-                if (!data || data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px; grid-column: span 2;">Belum ada program kelas/pelatihan.</p>'; return;
-                }
+                if (error || !data.length) { container.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px; grid-column: span 2;">Belum ada program.</p>'; return; }
                 let htmlContent = '';
                 data.forEach(item => {
                     const imgUrl = item.image_url || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80';
@@ -732,110 +616,78 @@
                         </div>`;
                 });
                 container.innerHTML = htmlContent;
-            } catch (error) {
-                console.error(error);
-                container.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px; grid-column: span 2;">⚠️ Gagal memuat data pengembangan diri.</p>';
-            }
+            } catch (error) {}
         }
 
         function showAlert(msg, type) {
             alertBox.textContent = msg; alertBox.className = type === 'success' ? 'alert-success' : 'alert-error';
-            alertBox.style.animation = 'none';
-            alertBox.style.display = 'block';
-            alertBox.offsetHeight; 
-            alertBox.style.animation = 'fadeIn 0.3s ease';
+            alertBox.style.display = 'block'; alertBox.style.animation = 'fadeIn 0.3s ease';
             setTimeout(() => { alertBox.style.display = 'none'; }, 6000); 
         }
 
         formAduan.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (document.getElementById('perangkapBot').value !== "") { 
-                showAlert("Laporan berhasil dikirim!", "success"); 
-                formAduan.reset(); 
-                document.getElementById('charCount').innerHTML = '0 karakter <span style="color: var(--error-text);">(Minimal 20)</span>';
-                return; 
-            }
-            
-            const deskripsi = document.getElementById('deskripsi').value.trim();
-            if (deskripsi.length < 20) {
-                showAlert("Deskripsi minimal 20 karakter.", "error");
-                return;
-            }
+            if (document.getElementById('perangkapBot').value !== "") { showAlert("Terkirim!", "success"); formAduan.reset(); return; }
+            if (document.getElementById('deskripsi').value.trim().length < 20) { showAlert("Deskripsi minimal 20 karakter.", "error"); return; }
             
             const waktuTerakhir = localStorage.getItem('lastReportTime');
-            if (waktuTerakhir && (Date.now() - parseInt(waktuTerakhir) < 180000)) { 
-                showAlert(`Harap tunggu sebelum mengirim laporan baru.`, "error"); 
-                return; 
-            }
+            if (waktuTerakhir && (Date.now() - parseInt(waktuTerakhir) < 180000)) { showAlert(`Harap tunggu sebelum mengirim laporan baru.`, "error"); return; }
             
-            btnKirim.disabled = true; btnKirim.innerText = "Memproses..."; alertBox.style.display = 'none';
-            const judul = document.getElementById('judul').value;
-            const kategori = document.getElementById('kategori').value;
-            const fotoFile = document.getElementById('foto').files[0];
-            const isAnonim = document.getElementById('anonim').checked;
-            let imageUrl = "";
-            
+            btnKirim.disabled = true; btnKirim.innerText = "Memproses...";
             try {
+                let imageUrl = "";
+                const fotoFile = document.getElementById('foto').files[0];
                 if (fotoFile) {
-                    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-                    if (!allowedTypes.includes(fotoFile.type)) {
-                        showAlert("File yang diunggah harus berupa gambar (JPG, PNG, WebP, GIF).", "error");
-                        btnKirim.disabled = false; btnKirim.innerText = "Kirim Laporan";
-                        return;
-                    }
-                    const fotoKompres = await compressImage(fotoFile);
-                    const namaUnik = `laporan_${Date.now()}_${fotoKompres.name.replace(/\s+/g, '-')}`;
-                    const { error: uploadError } = await supabase.storage.from('foto-bukti').upload(namaUnik, fotoKompres);
+                    const img = new Image();
+                    img.src = URL.createObjectURL(fotoFile);
+                    await new Promise(r => img.onload = r);
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 800; canvas.height = img.height * (800 / img.width);
+                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                    const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.7));
+                    const fileKompres = new File([blob], fotoFile.name, { type: 'image/jpeg' });
+                    
+                    const { error: uploadError } = await supabase.storage.from('foto-bukti').upload(`laporan_${Date.now()}.jpg`, fileKompres);
                     if (uploadError) throw uploadError;
-                    imageUrl = supabase.storage.from('foto-bukti').getPublicUrl(namaUnik).data.publicUrl;
+                    imageUrl = supabase.storage.from('foto-bukti').getPublicUrl(`laporan_${Date.now()}.jpg`).data.publicUrl;
                 }
-                const { error } = await supabase.from('reports').insert([{
-                    title: judul, category: kategori, description: deskripsi, image_url: imageUrl, status: "Menunggu", upvotes: 0, author_name: isAnonim ? "Anonim" : "Warga Kepuh"
+                await supabase.from('reports').insert([{
+                    title: document.getElementById('judul').value, category: document.getElementById('kategori').value,
+                    description: document.getElementById('deskripsi').value.trim(), image_url: imageUrl,
+                    status: "Menunggu", upvotes: 0, author_name: document.getElementById('anonim').checked ? "Anonim" : "Warga Kepuh"
                 }]);
-                if (error) throw error;
-                
                 localStorage.setItem('lastReportTime', Date.now());
                 showAlert("Laporan berhasil dikirim!", "success");
-                formAduan.reset(); 
-                document.getElementById('charCount').innerHTML = '0 karakter <span style="color: var(--error-text);">(Minimal 20)</span>';
-                document.getElementById('previewFoto').style.display = 'none';
-                fetchLaporan(); 
-                fetchLeaderboard();
-            } catch (error) { 
-                showAlert(`Gagal mengirim laporan.`, "error"); 
-            } finally { 
-                btnKirim.disabled = false; 
-                btnKirim.innerText = "Kirim Laporan"; 
-            }
+                formAduan.reset(); document.getElementById('previewFoto').style.display = 'none';
+                fetchLaporan(); fetchLeaderboard();
+            } catch (error) { showAlert(`Gagal mengirim laporan.`, "error"); } 
+            finally { btnKirim.disabled = false; btnKirim.innerText = "Kirim Laporan"; }
         });
 
-        // TAMBAHAN: JS Fitur Penghitung Karakter
         document.getElementById('deskripsi').addEventListener('input', function() {
             const len = this.value.trim().length;
-            const counter = document.getElementById('charCount');
-            if (len < 20) {
-                counter.innerHTML = `${len} karakter <span style="color: var(--error-text);">(Minimal 20)</span>`;
-            } else {
-                counter.innerHTML = `${len} karakter <span style="color: var(--success-text);">✅ Mantap!</span>`;
-            }
+            document.getElementById('charCount').innerHTML = len < 20 ? `${len} karakter <span style="color: var(--error-text);">(Minimal 20)</span>` : `${len} karakter <span style="color: var(--success-text);">✅ Mantap!</span>`;
         });
 
-        // TAMBAHAN: JS Fungsi Filter Kategori Laporan (Sisi Klien)
         window.filterLaporanSisiKlien = function() {
             const kategoriPilihan = document.getElementById('filterKategoriLaporan').value;
-            const semuaLaporan = document.querySelectorAll('.report-item');
-            
-            semuaLaporan.forEach(laporan => {
+            document.querySelectorAll('.report-item').forEach(laporan => {
                 const teksKategori = laporan.querySelector('.report-meta').innerText;
-                if (kategoriPilihan === "Semua" || teksKategori.includes(kategoriPilihan)) {
-                    laporan.style.display = "block";
-                    laporan.style.animation = "fadeIn 0.3s ease";
-                } else {
-                    laporan.style.display = "none";
-                }
+                if (kategoriPilihan === "Semua" || teksKategori.includes(kategoriPilihan)) { laporan.style.display = "block"; laporan.style.animation = "fadeIn 0.3s ease"; } 
+                else { laporan.style.display = "none"; }
             });
         };
 
+        document.getElementById('foto').addEventListener('change', function() {
+            const preview = document.getElementById('previewFoto');
+            if (this.files[0]) { preview.src = URL.createObjectURL(this.files[0]); preview.style.display = 'block'; } 
+            else { preview.style.display = 'none'; }
+        });
+
+        document.getElementById('popupBanner').addEventListener('click', function(e) { if (e.target === this) tutupPopup(); });
+        window.addEventListener('DOMContentLoaded', () => { setTimeout(() => { const p = document.getElementById('popupBanner'); if(p) p.classList.add('show'); }, 1000); });
+
+        // Inisialisasi data awal
         fetchLaporan();
         fetchLeaderboard();
         fetchPengembanganDiri();
