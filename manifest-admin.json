@@ -3,7 +3,7 @@
   "short_name": "Admin RESPEK",
   "id": "admin-respek",
   "description": "Panel Manajemen Portal RESPEK Kepuh",
-  "start_url": "admin.html",
+  "start_url": "/saran-respek/admin.html",
   "display": "standalone",
   "background_color": "#111827",
   "theme_color": "#A62122",
