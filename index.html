@@ -107,6 +107,7 @@
         
         .app-footer { text-align: center; padding: 30px 0 10px; color: var(--text-muted); font-size: 13px; font-weight: 500; }
 
+        /* CSS UMKM */
         .umkm-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .umkm-header h2 { font-size: 20px; font-weight: 700; color: var(--text-main); }
         .btn-add-umkm { background-color: var(--primary); color: #FFFFFF; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; box-shadow: var(--shadow-sm); }
@@ -174,19 +175,8 @@
         }
         .popup-close:hover { background-color: var(--primary-hover); transform: scale(1.1); }
 
-        .loader {
-            border: 4px solid var(--border);
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        .loader { border: 4px solid var(--border); border-top: 4px solid var(--primary); border-radius: 50%; width: 36px; height: 36px; animation: spin 1s linear infinite; margin: 0 auto 10px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loading-box { text-align: center; padding: 20px; color: var(--text-muted); font-size: 13px; }
 
         @media (max-width: 480px) {
@@ -387,7 +377,6 @@
                     </table>
                 </div>
             </div>
-
             <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 10px; background-color: var(--text-muted); box-shadow: none;">⬅ Kembali ke Beranda</button>
         </section>
 
@@ -395,34 +384,13 @@
             <button class="btn-back-top" onclick="tampilkanBeranda()">⬅ Kembali ke Beranda</button>
             <div class="umkm-header">
                 <h2>Lapak UMKM Pemuda</h2>
-                <a href="#" class="btn-add-umkm" onclick="alert('Formulir tambah usaha segera hadir!'); return false;">+ Tambah Usaha</a>
             </div>
             <p style="color: var(--text-muted); font-size: 14px;">Dukung ekonomi lokal! Harga jujur, kualitas terjamin karya pemuda Kepuh.</p>
             
-            <div class="umkm-grid">
-                <div class="umkm-card">
-                    <img src="https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Kripik Singkong" class="umkm-img">
-                    <div class="umkm-content">
-                        <span class="umkm-category">KULINER</span>
-                        <h3 class="umkm-title">Kripik Singkong Balado Mang Oleh</h3>
-                        <div class="umkm-price">Rp 15.000</div>
-                        <p class="umkm-desc">Renyah, gurih, bumbu balado asli pedas manis. Kemasan pouch ziplock 250 gram tahan lama.</p>
-                        <div class="umkm-owner"><span>👤</span> Budi Santoso</div>
-                        <a href="https://wa.me/6281234567890?text=Halo%20Budi,%20saya%20mau%20pesan%20Kripik%20Singkong" target="_blank" class="btn-wa">💬 Beli via WA</a>
-                    </div>
-                </div>
-                <div class="umkm-card">
-                    <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Servis Laptop" class="umkm-img">
-                    <div class="umkm-content">
-                        <span class="umkm-category">JASA</span>
-                        <h3 class="umkm-title">Servis PC & Instal Ulang Windows</h3>
-                        <div class="umkm-price">Mulai Rp 50.000</div>
-                        <p class="umkm-desc">Melayani instal ulang Windows, format hardisk, tambah RAM, dan pembersihan virus. Bisa panggil ke rumah.</p>
-                        <div class="umkm-owner"><span>👤</span> Andi Pratama</div>
-                        <a href="https://wa.me/6281234567890" target="_blank" class="btn-wa">💬 Hubungi via WA</a>
-                    </div>
-                </div>
+            <div class="umkm-grid" id="daftarUMKM">
+                <div class="loading-box" style="grid-column: span 2;"><div class="loader"></div>Memuat data usaha warga...</div>
             </div>
+            
             <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 24px; background-color: var(--text-muted); box-shadow: none;">⬅ Kembali ke Beranda</button>
         </section>
 
@@ -445,15 +413,10 @@
         window.kategoriKeuanganAktif = "Kas Pemuda";
 
         // Fitur UI Sederhana (Navigasi & Tabs)
-        window.tampilkanUMKM = function() { hideAll(); document.getElementById('umkmSection').style.display = 'block'; window.scrollTo(0,0); }
+        window.tampilkanUMKM = function() { hideAll(); document.getElementById('umkmSection').style.display = 'block'; window.fetchUMKMWarga(); window.scrollTo(0,0); }
         window.tampilkanPengembanganDiri = function() { hideAll(); document.getElementById('pengembanganDiriSection').style.display = 'block'; window.scrollTo(0,0); }
         window.tampilkanAgenda = function() { hideAll(); document.getElementById('agendaSection').style.display = 'block'; window.fetchAgendaWarga(); window.scrollTo(0,0); }
-        window.tampilkanKeuangan = function() { 
-            hideAll(); 
-            document.getElementById('keuanganSection').style.display = 'block'; 
-            window.fetchKeuanganWarga(); 
-            window.scrollTo(0,0); 
-        }
+        window.tampilkanKeuangan = function() { hideAll(); document.getElementById('keuanganSection').style.display = 'block'; window.fetchKeuanganWarga(); window.scrollTo(0,0); }
         window.tampilkanBeranda = function() {
             document.getElementById('formSection').style.display = 'block';
             document.getElementById('boardSection').style.display = 'block';
@@ -492,7 +455,6 @@
             window.fetchKeuanganWarga();
         }
 
-        // Data Management Sisi Klien
         function bersihkanTeks(str) {
             if (!str) return "";
             return str.replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag]));
@@ -502,6 +464,44 @@
             return "Rp " + Number(angka).toLocaleString('id-ID');
         }
 
+        // FETCH DATA UMKM
+        window.fetchUMKMWarga = async function() {
+            const container = document.getElementById('daftarUMKM');
+            container.innerHTML = '<div class="loading-box" style="grid-column: span 2;"><div class="loader"></div>Memuat data usaha...</div>';
+            try {
+                const { data, error } = await supabase.from('umkm').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px; grid-column: span 2;">Belum ada UMKM pemuda yang terdaftar.</p>';
+                    return;
+                }
+                let htmlContent = '';
+                data.forEach(item => {
+                    const imgUrl = item.image_url || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=400&q=80';
+                    const noWa = item.whatsapp.replace(/\D/g, ''); // Hapus karakter non-angka
+                    const pesanWa = `Halo ${item.owner}, saya tertarik ingin memesan ${item.title} yang ada di Portal RESPEK.`;
+                    const waLink = `https://wa.me/${noWa}?text=${encodeURIComponent(pesanWa)}`;
+
+                    htmlContent += `
+                        <div class="umkm-card">
+                            <img src="${imgUrl}" alt="${bersihkanTeks(item.title)}" class="umkm-img" onerror="this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=400&q=80'">
+                            <div class="umkm-content">
+                                <span class="umkm-category">${bersihkanTeks(item.category).toUpperCase()}</span>
+                                <h3 class="umkm-title">${bersihkanTeks(item.title)}</h3>
+                                <div class="umkm-price">${bersihkanTeks(item.price)}</div>
+                                <p class="umkm-desc">${bersihkanTeks(item.description)}</p>
+                                <div class="umkm-owner"><span>👤</span> ${bersihkanTeks(item.owner)}</div>
+                                <a href="${waLink}" target="_blank" class="btn-wa">💬 Hubungi via WA</a>
+                            </div>
+                        </div>`;
+                });
+                container.innerHTML = htmlContent;
+            } catch (err) {
+                container.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px; grid-column: span 2;">⚠️ Gagal memuat data UMKM.</p>';
+            }
+        }
+
+        // SISANYA FUNGSI LAMA (fetchAgendaWarga, fetchKeuanganWarga, fetchLaporan, dll)
         window.fetchAgendaWarga = async function() {
             const container = document.getElementById('daftarAgenda');
             container.innerHTML = '<div class="loading-box"><div class="loader"></div>Memuat agenda acara...</div>';
@@ -509,8 +509,7 @@
                 const { data, error } = await supabase.from('agendas').select('*').order('date', { ascending: true });
                 if (error) throw error;
                 if (!data || data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px;">Belum ada agenda atau kegiatan yang dijadwalkan.</p>';
-                    return;
+                    container.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px;">Belum ada agenda atau kegiatan yang dijadwalkan.</p>'; return;
                 }
                 let htmlContent = '';
                 data.forEach(item => {
@@ -532,59 +531,37 @@
                         </div>`;
                 });
                 container.innerHTML = htmlContent;
-            } catch (err) {
-                container.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px;">⚠️ Gagal memuat agenda acara.</p>';
-            }
+            } catch (err) { container.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px;">⚠️ Gagal memuat agenda acara.</p>'; }
         }
 
         window.fetchKeuanganWarga = async function() {
             const badanTabel = document.getElementById('badanTabelKeuangan');
             document.getElementById('judulTabKeuangan').innerText = `Data Laporan: ${window.kategoriKeuanganAktif}`;
             badanTabel.innerHTML = '<tr><td colspan="3" style="text-align:center;"><div class="loader" style="width:20px;height:20px;"></div> Memuat...</td></tr>';
-
             try {
                 const { data, error } = await supabase.from('finances').select('*').eq('category', window.kategoriKeuanganAktif).order('date', { ascending: false });
                 if (error) throw error;
                 if (!data || data.length === 0) {
                     badanTabel.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#9CA3AF;">Belum ada rincian data keuangan untuk kategori ini.</td></tr>';
-                    document.getElementById('totalMasuk').innerText = "Rp 0";
-                    document.getElementById('totalKeluar').innerText = "Rp 0";
-                    document.getElementById('sisaSaldo').innerText = "Rp 0";
-                    return;
+                    document.getElementById('totalMasuk').innerText = "Rp 0"; document.getElementById('totalKeluar').innerText = "Rp 0"; document.getElementById('sisaSaldo').innerText = "Rp 0"; return;
                 }
-
                 let totalMasuk = 0, totalKeluar = 0, htmlBaris = '';
                 data.forEach(item => {
-                    const nominal = Number(item.amount);
-                    const isMasuk = item.type.toLowerCase() === 'masuk';
+                    const nominal = Number(item.amount); const isMasuk = item.type.toLowerCase() === 'masuk';
                     if (isMasuk) totalMasuk += nominal; else totalKeluar += nominal;
                     const tglSaja = new Date(item.date).toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                    htmlBaris += `
-                        <tr>
-                            <td>${tglSaja}</td>
-                            <td>${bersihkanTeks(item.description)}</td>
-                            <td class="text-right ${isMasuk ? 'text-masuk' : 'text-keluar'}">${isMasuk ? '+' : '-'} ${formatRupiah(nominal)}</td>
-                        </tr>`;
+                    htmlBaris += `<tr><td>${tglSaja}</td><td>${bersihkanTeks(item.description)}</td><td class="text-right ${isMasuk ? 'text-masuk' : 'text-keluar'}">${isMasuk ? '+' : '-'} ${formatRupiah(nominal)}</td></tr>`;
                 });
                 badanTabel.innerHTML = htmlBaris;
-                document.getElementById('totalMasuk').innerText = formatRupiah(totalMasuk);
-                document.getElementById('totalKeluar').innerText = formatRupiah(totalKeluar);
-                document.getElementById('sisaSaldo').innerText = formatRupiah(totalMasuk - totalKeluar);
-            } catch (err) {
-                badanTabel.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--error-text);">⚠️ Gagal memuat data keuangan.</td></tr>';
-            }
+                document.getElementById('totalMasuk').innerText = formatRupiah(totalMasuk); document.getElementById('totalKeluar').innerText = formatRupiah(totalKeluar); document.getElementById('sisaSaldo').innerText = formatRupiah(totalMasuk - totalKeluar);
+            } catch (err) {}
         }
 
         async function fetchLaporan() {
             try {
                 const { data, error } = await supabase.from('reports').select('*').order('created_at', { ascending: false }).limit(20);
-                if (error) throw error;
-                if (data.length === 0) {
-                    daftarLaporanContainer.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px;">Belum ada laporan masuk.</p>';
-                    return;
-                }
-                const sudahDukung = JSON.parse(localStorage.getItem('respek_upvotes') || '[]');
-                let htmlContent = '';
+                if (error || data.length === 0) { daftarLaporanContainer.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px;">Belum ada laporan masuk.</p>'; return; }
+                const sudahDukung = JSON.parse(localStorage.getItem('respek_upvotes') || '[]'); let htmlContent = '';
                 data.forEach(report => {
                     const tgl = new Date(report.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute:'2-digit' });
                     let statusColor = report.status === 'Selesai' ? '#D1FAE5' : report.status === 'Diproses' ? '#DBEAFE' : '#FEF3C7';
@@ -607,11 +584,8 @@
                             </div>
                         </div>`;
                 });
-                daftarLaporanContainer.innerHTML = htmlContent;
-                window.filterLaporanSisiKlien();
-            } catch (error) {
-                daftarLaporanContainer.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px;">⚠️ Gagal memuat laporan.</p>';
-            }
+                daftarLaporanContainer.innerHTML = htmlContent; window.filterLaporanSisiKlien();
+            } catch (error) {}
         }
 
         async function fetchLeaderboard() {
@@ -619,17 +593,9 @@
             try {
                 const { data, error } = await supabase.from('reports').select('id, title, upvotes').gt('upvotes', 0).order('upvotes', { ascending: false }).limit(3);
                 if (error || !data.length) { container.innerHTML = '<p style="text-align:center; color:#9CA3AF; font-size:12px; padding:10px; background:#F9FAFB; border-radius:8px;">Belum ada peringkat.</p>'; return; }
-                let htmlContent = '';
-                const medali = ['🥇', '🥈', '🥉'], warnaBatas = ['#FBBF24', '#9CA3AF', '#F59E0B'];
+                let htmlContent = ''; const medali = ['🥇', '🥈', '🥉'], warnaBatas = ['#FBBF24', '#9CA3AF', '#F59E0B'];
                 data.forEach((item, index) => {
-                    htmlContent += `
-                        <div style="display: flex; align-items: center; justify-content: space-between; background: #F9FAFB; padding: 10px 14px; border-radius: 10px; border-left: 4px solid ${warnaBatas[index]}">
-                            <div style="display: flex; align-items: center; gap: 10px; width: 75%;">
-                                <span style="font-size: 18px;">${medali[index]}</span>
-                                <span style="font-size: 13px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%;">${bersihkanTeks(item.title)}</span>
-                            </div>
-                            <span style="font-size: 12px; background: rgba(166,33,34,0.1); color: var(--primary); padding: 4px 10px; border-radius: 12px; font-weight: 800;">🔺 ${item.upvotes}</span>
-                        </div>`;
+                    htmlContent += `<div style="display: flex; align-items: center; justify-content: space-between; background: #F9FAFB; padding: 10px 14px; border-radius: 10px; border-left: 4px solid ${warnaBatas[index]}"><div style="display: flex; align-items: center; gap: 10px; width: 75%;"><span style="font-size: 18px;">${medali[index]}</span><span style="font-size: 13px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%;">${bersihkanTeks(item.title)}</span></div><span style="font-size: 12px; background: rgba(166,33,34,0.1); color: var(--primary); padding: 4px 10px; border-radius: 12px; font-weight: 800;">🔺 ${item.upvotes}</span></div>`;
                 });
                 container.innerHTML = htmlContent;
             } catch (error) {}
@@ -638,11 +604,9 @@
         window.dukungAspirasi = async function(id, currentUpvotes) {
             let listDukung = JSON.parse(localStorage.getItem('respek_upvotes') || '[]');
             if (listDukung.includes(id)) { alert("Kamu sudah memberikan dukungan!"); return; }
-            try {
-                await supabase.from('reports').update({ upvotes: currentUpvotes + 1 }).eq('id', id);
-                listDukung.push(id); localStorage.setItem('respek_upvotes', JSON.stringify(listDukung));
-                fetchLaporan(); fetchLeaderboard();
-            } catch (error) { alert("Gagal mengirim dukungan."); }
+            await supabase.from('reports').update({ upvotes: currentUpvotes + 1 }).eq('id', id);
+            listDukung.push(id); localStorage.setItem('respek_upvotes', JSON.stringify(listDukung));
+            fetchLaporan(); fetchLeaderboard();
         }
 
         async function fetchPengembanganDiri() {
@@ -653,17 +617,7 @@
                 let htmlContent = '';
                 data.forEach(item => {
                     const imgUrl = item.image_url || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80';
-                    htmlContent += `
-                        <div class="umkm-card">
-                            <img src="${imgUrl}" class="umkm-img">
-                            <div class="umkm-content">
-                                <span class="umkm-category">${bersihkanTeks(item.category).toUpperCase()}</span>
-                                <h3 class="umkm-title">${bersihkanTeks(item.title)}</h3>
-                                <div class="umkm-price" style="font-size:11px; color:var(--text-muted); font-weight:600; margin-bottom:6px;">👤 Mentor: ${bersihkanTeks(item.instructor)}</div>
-                                <p class="umkm-desc">${bersihkanTeks(item.description)}</p>
-                                <a href="${item.link_url || '#'}" target="_blank" class="btn-wa" style="background: var(--primary);">🚀 Ikuti Kelas</a>
-                            </div>
-                        </div>`;
+                    htmlContent += `<div class="umkm-card"><img src="${imgUrl}" class="umkm-img"><div class="umkm-content"><span class="umkm-category">${bersihkanTeks(item.category).toUpperCase()}</span><h3 class="umkm-title">${bersihkanTeks(item.title)}</h3><div class="umkm-price" style="font-size:11px; color:var(--text-muted); font-weight:600; margin-bottom:6px;">👤 Mentor: ${bersihkanTeks(item.instructor)}</div><p class="umkm-desc">${bersihkanTeks(item.description)}</p><a href="${item.link_url || '#'}" target="_blank" class="btn-wa" style="background: var(--primary);">🚀 Ikuti Kelas</a></div></div>`;
                 });
                 container.innerHTML = htmlContent;
             } catch (error) {}
@@ -679,37 +633,25 @@
             e.preventDefault();
             if (document.getElementById('perangkapBot').value !== "") { showAlert("Terkirim!", "success"); formAduan.reset(); return; }
             if (document.getElementById('deskripsi').value.trim().length < 20) { showAlert("Deskripsi minimal 20 karakter.", "error"); return; }
-            
             const waktuTerakhir = localStorage.getItem('lastReportTime');
             if (waktuTerakhir && (Date.now() - parseInt(waktuTerakhir) < 180000)) { showAlert(`Harap tunggu sebelum mengirim laporan baru.`, "error"); return; }
             
             btnKirim.disabled = true; btnKirim.innerText = "Memproses...";
             try {
-                let imageUrl = "";
-                const fotoFile = document.getElementById('foto').files[0];
+                let imageUrl = ""; const fotoFile = document.getElementById('foto').files[0];
                 if (fotoFile) {
-                    const img = new Image();
-                    img.src = URL.createObjectURL(fotoFile);
-                    await new Promise(r => img.onload = r);
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 800; canvas.height = img.height * (800 / img.width);
+                    const img = new Image(); img.src = URL.createObjectURL(fotoFile); await new Promise(r => img.onload = r);
+                    const canvas = document.createElement('canvas'); canvas.width = 800; canvas.height = img.height * (800 / img.width);
                     canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
                     const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.7));
                     const fileKompres = new File([blob], fotoFile.name, { type: 'image/jpeg' });
-                    
                     const { error: uploadError } = await supabase.storage.from('foto-bukti').upload(`laporan_${Date.now()}.jpg`, fileKompres);
                     if (uploadError) throw uploadError;
                     imageUrl = supabase.storage.from('foto-bukti').getPublicUrl(`laporan_${Date.now()}.jpg`).data.publicUrl;
                 }
-                await supabase.from('reports').insert([{
-                    title: document.getElementById('judul').value, category: document.getElementById('kategori').value,
-                    description: document.getElementById('deskripsi').value.trim(), image_url: imageUrl,
-                    status: "Menunggu", upvotes: 0, author_name: document.getElementById('anonim').checked ? "Anonim" : "Warga Kepuh"
-                }]);
-                localStorage.setItem('lastReportTime', Date.now());
-                showAlert("Laporan berhasil dikirim!", "success");
-                formAduan.reset(); document.getElementById('previewFoto').style.display = 'none';
-                fetchLaporan(); fetchLeaderboard();
+                await supabase.from('reports').insert([{ title: document.getElementById('judul').value, category: document.getElementById('kategori').value, description: document.getElementById('deskripsi').value.trim(), image_url: imageUrl, status: "Menunggu", upvotes: 0, author_name: document.getElementById('anonim').checked ? "Anonim" : "Warga Kepuh" }]);
+                localStorage.setItem('lastReportTime', Date.now()); showAlert("Laporan berhasil dikirim!", "success");
+                formAduan.reset(); document.getElementById('previewFoto').style.display = 'none'; fetchLaporan(); fetchLeaderboard();
             } catch (error) { showAlert(`Gagal mengirim laporan.`, "error"); } 
             finally { btnKirim.disabled = false; btnKirim.innerText = "Kirim Laporan"; }
         });
@@ -737,7 +679,6 @@
         document.getElementById('popupBanner').addEventListener('click', function(e) { if (e.target === this) tutupPopup(); });
         window.addEventListener('DOMContentLoaded', () => { setTimeout(() => { const p = document.getElementById('popupBanner'); if(p) p.classList.add('show'); }, 1000); });
 
-        // Inisialisasi data awal
         fetchLaporan();
         fetchLeaderboard();
         fetchPengembanganDiri();
