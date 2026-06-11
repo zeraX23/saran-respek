@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Suara Pemuda RESPEK</title>
+    
+    <!-- Konfigurasi PWA Agar Bisa Diinstal di HP -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#A62122">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Admin RESPEK">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -369,19 +378,17 @@
                 let imageUrl = "";
                 const fotoFile = document.getElementById('umkmImage').files[0];
                 
-                // Proses kompresi gambar sebelum upload
                 if (fotoFile) {
                     const img = new Image();
                     img.src = URL.createObjectURL(fotoFile);
                     await new Promise(r => img.onload = r);
                     const canvas = document.createElement('canvas');
-                    canvas.width = 600; canvas.height = img.height * (600 / img.width); // Resize ke lebar 600px
+                    canvas.width = 600; canvas.height = img.height * (600 / img.width);
                     canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
                     
                     const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.8));
                     const fileKompres = new File([blob], `umkm_${Date.now()}.jpg`, { type: 'image/jpeg' });
                     
-                    // Upload ke bucket 'foto-umkm'
                     const { error: uploadError } = await supabase.storage.from('foto-umkm').upload(fileKompres.name, fileKompres);
                     if (uploadError) throw uploadError;
                     
@@ -442,6 +449,15 @@
             const { error } = await supabase.from('umkm').delete().eq('id', id);
             if(error) alert('Gagal menghapus.');
             else fetchUMKMAdmin();
+        }
+
+        // SISTEM REGISTRASI SERVICE WORKER PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('PWA Service Worker aktif:', reg.scope))
+                    .catch(err => console.error('PWA gagal dimuat:', err));
+            });
         }
     </script>
 </body>
