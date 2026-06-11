@@ -132,8 +132,8 @@
         .finance-tab-btn.active { background: var(--primary); color: #FFFFFF; border-color: var(--primary); box-shadow: 0 2px 4px rgba(166, 33, 34, 0.2); }
         .finance-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; text-align: center; }
         .finance-box { background: var(--input-bg); padding: 15px 10px; border-radius: var(--radius-md); border: 1px solid var(--border); }
-        .finance-box h4 { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; }
         .finance-box .amount { font-size: 14px; font-weight: 800; color: var(--text-main); }
+        .finance-box h4 { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; }
         .finance-box.masuk .amount { color: var(--success-text); }
         .finance-box.keluar .amount { color: var(--error-text); }
         .finance-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--bg-card); overflow: hidden; }
@@ -235,7 +235,7 @@
                 <span class="menu-icon">👥</span>
                 <span class="menu-text">Struktur Organisasi</span>
             </a>
-            <a href="#" class="menu-item" onclick="alert('Halaman Agenda Acara segera hadir!'); return false;">
+            <a href="#" class="menu-item" onclick="tampilkanAgenda(); return false;">
                 <span class="menu-icon">📅</span>
                 <span class="menu-text">Agenda Acara</span>
             </a>
@@ -325,6 +325,18 @@
             <div id="daftarLaporan">
                 <div class="loading-box"><div class="loader"></div>Memuat data laporan...</div>
             </div>
+        </section>
+
+        <section id="agendaSection" style="display: none; animation: fadeIn 0.3s ease; margin-bottom: 40px;">
+            <button class="btn-back-top" onclick="tampilkanBeranda()">⬅ Kembali ke Beranda</button>
+            <div class="umkm-header">
+                <h2>Agenda & Kegiatan Warga</h2>
+            </div>
+            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">Ikuti dan ramaikan berbagai kegiatan positif yang diselenggarakan oleh Pemuda RESPEK dan warga Dukuh Kepuh.</p>
+            <div style="display: flex; flex-direction: column; gap: 14px;" id="daftarAgenda">
+                <div class="loading-box"><div class="loader"></div>Memuat agenda acara...</div>
+            </div>
+            <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 24px; background-color: var(--text-muted); box-shadow: none;">⬅ Kembali ke Beranda</button>
         </section>
 
         <section id="pengembanganDiriSection" style="display: none; animation: fadeIn 0.3s ease; margin-bottom: 40px;">
@@ -435,6 +447,7 @@
         // Fitur UI Sederhana (Navigasi & Tabs)
         window.tampilkanUMKM = function() { hideAll(); document.getElementById('umkmSection').style.display = 'block'; window.scrollTo(0,0); }
         window.tampilkanPengembanganDiri = function() { hideAll(); document.getElementById('pengembanganDiriSection').style.display = 'block'; window.scrollTo(0,0); }
+        window.tampilkanAgenda = function() { hideAll(); document.getElementById('agendaSection').style.display = 'block'; window.fetchAgendaWarga(); window.scrollTo(0,0); }
         window.tampilkanKeuangan = function() { 
             hideAll(); 
             document.getElementById('keuanganSection').style.display = 'block'; 
@@ -448,6 +461,7 @@
             document.getElementById('umkmSection').style.display = 'none';
             document.getElementById('pengembanganDiriSection').style.display = 'none';
             document.getElementById('keuanganSection').style.display = 'none';
+            document.getElementById('agendaSection').style.display = 'none';
             document.getElementById('filterKategoriLaporan').value = 'Semua';
             window.filterLaporanSisiKlien();
             window.scrollTo(0,0);
@@ -460,6 +474,7 @@
             document.getElementById('umkmSection').style.display = 'none';
             document.getElementById('pengembanganDiriSection').style.display = 'none';
             document.getElementById('keuanganSection').style.display = 'none';
+            document.getElementById('agendaSection').style.display = 'none';
         }
 
         window.tutupPopup = function() {
@@ -485,6 +500,41 @@
 
         function formatRupiah(angka) {
             return "Rp " + Number(angka).toLocaleString('id-ID');
+        }
+
+        window.fetchAgendaWarga = async function() {
+            const container = document.getElementById('daftarAgenda');
+            container.innerHTML = '<div class="loading-box"><div class="loader"></div>Memuat agenda acara...</div>';
+            try {
+                const { data, error } = await supabase.from('agendas').select('*').order('date', { ascending: true });
+                if (error) throw error;
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px;">Belum ada agenda atau kegiatan yang dijadwalkan.</p>';
+                    return;
+                }
+                let htmlContent = '';
+                data.forEach(item => {
+                    const tgl = new Date(item.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                    htmlContent += `
+                        <div style="background: var(--bg-card); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 10px;">
+                                <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">${bersihkanTeks(item.title)}</h3>
+                                <span style="font-size: 11px; background: rgba(166,33,34,0.1); color: var(--primary); padding: 4px 10px; border-radius: 20px; font-weight: 700; white-space: nowrap;">📅 KEGIATAN</span>
+                            </div>
+                            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px; display: flex; flex-direction: column; gap: 4px;">
+                                <div>📆 <b>Hari/Tanggal:</b> ${tgl}</div>
+                                <div>⏰ <b>Waktu:</b> ${bersihkanTeks(item.time)} WIB</div>
+                                <div>📍 <b>Lokasi:</b> ${bersihkanTeks(item.location)}</div>
+                            </div>
+                            <div style="font-size: 14px; color: #4B5563; background-color: var(--input-bg); padding: 12px; border-radius: var(--radius-md); line-height: 1.5; border: 1px solid #F3F4F6;">
+                                ${bersihkanTeks(item.description)}
+                            </div>
+                        </div>`;
+                });
+                container.innerHTML = htmlContent;
+            } catch (err) {
+                container.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px;">⚠️ Gagal memuat agenda acara.</p>';
+            }
         }
 
         window.fetchKeuanganWarga = async function() {
