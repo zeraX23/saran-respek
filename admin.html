@@ -27,10 +27,12 @@
         .login-card p { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
         .form-group { margin-bottom: 16px; text-align: left; }
         label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-        input[type="email"], input[type="password"] { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; }
-        input:focus { outline: none; border-color: var(--primary); }
-        .btn-primary { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        input[type="email"], input[type="password"], input[type="text"], input[type="number"], input[type="date"], select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; }
+        input:focus, select:focus { outline: none; border-color: var(--primary); }
+        .btn-primary { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; font-family: inherit;}
         .btn-primary:hover { background: var(--primary-hover); }
+        .btn-danger { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s;}
+        .btn-danger:hover { background: #FECACA; }
         #loginAlert { color: #991B1B; background: #FEE2E2; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; display: none; font-weight: 600; }
 
         /* Layout Admin Dashboard */
@@ -42,7 +44,7 @@
         .sidebar-brand { padding: 0 20px 20px; border-bottom: 1px solid #374151; margin-bottom: 20px; }
         .sidebar-brand h2 { font-size: 18px; font-weight: 800; color: #FFFFFF; }
         .sidebar-brand span { color: var(--primary); }
-        .nav-link { display: block; padding: 12px 20px; color: #D1D5DB; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
+        .nav-link { display: block; padding: 12px 20px; color: #D1D5DB; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; cursor: pointer; border-left: 4px solid transparent;}
         .nav-link:hover, .nav-link.active { background: #1F2937; color: white; border-left: 4px solid var(--primary); }
         .btn-logout { margin-top: auto; padding: 12px 20px; color: #FCA5A5; text-decoration: none; font-weight: 600; cursor: pointer; transition: 0.2s; background: none; border: none; text-align: left; width: 100%; font-family: inherit; font-size: 14px; }
         .btn-logout:hover { background: #311313; color: white; }
@@ -50,9 +52,13 @@
         /* Area Konten Utama */
         .main-content { flex: 1; padding: 30px; overflow-y: auto; background: var(--bg-body); }
         .header-title { font-size: 24px; font-weight: 800; margin-bottom: 24px; }
+        .panel-section { display: none; animation: fadeIn 0.3s ease; }
+        .panel-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Tabel Data */
-        .card-table { background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); overflow: hidden; }
+        /* Tabel Data & Form Box */
+        .card-box { background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); overflow: hidden; margin-bottom: 24px; }
+        .card-box-padding { padding: 20px; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
         th, td { padding: 14px 20px; border-bottom: 1px solid var(--border); }
         th { background: #F9FAFB; font-weight: 700; color: var(--text-muted); }
@@ -63,6 +69,8 @@
         .status-selesai { background: #D1FAE5; color: #065F46; }
         
         select.action-select { padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-size: 13px; font-family: inherit; font-weight: 600; cursor: pointer; }
+
+        .finance-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; align-items: end; }
     </style>
 </head>
 <body>
@@ -90,36 +98,104 @@
     <!-- HALAMAN DASHBOARD -->
     <div id="adminSection">
         <div class="admin-layout">
+            <!-- Sidebar Navigation -->
             <div class="sidebar">
                 <div class="sidebar-brand">
                     <h2>Admin<span>RESPEK</span></h2>
                 </div>
-                <a href="#" class="nav-link active">Laporan Warga</a>
-                <a href="#" class="nav-link" onclick="alert('Modul Keuangan sedang disiapkan!'); return false;">Laporan Keuangan</a>
-                <a href="#" class="nav-link" onclick="alert('Modul UMKM sedang disiapkan!'); return false;">Kelola UMKM</a>
+                <div class="nav-link active" data-target="section-laporan">📝 Laporan Warga</div>
+                <div class="nav-link" data-target="section-keuangan">💰 Laporan Keuangan</div>
+                <div class="nav-link" onclick="alert('Modul UMKM sedang disiapkan!');">🏪 Kelola UMKM</div>
                 
                 <button class="btn-logout" id="btnLogout">⎋ Keluar (Log Out)</button>
             </div>
             
+            <!-- Main Content Area -->
             <div class="main-content">
-                <h1 class="header-title">Kelola Laporan Warga</h1>
                 
-                <div class="card-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tanggal</th>
-                                <th>Judul Laporan</th>
-                                <th>Kategori</th>
-                                <th>Status</th>
-                                <th>Aksi Ubah Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableAduan">
-                            <tr><td colspan="5" style="text-align:center; padding: 20px;">Memuat data...</td></tr>
-                        </tbody>
-                    </table>
+                <!-- SECTION: LAPORAN WARGA -->
+                <div id="section-laporan" class="panel-section active">
+                    <h1 class="header-title">Kelola Laporan Warga</h1>
+                    <div class="card-box">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Judul Laporan</th>
+                                    <th>Kategori</th>
+                                    <th>Status</th>
+                                    <th>Aksi Ubah Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableAduan">
+                                <tr><td colspan="5" style="text-align:center; padding: 20px;">Memuat data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <!-- SECTION: LAPORAN KEUANGAN -->
+                <div id="section-keuangan" class="panel-section">
+                    <h1 class="header-title">Kelola Laporan Keuangan</h1>
+                    
+                    <!-- Form Tambah Keuangan -->
+                    <div class="card-box card-box-padding">
+                        <h3 style="margin-bottom: 16px; font-size: 16px;">➕ Tambah Transaksi Baru</h3>
+                        <form id="formFinance" class="finance-form-grid">
+                            <div>
+                                <label style="font-size: 12px; margin-bottom: 4px;">Tanggal</label>
+                                <input type="date" id="finDate" required>
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; margin-bottom: 4px;">Kategori Tab</label>
+                                <select id="finCat" required>
+                                    <option value="Kas Pemuda">Kas Pemuda</option>
+                                    <option value="Malam 1 Suro">Malam 1 Suro</option>
+                                    <option value="17 Agustus">17 Agustus</option>
+                                    <option value="Maulid Nabi">Maulid Nabi</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; margin-bottom: 4px;">Jenis Arus Kas</label>
+                                <select id="finType" required>
+                                    <option value="masuk">Pemasukan (Masuk)</option>
+                                    <option value="keluar">Pengeluaran (Keluar)</option>
+                                </select>
+                            </div>
+                            <div style="grid-column: span 2;">
+                                <label style="font-size: 12px; margin-bottom: 4px;">Keterangan / Rincian</label>
+                                <input type="text" id="finDesc" placeholder="Contoh: Iuran warga RT 01" required>
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; margin-bottom: 4px;">Nominal (Rp)</label>
+                                <input type="number" id="finAmount" placeholder="Contoh: 50000" required>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn-primary" id="btnSaveFinance">Simpan Data</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Tabel Data Keuangan -->
+                    <div class="card-box">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Kategori Tab</th>
+                                    <th>Keterangan</th>
+                                    <th>Jenis</th>
+                                    <th>Nominal</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableFinance">
+                                <tr><td colspan="6" style="text-align:center; padding: 20px;">Memuat data keuangan...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -127,7 +203,6 @@
     <script type="module">
         import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
         
-        // Gunakan kredensial yang sama persis dengan index.html
         const supabaseUrl = 'https://omqxookhwflcmwvqmwyv.supabase.co';
         const supabaseKey = 'sb_publishable_VqZJB-MLy7-f2lqyX3kZig_BVMSkIKX';
         const supabase = createClient(supabaseUrl, supabaseKey);
@@ -136,13 +211,15 @@
         const adminSection = document.getElementById('adminSection');
         const loginAlert = document.getElementById('loginAlert');
 
-        // 1. CEK STATUS LOGIN SAAT HALAMAN DIBUKA
+        // ==========================================
+        // 1. SISTEM AUTENTIKASI (LOGIN & LOGOUT)
+        // ==========================================
         async function checkSession() {
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
                 loginSection.style.display = 'none';
                 adminSection.style.display = 'flex';
-                loadDataAduan(); // Ambil data tabel
+                loadDataAduan(); 
             } else {
                 loginSection.style.display = 'flex';
                 adminSection.style.display = 'none';
@@ -150,7 +227,6 @@
         }
         checkSession();
 
-        // 2. FUNGSI LOGIN
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
@@ -166,28 +242,50 @@
                 loginAlert.style.display = 'block';
                 btn.innerText = 'Masuk ke Dashboard'; btn.disabled = false;
             } else {
-                window.location.reload(); // Refresh untuk masuk ke dashboard
+                window.location.reload(); 
             }
         });
 
-        // 3. FUNGSI LOGOUT
         document.getElementById('btnLogout').addEventListener('click', async () => {
             await supabase.auth.signOut();
             window.location.reload();
         });
 
-        // 4. MENGAMBIL DATA LAPORAN KE DALAM TABEL
+        // ==========================================
+        // 2. SISTEM NAVIGASI TAB MENU SIDEBAR
+        // ==========================================
+        document.querySelectorAll('.nav-link[data-target]').forEach(link => {
+            link.addEventListener('click', function() {
+                // Hapus active dari semua link sidebar
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Sembunyikan semua section
+                document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
+                
+                // Tampilkan section yang diklik
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+
+                // Load data jika tab spesifik dibuka
+                if(targetId === 'section-laporan') loadDataAduan();
+                if(targetId === 'section-keuangan') fetchFinances();
+            });
+        });
+
+        // ==========================================
+        // 3. FITUR KELOLA LAPORAN WARGA
+        // ==========================================
         async function loadDataAduan() {
             const tbody = document.getElementById('tableAduan');
             const { data, error } = await supabase.from('reports').select('*').order('created_at', { ascending: false });
             
-            if (error) { tbody.innerHTML = '<tr><td colspan="5">Gagal memuat data</td></tr>'; return; }
-            
+            if (error) { tbody.innerHTML = '<tr><td colspan="5">Gagal memuat data laporan.</td></tr>'; return; }
+            if (data.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Belum ada laporan masuk.</td></tr>'; return; }
+
             let html = '';
             data.forEach(report => {
-                const tgl = new Date(report.created_at).toLocaleDateString('id-ID');
-                
-                // Menentukan warna badge status
+                const tgl = new Date(report.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
                 let badgeClass = report.status === 'Selesai' ? 'status-selesai' : report.status === 'Diproses' ? 'status-diproses' : 'status-menunggu';
 
                 html += `
@@ -210,13 +308,76 @@
             tbody.innerHTML = html;
         }
 
-        // 5. MENGUBAH STATUS LAPORAN (UPDATE DATABASE)
         window.updateStatus = async function(id, statusBaru) {
-            if(!confirm(`Yakin ubah status menjadi ${statusBaru}?`)) return loadDataAduan(); // Batal
-            
+            if(!confirm(`Yakin ingin mengubah status laporan ini menjadi ${statusBaru}?`)) {
+                loadDataAduan(); 
+                return;
+            }
             const { error } = await supabase.from('reports').update({ status: statusBaru }).eq('id', id);
-            if(error) alert('Gagal mengubah status');
-            loadDataAduan(); // Refresh tabel
+            if(error) alert('Terjadi kesalahan, gagal mengubah status!');
+            loadDataAduan(); 
+        }
+
+        // ==========================================
+        // 4. FITUR KELOLA LAPORAN KEUANGAN
+        // ==========================================
+        document.getElementById('formFinance').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnSaveFinance');
+            btn.innerText = 'Menyimpan...'; btn.disabled = true;
+
+            const data = {
+                date: document.getElementById('finDate').value,
+                category: document.getElementById('finCat').value,
+                type: document.getElementById('finType').value,
+                description: document.getElementById('finDesc').value,
+                amount: parseInt(document.getElementById('finAmount').value)
+            };
+            
+            const { error } = await supabase.from('finances').insert([data]);
+            
+            if (error) {
+                alert('Gagal menyimpan data: ' + error.message);
+            } else {
+                alert('Data Keuangan Berhasil Disimpan!'); 
+                document.getElementById('formFinance').reset(); 
+                fetchFinances(); 
+            }
+            btn.innerText = 'Simpan Data'; btn.disabled = false;
+        });
+
+        async function fetchFinances() {
+            const tbody = document.getElementById('tableFinance');
+            const { data, error } = await supabase.from('finances').select('*').order('date', { ascending: false });
+            
+            if (error) { tbody.innerHTML = '<tr><td colspan="6">Gagal memuat data keuangan.</td></tr>'; return; }
+            if (data.length === 0) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Belum ada riwayat transaksi.</td></tr>'; return; }
+            
+            let html = '';
+            data.forEach(item => {
+                const tglFormat = new Date(item.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                const typeLabel = item.type === 'masuk' ? '<span style="color:#065F46; font-weight:bold;">🟢 Masuk</span>' : '<span style="color:#991B1B; font-weight:bold;">🔴 Keluar</span>';
+                const formatNominal = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(item.amount);
+
+                html += `
+                    <tr>
+                        <td>${tglFormat}</td>
+                        <td style="font-weight:600;">${item.category}</td>
+                        <td>${item.description}</td>
+                        <td>${typeLabel}</td>
+                        <td style="font-weight:bold;">${formatNominal}</td>
+                        <td><button class="btn-danger" onclick="deleteFinance('${item.id}')">Hapus</button></td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        window.deleteFinance = async (id) => {
+            if(!confirm('Anda yakin ingin menghapus data transaksi ini secara permanen?')) return;
+            const { error } = await supabase.from('finances').delete().eq('id', id);
+            if(error) alert('Gagal menghapus data.');
+            else fetchFinances();
         }
     </script>
 </body>
