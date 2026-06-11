@@ -1,0 +1,23 @@
+{
+  "name": "Admin Suara Pemuda RESPEK",
+  "short_name": "Admin RESPEK",
+  "description": "Panel Manajemen Portal RESPEK Kepuh",
+  "start_url": "/saran-respek/admin.html",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#A62122",
+  "icons": [
+    {
+      "src": "logo-admin.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo-admin.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
