@@ -3,284 +3,842 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Suara Pemuda RESPEK</title>
+    <meta name="theme-color" content="#A62122">
+    <title>Suara Pemuda RESPEK - Portal Aduan</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>">
+    
+    <link rel="manifest" href="manifest.json">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary: #A62122;
             --primary-hover: #8B1A1B;
-            --bg-body: #F3F5F7;
             --text-main: #111827;
             --text-muted: #6B7280;
-            --card-bg: #FFFFFF;
+            --bg-body: #F3F4F6;
+            --bg-card: #FFFFFF;
             --border: #E5E7EB;
+            --input-bg: #F9FAFB;
+            --success-bg: #D1FAE5;
+            --success-text: #065F46;
+            --error-bg: #FEE2E2;
+            --error-text: #991B1B;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container { max-width: 600px; margin: 10px auto 20px; flex: 1; width: 100%; }
+        header { text-align: center; margin-bottom: 30px; }
+        .brand-logo { max-width: 180px; height: auto; margin: 0 auto 16px auto; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
+        
+        .cover-photo { width: 100%; height: auto; border-radius: var(--radius-md); margin-bottom: 20px; box-shadow: var(--shadow-md); display: block; }
+        .cover-photo-banner { width: 100%; height: auto; border-radius: var(--radius-md); margin-bottom: 20px; box-shadow: var(--shadow-md); display: block; }
+        
+        header h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; color: var(--text-main); letter-spacing: -0.5px; }
+        header p { color: var(--text-muted); font-size: 14px; font-weight: 500; }
+        
+        .ticker-wrap { width: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-hover)); padding: 12px 0; border-radius: var(--radius-md); margin-bottom: 24px; overflow: hidden; box-shadow: var(--shadow-md); position: relative; white-space: nowrap; }
+        .ticker-text { display: inline-block; color: #FFFFFF; font-size: 14px; font-weight: 600; letter-spacing: 0.5px; padding-left: 100%; animation: ticker 18s linear infinite; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+        
+        .quick-menu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 32px; }
+        .menu-item { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 12px; text-align: center; text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: var(--shadow-sm); transition: all 0.3s ease; }
+        .menu-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--primary); color: var(--primary); }
+        .menu-icon { font-size: 28px; margin-bottom: 4px; }
+        .menu-text { font-size: 13px; font-weight: 700; line-height: 1.3; }
+        
+        .form-card { background-color: var(--bg-card); padding: 32px; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); border: 1px solid rgba(255, 255, 255, 0.5); margin-bottom: 40px; position: relative; overflow: hidden; }
+        .form-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--primary), #D22B2D); }
+        .form-group { margin-bottom: 24px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: var(--text-main); }
+        input[type="text"], select, textarea { width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 15px; background-color: var(--input-bg); color: var(--text-main); transition: all 0.3s ease; font-family: inherit; }
+        input[type="text"]:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); background-color: var(--bg-card); box-shadow: 0 0 0 4px rgba(166, 33, 34, 0.1); }
+        input[type="file"] { display: block; width: 100%; padding: 10px 0; font-size: 14px; color: var(--text-muted); }
+        input[type="file"]::file-selector-button { padding: 8px 16px; border-radius: 8px; background-color: var(--input-bg); border: 1px solid var(--border); color: var(--text-main); font-weight: 600; cursor: pointer; transition: 0.2s; margin-right: 12px; font-family: inherit; }
+        small { display: block; margin-top: 6px; color: var(--text-muted); font-size: 12px; }
+        .form-checkbox { display: flex; align-items: center; margin-bottom: 28px; gap: 12px; }
+        .form-checkbox input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--primary); cursor: pointer; }
+        .form-checkbox label { margin-bottom: 0; font-weight: 500; cursor: pointer; color: var(--text-muted); }
+        .btn-submit { width: 100%; padding: 16px; background: var(--primary); color: #FFFFFF; border: none; border-radius: var(--radius-md); font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(166, 33, 34, 0.25); font-family: inherit; }
+        .btn-submit:hover { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(166, 33, 34, 0.3); }
+        .btn-submit:disabled { background: #D1D5DB; box-shadow: none; cursor: not-allowed; transform: none; color: #9CA3AF; }
+        
+        .live-board-header { margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .live-board-header h2 { font-size: 20px; font-weight: 700; color: var(--text-main); }
+        .badge-live { background-color: rgba(166, 33, 34, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+        .badge-live::before { content: ''; display: inline-block; width: 8px; height: 8px; background-color: var(--primary); border-radius: 50%; animation: pulseDot 2s infinite; }
+        @keyframes pulseDot { 0% { box-shadow: 0 0 0 0 rgba(166,33,34, 0.4); } 70% { box-shadow: 0 0 0 6px rgba(166,33,34, 0); } 100% { box-shadow: 0 0 0 0 rgba(166,33,34, 0); } }
+        
+        .report-item { background-color: var(--bg-card); padding: 20px; border-radius: var(--radius-lg); margin-bottom: 16px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); transition: transform 0.2s; }
+        .report-header { display: flex; justify-content: space-between; margin-bottom: 10px; align-items: flex-start; gap: 12px; }
+        .report-title { font-weight: 700; font-size: 16px; color: var(--text-main); line-height: 1.4; }
+        .report-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.6; }
+        .report-desc { font-size: 14px; color: #4B5563; background-color: var(--input-bg); padding: 14px; border-radius: var(--radius-md); margin-bottom: 12px; line-height: 1.6; border: 1px solid #F3F4F6; }
+        .report-image { max-width: 100%; height: auto; border-radius: var(--radius-md); margin-top: 8px; max-height: 250px; object-fit: cover; }
+        .status-badge { font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: 600; color: #374151; white-space: nowrap; }
+        
+        .btn-upvote { display: inline-flex; align-items: center; gap: 6px; background-color: #F3F4F6; color: var(--text-main); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; margin-top: 10px; }
+        .btn-upvote:hover { background-color: var(--error-bg); color: var(--primary); border-color: #FECACA; }
+        .btn-upvote.sudah-dukung { background-color: #E5E7EB; color: #9CA3AF; cursor: not-allowed; border-color: #E5E7EB; }
+
+        .honeypot-field { display: none !important; }
+        #alertBox { display: none; padding: 16px; margin-bottom: 24px; border-radius: var(--radius-md); font-size: 14px; font-weight: 600; text-align: center; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .alert-success { background-color: var(--success-bg); color: var(--success-text); border: 1px solid #A7F3D0; }
+        .alert-error { background-color: var(--error-bg); color: var(--error-text); border: 1px solid #FECACA; }
+        
+        .app-footer { text-align: center; padding: 30px 0 10px; color: var(--text-muted); font-size: 13px; font-weight: 500; }
+
+        .umkm-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .umkm-header h2 { font-size: 20px; font-weight: 700; color: var(--text-main); }
+        .btn-add-umkm { background-color: var(--primary); color: #FFFFFF; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; box-shadow: var(--shadow-sm); }
+        .umkm-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; }
+        .umkm-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.2s; display: flex; flex-direction: column; }
+        .umkm-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .umkm-img { width: 100%; height: 120px; object-fit: cover; border-bottom: 1px solid var(--border); }
+        .umkm-content { padding: 12px; display: flex; flex-direction: column; flex: 1; }
+        .umkm-category { font-size: 9px; background: var(--bg-body); color: var(--text-muted); padding: 4px 8px; border-radius: 12px; font-weight: 700; display: inline-block; align-self: flex-start; margin-bottom: 6px; }
+        .umkm-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--text-main); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .umkm-price { font-size: 14px; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
+        .umkm-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
+        .umkm-owner { font-size: 10px; color: var(--text-muted); margin-bottom: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+        .btn-wa { display: block; text-align: center; background: #25D366; color: white; text-decoration: none; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 700; transition: 0.2s; }
+        .btn-wa:hover { background: #1DA851; }
+
+        .btn-back-top { display: inline-block; background: var(--bg-body); color: var(--text-main); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 16px; transition: all 0.2s; }
+        .btn-back-top:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* CSS Khusus Laporan Keuangan & Tab */
+        .finance-tabs { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 5px; scrollbar-width: none; }
+        .finance-tabs::-webkit-scrollbar { display: none; }
+        .finance-tab-btn { background: var(--input-bg); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.2s ease; font-family: inherit; }
+        .finance-tab-btn.active { background: var(--primary); color: #FFFFFF; border-color: var(--primary); box-shadow: 0 2px 4px rgba(166, 33, 34, 0.2); }
+        .finance-content { display: none; animation: fadeIn 0.3s ease; }
+        
+        .finance-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; text-align: center; }
+        .finance-box { background: var(--input-bg); padding: 15px 10px; border-radius: var(--radius-md); border: 1px solid var(--border); }
+        .finance-box h4 { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; }
+        .finance-box .amount { font-size: 14px; font-weight: 800; color: var(--text-main); }
+        .finance-box.masuk .amount { color: var(--success-text); }
+        .finance-box.keluar .amount { color: var(--error-text); }
+        .finance-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--bg-card); overflow: hidden; }
+        .finance-table th, .finance-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .finance-table th { background: var(--input-bg); font-weight: 700; color: var(--text-muted); }
+        .finance-table tr:last-child td { border-bottom: none; }
+        .text-right { text-align: right !important; }
+        .text-masuk { color: var(--success-text); font-weight: 700; }
+        .text-keluar { color: var(--error-text); font-weight: 700; }
+
+        /* CSS Khusus Pop-up Banner */
+        .popup-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(2px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999; opacity: 0; visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .popup-overlay.show { opacity: 1; visibility: visible; }
+        .popup-content {
+            position: relative; max-width: 90%; width: 400px;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .popup-image { 
+            width: 100%; height: auto; border-radius: var(--radius-md); 
+            box-shadow: var(--shadow-lg); display: block; border: 2px solid white;
+        }
+        .popup-close {
+            position: absolute; top: -12px; right: -12px;
+            width: 32px; height: 32px; border-radius: 50%;
+            background-color: var(--primary); color: white;
+            border: 2px solid white; font-size: 20px; font-weight: bold;
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+            box-shadow: var(--shadow-md); transition: 0.2s; padding-bottom: 2px;
+        }
+        .popup-close:hover { background-color: var(--primary-hover); transform: scale(1.1); }
+
+        /* CSS Animasi Loading */
+        .loader {
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-box {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 13px;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-body); color: var(--text-main); line-height: 1.5; padding-bottom: 40px;}
-
-        /* Container & Banner */
-        .container { max-width: 480px; margin: 0 auto; padding: 0 16px; }
-        .banner-img { width: 100%; border-radius: 12px; margin-top: 16px; object-fit: cover; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .logo-text { text-align: center; margin: 24px 0; color: var(--primary); font-weight: 800; font-size: 20px; }
-        
-        /* Grid Menu Utama */
-        .menu-header { text-align: center; margin-bottom: 24px; }
-        .menu-header h2 { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
-        .menu-header p { font-size: 12px; color: var(--text-muted); }
-        .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
-        .menu-card { background: var(--card-bg); padding: 20px 10px; border-radius: 12px; text-align: center; cursor: pointer; border: 1px solid var(--border); box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: 0.2s; text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center;}
-        .menu-card:hover { border-color: var(--primary); transform: translateY(-2px); }
-        .menu-icon { font-size: 24px; margin-bottom: 8px; }
-        .menu-text { font-size: 12px; font-weight: 600; }
-
-        /* Navigasi Section */
-        .section-view { display: none; animation: fadeIn 0.3s ease; }
-        .section-view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .btn-back { display: inline-block; padding: 8px 16px; background: #E5E7EB; color: #374151; font-size: 12px; font-weight: 600; border-radius: 20px; cursor: pointer; border: none; margin-bottom: 20px; text-decoration: none;}
-        .btn-back.full { width: 100%; background: #6B7280; color: white; padding: 14px; text-align: center; font-size: 14px; margin-top: 20px; border-radius: 8px;}
-
-        /* Desain Laporan Keuangan */
-        .finance-title { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
-        .finance-subtitle { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
-        
-        /* Tab Keuangan */
-        .tabs-container { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; scrollbar-width: none; }
-        .tabs-container::-webkit-scrollbar { display: none; }
-        .tab-btn { padding: 8px 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; white-space: nowrap; font-family: inherit; transition: 0.2s;}
-        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-
-        /* Box Saldo & Tabel */
-        .finance-box { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .finance-box-header { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-        .saldo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center; margin-bottom: 20px; }
-        .saldo-item { background: var(--bg-body); padding: 10px 5px; border-radius: 8px; }
-        .saldo-item p { font-size: 10px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
-        .saldo-item h5 { font-size: 12px; font-weight: 800; }
-        
-        table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        th { text-align: left; padding: 8px; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border); }
-        td { padding: 10px 8px; border-bottom: 1px solid var(--border); vertical-align: top;}
-        .td-nominal { text-align: right; font-weight: 700; white-space: nowrap;}
-        .text-green { color: #065F46; }
-        .text-red { color: #991B1B; }
+        @media (max-width: 480px) {
+            .form-card { padding: 24px 20px; border-radius: 20px; }
+            .report-item { padding: 16px; }
+            .quick-menu { gap: 10px; }
+            .menu-item { padding: 12px 8px; }
+            .menu-icon { font-size: 24px; }
+            .menu-text { font-size: 12px; }
+            .umkm-grid { gap: 8px; }
+            .umkm-img { height: 110px; }
+            .umkm-content { padding: 10px; }
+            .btn-wa { font-size: 11px; padding: 6px; }
+            .finance-summary { grid-template-columns: 1fr; }
+            .finance-table { font-size: 11px; }
+            .finance-table th, .finance-table td { padding: 8px 5px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- GAMBAR BANNERS (Bisa Anda ganti link-nya jika username github berubah) -->
-        <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/banner_popup.png" alt="Banner 1" class="banner-img">
-        <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/fotosampul.png" alt="Banner 2" class="banner-img">
-
-        <div class="logo-text">RESPEK<br><span style="font-size: 10px; font-weight: 600; color: #6B7280;">Revolusi Pemuda Kepuh</span></div>
-
-        <!-- ============================================== -->
-        <!-- VIEW 1: MENU UTAMA (BERANDA)                   -->
-        <!-- ============================================== -->
-        <div id="viewBeranda" class="section-view active">
-            <div class="menu-header">
-                <h2>Portal Aduan & Aspirasi</h2>
-                <p>Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.</p>
-            </div>
-
-            <div class="grid-menu">
-                <div class="menu-card" onclick="alert('Fitur sedang dikembangkan!')">
-                    <div class="menu-icon">👥</div>
-                    <div class="menu-text">Struktur Organisasi</div>
-                </div>
-                <div class="menu-card" onclick="alert('Fitur sedang dikembangkan!')">
-                    <div class="menu-icon">📅</div>
-                    <div class="menu-text">Agenda Acara</div>
-                </div>
-                <div class="menu-card" onclick="alert('Fitur sedang dikembangkan!')">
-                    <div class="menu-icon">🌱</div>
-                    <div class="menu-text">Pengembangan Diri</div>
-                </div>
-                <!-- Tombol Menuju Keuangan -->
-                <div class="menu-card" onclick="pindahHalaman('viewKeuangan')" style="border-color: #A62122; background: #FEF2F2;">
-                    <div class="menu-icon">📊</div>
-                    <div class="menu-text" style="color: #A62122;">Laporan Keuangan</div>
-                </div>
-                <div class="menu-card" onclick="alert('Fitur sedang dikembangkan!')">
-                    <div class="menu-icon">🗳️</div>
-                    <div class="menu-text">Polling & Voting</div>
-                </div>
-                <div class="menu-card" onclick="alert('Fitur sedang dikembangkan!')">
-                    <div class="menu-icon">🏪</div>
-                    <div class="menu-text">Usaha Pemuda (UMKM)</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ============================================== -->
-        <!-- VIEW 2: LAPORAN KEUANGAN TRANSPARAN            -->
-        <!-- ============================================== -->
-        <div id="viewKeuangan" class="section-view">
-            <button class="btn-back" onclick="pindahHalaman('viewBeranda')">← Kembali ke Beranda</button>
-            
-            <h2 class="finance-title">Laporan Keuangan Transparan</h2>
-            <p class="finance-subtitle">Rincian aliran dana kegiatan pemuda dan kas RESPEK Kepuh untuk menjaga akuntabilitas.</p>
-
-            <!-- TABS PILIHAN KATEGORI -->
-            <div class="tabs-container">
-                <button class="tab-btn active" onclick="pilihTabKeuangan('Kas Pemuda', this)">Kas Pemuda</button>
-                <button class="tab-btn" onclick="pilihTabKeuangan('Malam 1 Suro', this)">Malam 1 Suro</button>
-                <button class="tab-btn" onclick="pilihTabKeuangan('17 Agustus', this)">17 Agustus</button>
-                <button class="tab-btn" onclick="pilihTabKeuangan('Maulid Nabi', this)">Maulid Nabi</button>
-            </div>
-
-            <!-- KOTAK DATA KEUANGAN -->
-            <div class="finance-box">
-                <div class="finance-box-header" id="judulKegiatan">Data Kegiatan: Kas Pemuda</div>
-                
-                <!-- 3 Box Saldo -->
-                <div class="saldo-grid">
-                    <div class="saldo-item">
-                        <p>Total Pemasukan</p>
-                        <h5 id="txtTotalMasuk" class="text-green">Rp 0</h5>
-                    </div>
-                    <div class="saldo-item">
-                        <p>Total Pengeluaran</p>
-                        <h5 id="txtTotalKeluar" class="text-red">Rp 0</h5>
-                    </div>
-                    <div class="saldo-item">
-                        <p>Sisa Saldo Kegiatan</p>
-                        <h5 id="txtSisaSaldo">Rp 0</h5>
-                    </div>
-                </div>
-
-                <!-- Tabel Riwayat Transaksi -->
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Tanggal</th>
-                            <th>Keterangan / Rincian</th>
-                            <th style="text-align: right;">Nominal</th>
-                        </tr>
-                    </thead>
-                    <tbody id="bodyTabelKeuangan">
-                        <tr><td colspan="3" style="text-align:center; padding: 20px;">Memuat data...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <button class="btn-back full" onclick="pindahHalaman('viewBeranda')">← Kembali ke Beranda</button>
-        </div>
-
-        <!-- Pintu Masuk Rahasia Admin -->
-        <div style="text-align: center; margin-top: 40px; padding-bottom: 20px;">
-            <a href="admin.html" style="color: #D1D5DB; font-size: 11px; text-decoration: none;">Akses Admin</a>
+    <div id="popupBanner" class="popup-overlay">
+        <div class="popup-content">
+            <button class="popup-close" onclick="tutupPopup()">×</button>
+            <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/banner_popup.png" alt="Pengumuman Penting" class="popup-image">
         </div>
     </div>
 
-    <!-- ============================================== -->
-    <!-- SCRIPT LOGIKA & KONEKSI SUPABASE               -->
-    <!-- ============================================== -->
+    <div class="container">
+        <header>
+            <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/fotosampul.png" alt="Foto Sampul Portal RESPEK" class="cover-photo">
+            <img src="banner_muharam.png" alt="Memperingati 1 Muharam - Malam Satu Suro di Dukuh Kepuh" class="cover-photo-banner">
+            <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/logo.png" alt="Logo Pemuda RESPEK" class="brand-logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✊</text></svg>'">
+            <h1>Portal Aduan & Aspirasi</h1>
+            <p>Sampaikan kritik, saran, dan laporan untuk kemajuan Kepuh secara transparan.</p>
+        </header>
+
+        <div class="ticker-wrap">
+            <div class="ticker-text">
+                • Narasi dibuat, Data di setting, Ketakutan di sebarkan, Jebakan dijual seolah-olah solusi " • IT'S TIME TO WAKE UP, PEOPLE! •
+            </div>
+        </div>
+
+        <nav class="quick-menu">
+            <a href="#" class="menu-item" onclick="alert('Halaman Struktur Organisasi segera hadir!'); return false;">
+                <span class="menu-icon">👥</span>
+                <span class="menu-text">Struktur Organisasi</span>
+            </a>
+            <a href="#" class="menu-item" onclick="alert('Halaman Agenda Acara segera hadir!'); return false;">
+                <span class="menu-icon">📅</span>
+                <span class="menu-text">Agenda Acara</span>
+            </a>
+            <a href="#" class="menu-item" onclick="tampilkanPengembanganDiri(); return false;">
+                <span class="menu-icon">🌱</span>
+                <span class="menu-text">Pengembangan Diri</span>
+            </a>
+            <a href="#" class="menu-item" onclick="tampilkanKeuangan(); return false;">
+                <span class="menu-icon">📊</span>
+                <span class="menu-text">Laporan Keuangan</span>
+            </a>
+            <a href="#" class="menu-item" onclick="alert('Halaman Polling & Voting segera hadir!'); return false;">
+                <span class="menu-icon">🗳️</span>
+                <span class="menu-text">Polling & Voting</span>
+            </a>
+            <a href="#" class="menu-item" onclick="tampilkanUMKM(); return false;">
+                <span class="menu-icon">🏪</span>
+                <span class="menu-text">Usaha Pemuda (UMKM)</span>
+            </a>
+        </nav>
+
+        <main class="form-card" id="formSection">
+            <div id="alertBox"></div>
+            <form id="formAduan">
+                <input type="text" id="perangkapBot" class="honeypot-field" autocomplete="off" tabindex="-1">
+                <div class="form-group">
+                    <label for="judul">Judul Laporan</label>
+                    <input type="text" id="judul" placeholder="Contoh: Ada pemuda yang sedang bertikai" required>
+                </div>
+                <div class="form-group">
+                    <label for="kategori">Kategori</label>
+                    <select id="kategori" required>
+                        <option value="">-- Pilih Kategori --</option>
+                        <option value="Infrastruktur">Infrastruktur & Fasilitas Umum</option>
+                        <option value="Lingkungan">Lingkungan & Kebersihan</option>
+                        <option value="Keamanan">Ketertiban & Keamanan</option>
+                        <option value="Program">Ide Program & Kegiatan</option>
+                        <option value="Lainnya">Kritik & Saran Lainnya</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="deskripsi">Deskripsi Detail</label>
+                    <textarea id="deskripsi" rows="4" placeholder="Ceritakan detail keluhan atau gagasan Anda (minimal 20 karakter)..." required></textarea>
+                    <div id="charCount" style="font-size: 11px; color: var(--text-muted); text-align: right; margin-top: 4px; font-weight: 600;">0 karakter (Minimal 20)</div>
+                </div>
+                <div class="form-group">
+                    <label for="foto">Unggah Bukti Foto</label>
+                    <input type="file" id="foto" accept="image/*">
+                    <img id="previewFoto" style="display:none; width: 100%; max-height: 250px; object-fit: cover; border-radius: 12px; margin-top: 15px; border: 1px solid #E5E7EB;">
+                    <small>Sistem otomatis mengecilkan ukuran foto agar hemat kuota. Hanya file gambar (.jpg, .png, .webp).</small>
+                </div>
+                <div class="form-checkbox">
+                    <input type="checkbox" id="anonim">
+                    <label for="anonim">Kirim sebagai Anonim (Nama disembunyikan)</label>
+                </div>
+                <button type="submit" class="btn-submit" id="btnKirim">Kirim Laporan</button>
+            </form>
+        </main>
+
+        <section class="live-board" id="boardSection">
+            <div style="background: #FFFFFF; padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--border); margin-bottom: 24px; box-shadow: var(--shadow-sm);">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+                    <span style="font-size: 22px;">🏆</span>
+                    <h2 style="font-size: 18px; font-weight: 800; color: var(--text-main);">3 Aspirasi Terbanyak Didukung</h2>
+                </div>
+                <div id="papanLeaderboard" style="display: flex; flex-direction: column; gap: 10px;">
+                    <div class="loading-box" style="padding:10px;"><div class="loader" style="width: 24px; height: 24px; border-width: 3px;"></div>Memuat papan peringkat...</div>
+                </div>
+            </div>
+
+            <div class="live-board-header">
+                <h2>Semua Aspirasi Masuk</h2>
+                <span class="badge-live">LIVE UPDATE</span>
+            </div>
+            
+            <div style="margin-bottom: 16px;">
+                <select id="filterKategoriLaporan" onchange="filterLaporanSisiKlien()" style="padding: 8px 12px; font-size: 12px; border-radius: 20px; background-color: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); font-weight: 600; cursor: pointer; outline: none; box-shadow: var(--shadow-sm);">
+                    <option value="Semua">🔍 Semua Kategori</option>
+                    <option value="Infrastruktur">Infrastruktur & Fasilitas</option>
+                    <option value="Lingkungan">Lingkungan & Kebersihan</option>
+                    <option value="Keamanan">Ketertiban & Keamanan</option>
+                    <option value="Program">Ide Program & Kegiatan</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
+            </div>
+
+            <div id="daftarLaporan">
+                <div class="loading-box"><div class="loader"></div>Memuat data laporan...</div>
+            </div>
+        </section>
+
+        <section id="pengembanganDiriSection" style="display: none; animation: fadeIn 0.3s ease; margin-bottom: 40px;">
+            <button class="btn-back-top" onclick="tampilkanBeranda()">⬅ Kembali ke Beranda</button>
+            <div class="umkm-header">
+                <h2>Pusat Pengembangan Diri</h2>
+            </div>
+            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">Tingkatkan keahlianmu! Akses materi dan workshop khusus yang dirancang untuk pemuda Kepuh.</p>
+            <div class="umkm-grid" id="daftarPengembangan">
+                <div class="loading-box" style="grid-column: span 2;"><div class="loader"></div>Memuat program pelatihan...</div>
+            </div>
+            <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 24px; background-color: var(--text-muted); box-shadow: none;">⬅ Kembali ke Beranda</button>
+        </section>
+
+        <section id="keuanganSection" style="display: none; animation: fadeIn 0.3s ease; margin-bottom: 40px;">
+            <button class="btn-back-top" onclick="tampilkanBeranda()">⬅ Kembali ke Beranda</button>
+            <div class="umkm-header">
+                <h2>Laporan Keuangan Transparan</h2>
+            </div>
+            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">Rincian aliran dana kegiatan pemuda dan kas RESPEK Kepuh untuk menjaga akuntabilitas.</p>
+
+            <div class="finance-tabs">
+                <button class="finance-tab-btn active" onclick="bukaTabKeuangan(event, 'tabKasPemuda')">Kas Pemuda</button>
+                <button class="finance-tab-btn" onclick="bukaTabKeuangan(event, 'tab1Suro')">Malam 1 Suro</button>
+                <button class="finance-tab-btn" onclick="bukaTabKeuangan(event, 'tab17Agustus')">17 Agustus</button>
+                <button class="finance-tab-btn" onclick="bukaTabKeuangan(event, 'tabMaulid')">Maulid Nabi</button>
+            </div>
+
+            <div id="tabKasPemuda" class="finance-content" style="display: block;">
+                <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 24px;">
+                    <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Laporan: Kas Pemuda RESPEK</h3>
+                    <div class="finance-summary">
+                        <div class="finance-box masuk"><h4>Total Pemasukan</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box keluar"><h4>Total Pengeluaran</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box"><h4>Sisa Saldo Kas</h4><div class="amount">Rp 0</div></div>
+                    </div>
+                    <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
+                        <table class="finance-table">
+                            <thead><tr><th>Tanggal</th><th>Keterangan / Rincian</th><th class="text-right">Nominal</th></tr></thead>
+                            <tbody><tr><td>-</td><td>Belum ada rincian kegiatan</td><td class="text-right">-</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab1Suro" class="finance-content">
+                <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 24px;">
+                    <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Kegiatan: Malam 1 Suro</h3>
+                    <div class="finance-summary">
+                        <div class="finance-box masuk"><h4>Total Pemasukan</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box keluar"><h4>Total Pengeluaran</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box"><h4>Sisa Saldo Kegiatan</h4><div class="amount">Rp 0</div></div>
+                    </div>
+                    <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
+                        <table class="finance-table">
+                            <thead><tr><th>Tanggal</th><th>Keterangan / Rincian</th><th class="text-right">Nominal</th></tr></thead>
+                            <tbody><tr><td>-</td><td>Belum ada rincian kegiatan</td><td class="text-right">-</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab17Agustus" class="finance-content">
+                <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 24px;">
+                    <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Kegiatan: 17 Agustus</h3>
+                    <div class="finance-summary">
+                        <div class="finance-box masuk"><h4>Total Pemasukan</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box keluar"><h4>Total Pengeluaran</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box"><h4>Sisa Saldo Kegiatan</h4><div class="amount">Rp 0</div></div>
+                    </div>
+                    <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
+                        <table class="finance-table">
+                            <thead><tr><th>Tanggal</th><th>Keterangan / Rincian</th><th class="text-right">Nominal</th></tr></thead>
+                            <tbody><tr><td>-</td><td>Belum ada rincian kegiatan</td><td class="text-right">-</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tabMaulid" class="finance-content">
+                <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 24px;">
+                    <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Data Kegiatan: Maulid Nabi</h3>
+                    <div class="finance-summary">
+                        <div class="finance-box masuk"><h4>Total Pemasukan</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box keluar"><h4>Total Pengeluaran</h4><div class="amount">Rp 0</div></div>
+                        <div class="finance-box"><h4>Sisa Saldo Kegiatan</h4><div class="amount">Rp 0</div></div>
+                    </div>
+                    <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;">
+                        <table class="finance-table">
+                            <thead><tr><th>Tanggal</th><th>Keterangan / Rincian</th><th class="text-right">Nominal</th></tr></thead>
+                            <tbody><tr><td>-</td><td>Belum ada rincian kegiatan</td><td class="text-right">-</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 10px; background-color: var(--text-muted); box-shadow: none;">⬅ Kembali ke Beranda</button>
+        </section>
+
+        <section id="umkmSection" style="display: none; animation: fadeIn 0.3s ease; margin-bottom: 40px;">
+            <button class="btn-back-top" onclick="tampilkanBeranda()">⬅ Kembali ke Beranda</button>
+            <div class="umkm-header">
+                <h2>Lapak UMKM Pemuda</h2>
+                <a href="#" class="btn-add-umkm" onclick="alert('Formulir tambah usaha segera hadir!'); return false;">+ Tambah Usaha</a>
+            </div>
+            <p style="color: var(--text-muted); font-size: 14px;">Dukung ekonomi lokal! Harga jujur, kualitas terjamin karya pemuda Kepuh.</p>
+            
+            <div class="umkm-grid">
+                <div class="umkm-card">
+                    <img src="https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Kripik Singkong" class="umkm-img">
+                    <div class="umkm-content">
+                        <span class="umkm-category">KULINER</span>
+                        <h3 class="umkm-title">Kripik Singkong Balado Mang Oleh</h3>
+                        <div class="umkm-price">Rp 15.000</div>
+                        <p class="umkm-desc">Renyah, gurih, bumbu balado asli pedas manis. Kemasan pouch ziplock 250 gram tahan lama.</p>
+                        <div class="umkm-owner"><span>👤</span> Budi Santoso</div>
+                        <a href="https://wa.me/6281234567890?text=Halo%20Budi,%20saya%20mau%20pesan%20Kripik%20Singkong" target="_blank" class="btn-wa">💬 Beli via WA</a>
+                    </div>
+                </div>
+                <div class="umkm-card">
+                    <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Servis Laptop" class="umkm-img">
+                    <div class="umkm-content">
+                        <span class="umkm-category">JASA</span>
+                        <h3 class="umkm-title">Servis PC & Instal Ulang Windows</h3>
+                        <div class="umkm-price">Mulai Rp 50.000</div>
+                        <p class="umkm-desc">Melayani instal ulang Windows, format hardisk, tambah RAM, dan pembersihan virus. Bisa panggil ke rumah.</p>
+                        <div class="umkm-owner"><span>👤</span> Andi Pratama</div>
+                        <a href="https://wa.me/6281234567890" target="_blank" class="btn-wa">💬 Hubungi via WA</a>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 24px; background-color: var(--text-muted); box-shadow: none;">⬅ Kembali ke Beranda</button>
+        </section>
+
+    </div>
+    <footer class="app-footer">
+        &copy; 2026 Pemuda RESPEK (Revolusi Pemuda Kepuh)
+    </footer>
+
+    <script>
+        // Logika Pop-up Banner
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const popup = document.getElementById('popupBanner');
+                if(popup) popup.classList.add('show');
+            }, 1000); 
+        });
+
+        function tutupPopup() {
+            const popup = document.getElementById('popupBanner');
+            if(popup) popup.classList.remove('show');
+        }
+
+        document.getElementById('popupBanner').addEventListener('click', function(e) {
+            if (e.target === this) {
+                tutupPopup();
+            }
+        });
+
+        // Fungsi Buka Tab Laporan Keuangan
+        function bukaTabKeuangan(evt, namaTab) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("finance-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("finance-tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(namaTab).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Fungsi Navigasi Halaman Utama
+        function tampilkanUMKM() {
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('boardSection').style.display = 'none';
+            document.querySelector('.ticker-wrap').style.display = 'none'; 
+            document.getElementById('pengembanganDiriSection').style.display = 'none';
+            document.getElementById('keuanganSection').style.display = 'none';
+            document.getElementById('umkmSection').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function tampilkanPengembanganDiri() {
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('boardSection').style.display = 'none';
+            document.querySelector('.ticker-wrap').style.display = 'none'; 
+            document.getElementById('umkmSection').style.display = 'none';
+            document.getElementById('keuanganSection').style.display = 'none';
+            document.getElementById('pengembanganDiriSection').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function tampilkanKeuangan() {
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('boardSection').style.display = 'none';
+            document.querySelector('.ticker-wrap').style.display = 'none'; 
+            document.getElementById('umkmSection').style.display = 'none';
+            document.getElementById('pengembanganDiriSection').style.display = 'none';
+            document.getElementById('keuanganSection').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function tampilkanBeranda() {
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('boardSection').style.display = 'block';
+            document.querySelector('.ticker-wrap').style.display = 'block'; 
+            document.getElementById('umkmSection').style.display = 'none';
+            document.getElementById('pengembanganDiriSection').style.display = 'none';
+            document.getElementById('keuanganSection').style.display = 'none';
+            // Kembalikan filter ke Semua saat kembali ke beranda
+            document.getElementById('filterKategoriLaporan').value = 'Semua';
+            if(window.filterLaporanSisiKlien) window.filterLaporanSisiKlien();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
     <script type="module">
         import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-        
-        // Kredensial Database Anda
         const supabaseUrl = 'https://omqxookhwflcmwvqmwyv.supabase.co';
         const supabaseKey = 'sb_publishable_VqZJB-MLy7-f2lqyX3kZig_BVMSkIKX';
         const supabase = createClient(supabaseUrl, supabaseKey);
-
-        // FUNGSI 1: Navigasi Pindah Halaman
-        window.pindahHalaman = function(idView) {
-            document.querySelectorAll('.section-view').forEach(view => view.classList.remove('active'));
-            document.getElementById(idView).classList.add('active');
-            window.scrollTo(0, 0);
-
-            // Jika buka menu keuangan, otomatis muat tab 17 Agustus
-            if(idView === 'viewKeuangan') {
-                // Cari tombol 17 Agustus dan klik otomatis
-                const tab17 = Array.from(document.querySelectorAll('.tab-btn')).find(el => el.textContent === '17 Agustus');
-                if(tab17) pilihTabKeuangan('17 Agustus', tab17);
-            }
-        };
-
-        // FUNGSI 2: Ganti Tab Keuangan (Ubah Warna Tombol)
-        window.pilihTabKeuangan = function(kategori, element) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            if(element) element.classList.add('active');
-            
-            // Panggil data dari database
-            muatDataKeuangan(kategori);
-        };
-
-        // FUNGSI 3: Tarik Data Keuangan dari Database Supabase
-        async function muatDataKeuangan(kategori) {
-            document.getElementById('judulKegiatan').innerText = `Data Kegiatan: ${kategori}`;
-            const tbody = document.getElementById('bodyTabelKeuangan');
-            tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding: 20px;">Memuat riwayat kas...</td></tr>';
-
-            // Tarik data dari tabel 'finances' yang kategorinya sesuai tab
-            const { data, error } = await supabase
-                .from('finances')
-                .select('*')
-                .eq('category', kategori)
-                .order('date', { ascending: false });
-
-            if (error) {
-                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:red;">Gagal terhubung ke database.</td></tr>';
-                return;
-            }
-
-            let totalMasuk = 0;
-            let totalKeluar = 0;
-            let htmlRows = '';
-
-            // Jika data kosong
-            if (!data || data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding: 20px;">Belum ada rincian kegiatan</td></tr>';
-                perbaruiTampilanSaldo(0, 0, 0);
-                return;
-            }
-
-            // Jika ada data, hitung dan buat baris tabel
-            data.forEach(item => {
-                const tglFormat = new Date(item.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-                const formatNominal = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(item.amount);
-                
-                let kelasWarna = '';
-                let simbol = '';
-
-                if (item.type === 'masuk') {
-                    totalMasuk += item.amount;
-                    kelasWarna = 'text-green';
-                    simbol = '(+) ';
-                } else {
-                    totalKeluar += item.amount;
-                    kelasWarna = 'text-red';
-                    simbol = '(-) ';
+        
+        const formAduan = document.getElementById('formAduan');
+        const btnKirim = document.getElementById('btnKirim');
+        const alertBox = document.getElementById('alertBox');
+        const daftarLaporanContainer = document.getElementById('daftarLaporan');
+        
+        document.getElementById('foto').addEventListener('change', function() {
+            const preview = document.getElementById('previewFoto');
+            const file = this.files[0];
+            if (file) {
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Hanya file gambar (JPG, PNG, WebP, GIF) yang diperbolehkan.');
+                    this.value = '';
+                    preview.style.display = 'none';
+                    return;
                 }
-
-                htmlRows += `
-                    <tr>
-                        <td>${tglFormat}</td>
-                        <td>${item.description}</td>
-                        <td class="td-nominal ${kelasWarna}">${simbol}${formatNominal}</td>
-                    </tr>
-                `;
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+                preview.src = "";
+            }
+        });
+        
+        function bersihkanTeks(str) {
+            if (!str) return "";
+            return str.replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag]));
+        }
+        
+        async function compressImage(file) {
+            return new Promise((resolve) => {
+                if (!file.type.startsWith('image/')) return resolve(file);
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const scaleSize = 800 / img.width;
+                        if(img.width > 800) { canvas.width = 800; canvas.height = img.height * scaleSize; } 
+                        else { canvas.width = img.width; canvas.height = img.height; }
+                        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                        canvas.toBlob((blob) => { resolve(new File([blob], file.name, { type: 'image/jpeg' })); }, 'image/jpeg', 0.7);
+                    };
+                };
             });
-
-            const sisaSaldo = totalMasuk - totalKeluar;
-            
-            // Tampilkan ke layar
-            perbaruiTampilanSaldo(totalMasuk, totalKeluar, sisaSaldo);
-            tbody.innerHTML = htmlRows;
         }
 
-        // FUNGSI BANTUAN: Format Angka ke Rupiah
-        function perbaruiTampilanSaldo(masuk, keluar, sisa) {
-            const formatRupiah = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(angka);
-            
-            document.getElementById('txtTotalMasuk').innerText = formatRupiah(masuk);
-            document.getElementById('txtTotalKeluar').innerText = formatRupiah(keluar);
-            document.getElementById('txtSisaSaldo').innerText = formatRupiah(sisa);
+        async function fetchLaporan() {
+            daftarLaporanContainer.innerHTML = '<div class="loading-box"><div class="loader"></div>Memuat data laporan...</div>';
+            try {
+                const { data, error } = await supabase.from('reports').select('*').order('created_at', { ascending: false }).limit(20);
+                if (error) throw error;
+                if (data.length === 0) {
+                    daftarLaporanContainer.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px;">Belum ada laporan masuk.</p>';
+                    return;
+                }
+                
+                const sudahDukung = JSON.parse(localStorage.getItem('respek_upvotes') || '[]');
+                let htmlContent = '';
+                
+                data.forEach(report => {
+                    const tgl = new Date(report.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute:'2-digit' });
+                    let statusColor = report.status === 'Selesai' ? '#D1FAE5' : report.status === 'Diproses' ? '#DBEAFE' : '#FEF3C7';
+                    
+                    const cekDukung = sudahDukung.includes(report.id) ? 'sudah-dukung' : '';
+                    const teksTombol = sudahDukung.includes(report.id) ? '✓ Didukung' : '🔺 Dukung Aspirasi';
+
+                    const pesanWA = `Mari dukung aspirasi warga Kepuh di Portal Pemuda RESPEK! ✊\n\n📌 *${report.title}*\n\nYuk bantu upvote dan lihat selengkapnya di sini:\n${window.location.href}`;
+                    const linkWA = `https://wa.me/?text=${encodeURIComponent(pesanWA)}`;
+
+                    htmlContent += `
+                        <div class="report-item">
+                            <div class="report-header">
+                                <span class="report-title">${bersihkanTeks(report.title)}</span>
+                                <span class="status-badge" style="background-color: ${statusColor}">${report.status}</span>
+                            </div>
+                            <div class="report-meta">👤 ${bersihkanTeks(report.author_name)} | 🏷️ ${report.category} <br> 🕒 ${tgl}</div>
+                            <div class="report-desc">"${bersihkanTeks(report.description)}"</div>
+                            ${report.image_url ? `<img src="${report.image_url}" class="report-image">` : ''}
+                            <div style="display:flex; flex-wrap:wrap;">
+                                <button class="btn-upvote ${cekDukung}" onclick="dukungAspirasi('${report.id}', ${report.upvotes || 0})">
+                                    ${teksTombol} (${report.upvotes || 0})
+                                </button>
+                                <a href="${linkWA}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; background-color: #25D366; color: white; border: none; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; margin-top: 10px; margin-left: 8px; transition: 0.2s;">
+                                    💬 Bagikan
+                                </a>
+                            </div>
+                        </div>`;
+                });
+                daftarLaporanContainer.innerHTML = htmlContent;
+                // Aplikasikan filter saat data selesai dimuat
+                if(window.filterLaporanSisiKlien) window.filterLaporanSisiKlien();
+            } catch (error) {
+                console.error(error);
+                daftarLaporanContainer.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px;">⚠️ Gagal memuat laporan. Periksa koneksi Anda.</p>';
+            }
         }
 
+        async function fetchLeaderboard() {
+            const container = document.getElementById('papanLeaderboard');
+            container.innerHTML = '<div class="loading-box" style="padding:10px;"><div class="loader" style="width: 24px; height: 24px; border-width: 3px;"></div>Memuat papan peringkat...</div>';
+            try {
+                const { data, error } = await supabase.from('reports').select('id, title, upvotes').gt('upvotes', 0).order('upvotes', { ascending: false }).limit(3);
+                if (error) throw error;
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#9CA3AF; font-size:12px; padding:10px; background:#F9FAFB; border-radius:8px;">Belum ada peringkat.</p>'; return;
+                }
+                
+                let htmlContent = '';
+                const medali = ['🥇', '🥈', '🥉'];
+                const warnaBatas = ['#FBBF24', '#9CA3AF', '#F59E0B'];
+                
+                data.forEach((item, index) => {
+                    htmlContent += `
+                        <div style="display: flex; align-items: center; justify-content: space-between; background: #F9FAFB; padding: 10px 14px; border-radius: 10px; border-left: 4px solid ${warnaBatas[index]}">
+                            <div style="display: flex; align-items: center; gap: 10px; width: 75%;">
+                                <span style="font-size: 18px;">${medali[index]}</span>
+                                <span style="font-size: 13px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%;">
+                                    ${bersihkanTeks(item.title)}
+                                </span>
+                            </div>
+                            <span style="font-size: 12px; background: rgba(166,33,34,0.1); color: var(--primary); padding: 4px 10px; border-radius: 12px; font-weight: 800; white-space: nowrap;">
+                                🔺 ${item.upvotes}
+                            </span>
+                        </div>`;
+                });
+                container.innerHTML = htmlContent;
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:12px; padding:10px;">⚠️ Gagal memuat leaderboard.</p>';
+            }
+        }
+
+        window.dukungAspirasi = async function(id, currentUpvotes) {
+            let listDukung = JSON.parse(localStorage.getItem('respek_upvotes') || '[]');
+            if (listDukung.includes(id)) { alert("Kamu sudah memberikan dukungan untuk aspirasi ini sebelumnya!"); return; }
+            try {
+                const { error } = await supabase.from('reports').update({ upvotes: currentUpvotes + 1 }).eq('id', id);
+                if (error) throw error;
+                listDukung.push(id);
+                localStorage.setItem('respek_upvotes', JSON.stringify(listDukung));
+                fetchLaporan();
+                fetchLeaderboard();
+            } catch (error) { alert("Gagal mengirim dukungan, periksa jaringan kamu."); }
+        }
+
+        async function fetchPengembanganDiri() {
+            const container = document.getElementById('daftarPengembangan');
+            container.innerHTML = '<div class="loading-box" style="grid-column: span 2;"><div class="loader"></div>Memuat program pelatihan...</div>';
+            try {
+                const { data, error } = await supabase.from('self_developments').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px; grid-column: span 2;">Belum ada program kelas/pelatihan.</p>'; return;
+                }
+                let htmlContent = '';
+                data.forEach(item => {
+                    const imgUrl = item.image_url || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80';
+                    htmlContent += `
+                        <div class="umkm-card">
+                            <img src="${imgUrl}" class="umkm-img">
+                            <div class="umkm-content">
+                                <span class="umkm-category">${bersihkanTeks(item.category).toUpperCase()}</span>
+                                <h3 class="umkm-title">${bersihkanTeks(item.title)}</h3>
+                                <div class="umkm-price" style="font-size:11px; color:var(--text-muted); font-weight:600; margin-bottom:6px;">👤 Mentor: ${bersihkanTeks(item.instructor)}</div>
+                                <p class="umkm-desc">${bersihkanTeks(item.description)}</p>
+                                <a href="${item.link_url || '#'}" target="_blank" class="btn-wa" style="background: var(--primary);">🚀 Ikuti Kelas</a>
+                            </div>
+                        </div>`;
+                });
+                container.innerHTML = htmlContent;
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px; grid-column: span 2;">⚠️ Gagal memuat data pengembangan diri.</p>';
+            }
+        }
+
+        function showAlert(msg, type) {
+            alertBox.textContent = msg; alertBox.className = type === 'success' ? 'alert-success' : 'alert-error';
+            alertBox.style.animation = 'none';
+            alertBox.style.display = 'block';
+            alertBox.offsetHeight; 
+            alertBox.style.animation = 'fadeIn 0.3s ease';
+            setTimeout(() => { alertBox.style.display = 'none'; }, 6000); 
+        }
+
+        formAduan.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (document.getElementById('perangkapBot').value !== "") { 
+                showAlert("Laporan berhasil dikirim!", "success"); 
+                formAduan.reset(); 
+                document.getElementById('charCount').innerHTML = '0 karakter <span style="color: var(--error-text);">(Minimal 20)</span>';
+                return; 
+            }
+            
+            const deskripsi = document.getElementById('deskripsi').value.trim();
+            if (deskripsi.length < 20) {
+                showAlert("Deskripsi minimal 20 karakter.", "error");
+                return;
+            }
+            
+            const waktuTerakhir = localStorage.getItem('lastReportTime');
+            if (waktuTerakhir && (Date.now() - parseInt(waktuTerakhir) < 180000)) { 
+                showAlert(`Harap tunggu sebelum mengirim laporan baru.`, "error"); 
+                return; 
+            }
+            
+            btnKirim.disabled = true; btnKirim.innerText = "Memproses..."; alertBox.style.display = 'none';
+            const judul = document.getElementById('judul').value;
+            const kategori = document.getElementById('kategori').value;
+            const fotoFile = document.getElementById('foto').files[0];
+            const isAnonim = document.getElementById('anonim').checked;
+            let imageUrl = "";
+            
+            try {
+                if (fotoFile) {
+                    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+                    if (!allowedTypes.includes(fotoFile.type)) {
+                        showAlert("File yang diunggah harus berupa gambar (JPG, PNG, WebP, GIF).", "error");
+                        btnKirim.disabled = false; btnKirim.innerText = "Kirim Laporan";
+                        return;
+                    }
+                    const fotoKompres = await compressImage(fotoFile);
+                    const namaUnik = `laporan_${Date.now()}_${fotoKompres.name.replace(/\s+/g, '-')}`;
+                    const { error: uploadError } = await supabase.storage.from('foto-bukti').upload(namaUnik, fotoKompres);
+                    if (uploadError) throw uploadError;
+                    imageUrl = supabase.storage.from('foto-bukti').getPublicUrl(namaUnik).data.publicUrl;
+                }
+                const { error } = await supabase.from('reports').insert([{
+                    title: judul, category: kategori, description: deskripsi, image_url: imageUrl, status: "Menunggu", upvotes: 0, author_name: isAnonim ? "Anonim" : "Warga Kepuh"
+                }]);
+                if (error) throw error;
+                
+                localStorage.setItem('lastReportTime', Date.now());
+                showAlert("Laporan berhasil dikirim!", "success");
+                formAduan.reset(); 
+                document.getElementById('charCount').innerHTML = '0 karakter <span style="color: var(--error-text);">(Minimal 20)</span>';
+                document.getElementById('previewFoto').style.display = 'none';
+                fetchLaporan(); 
+                fetchLeaderboard();
+            } catch (error) { 
+                showAlert(`Gagal mengirim laporan.`, "error"); 
+            } finally { 
+                btnKirim.disabled = false; 
+                btnKirim.innerText = "Kirim Laporan"; 
+            }
+        });
+
+        // TAMBAHAN: JS Fitur Penghitung Karakter
+        document.getElementById('deskripsi').addEventListener('input', function() {
+            const len = this.value.trim().length;
+            const counter = document.getElementById('charCount');
+            if (len < 20) {
+                counter.innerHTML = `${len} karakter <span style="color: var(--error-text);">(Minimal 20)</span>`;
+            } else {
+                counter.innerHTML = `${len} karakter <span style="color: var(--success-text);">✅ Mantap!</span>`;
+            }
+        });
+
+        // TAMBAHAN: JS Fungsi Filter Kategori Laporan (Sisi Klien)
+        window.filterLaporanSisiKlien = function() {
+            const kategoriPilihan = document.getElementById('filterKategoriLaporan').value;
+            const semuaLaporan = document.querySelectorAll('.report-item');
+            
+            semuaLaporan.forEach(laporan => {
+                const teksKategori = laporan.querySelector('.report-meta').innerText;
+                if (kategoriPilihan === "Semua" || teksKategori.includes(kategoriPilihan)) {
+                    laporan.style.display = "block";
+                    laporan.style.animation = "fadeIn 0.3s ease";
+                } else {
+                    laporan.style.display = "none";
+                }
+            });
+        };
+
+        fetchLaporan();
+        fetchLeaderboard();
+        fetchPengembanganDiri();
     </script>
 </body>
 </html>
