@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#A62122">
     <title>Suara Pemuda RESPEK - Portal Aduan</title>
-    <!-- Konfigurasi PWA Warga Agar Bisa Diinstal di HP -->
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -183,6 +182,34 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loading-box { text-align: center; padding: 20px; color: var(--text-muted); font-size: 13px; }
 
+        /* KUSTOM CSS UNTUK MENU LIVE CHAT */
+        .fab-chat {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 48px;
+            height: 48px;
+            background-color: var(--primary);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 50%;
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            z-index: 999999;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .fab-chat:hover {
+            background-color: var(--primary-hover);
+            transform: scale(1.08) translateY(-2px);
+        }
+        .fab-chat:active {
+            transform: scale(0.95);
+        }
+
         @media (max-width: 480px) {
             .form-card { padding: 24px 20px; border-radius: 20px; }
             .report-item { padding: 16px; }
@@ -197,6 +224,15 @@
             .finance-summary { grid-template-columns: 1fr; }
             .finance-table { font-size: 11px; }
             .finance-table th, .finance-table td { padding: 8px 5px; }
+            
+            /* Penyesuaian ukuran chat di HP */
+            .fab-chat {
+                bottom: 16px;
+                right: 16px;
+                width: 44px;
+                height: 44px;
+                font-size: 18px;
+            }
         }
     </style>
 </head>
@@ -208,6 +244,8 @@
             <img src="https://raw.githubusercontent.com/zeraX23/saran-respek/main/banner_popup.png" alt="Pengumuman Penting" class="popup-image">
         </div>
     </div>
+
+    <button class="fab-chat" onclick="bukaLiveChat()" aria-label="Hubungi Live Chat Admin">💬</button>
 
     <div class="container">
         <header>
@@ -688,30 +726,40 @@
         fetchPengembanganDiri();
     </script>
 
-    <!-- Registrasi Service Worker untuk PWA Install -->
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./sw.js')
                 .then(reg => console.log('[SW] Terdaftar:', reg.scope))
                 .catch(err => console.error('[SW] Gagal:', err));
         }
-        ‎        if ('serviceWorker' in navigator) {
-‎            navigator.serviceWorker.register('./sw.js')
-‎                .then(reg => console.log('[SW] Terdaftar:', reg.scope))
-‎                .catch(err => console.error('[SW] Gagal:', err));
-‎        }
-‎    </script>
-‎
-‎    <script type="text/javascript">
-‎    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-‎    (function(){
-‎    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-‎    s1.async=true;
-‎    s1.src='https://embed.tawk.to/6a2bb8e794300f1c3434d6ae/default';
-‎    s1.charset='UTF-8';
-‎    s1.setAttribute('crossorigin','*');
-‎    s0.parentNode.insertBefore(s1,s0);
-‎    })();
     </script>
+
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        
+        // Sembunyikan widget bubble default bawaan Tawk.to supaya tidak dobel & mengganggu desain app
+        Tawk_API.onLoad = function(){
+            Tawk_API.hideWidget();
+        };
+
+        // Fungsi pemicu ketika tombol kustom ditekan
+        window.bukaLiveChat = function() {
+            if (typeof Tawk_API !== 'undefined' && Tawk_API.toggle) {
+                Tawk_API.toggle();
+            } else {
+                alert("Sistem chat sedang bersiap, mohon tunggu sebentar...");
+            }
+        };
+
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/6a2bb8e794300f1c3434d6ae/default';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+
 </body>
 </html>
