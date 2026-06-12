@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <meta name="theme-color" content="#A62122">
     <title>Suara Pemuda RESPEK - Portal Aduan</title>
     <link rel="manifest" href="manifest.json">
@@ -729,7 +734,23 @@
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./sw.js')
-                .then(reg => console.log('[SW] Terdaftar:', reg.scope))
+                .then(reg => {
+                    console.log('[SW] Terdaftar:', reg.scope);
+                    
+                    // Memaksa service worker untuk mengecek pembaruan setiap kali dibuka
+                    reg.update();
+                    
+                    // Mendeteksi jika ada pembaruan di service worker atau file HTML
+                    reg.onupdatefound = () => {
+                        const installingWorker = reg.installing;
+                        installingWorker.onstatechange = () => {
+                            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // Jika ada versi terbaru, otomatis merefresh halaman
+                                window.location.reload(true);
+                            }
+                        };
+                    };
+                })
                 .catch(err => console.error('[SW] Gagal:', err));
         }
     </script>
