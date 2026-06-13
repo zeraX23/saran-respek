@@ -594,5 +594,20 @@
             });
         }
     </script>
+<script>
+if ('serviceWorker' in navigator) {
+  // Daftarkan Service Worker
+  navigator.serviceWorker.register('/sw.js');
+
+  // Tangkap pesan dari Service Worker
+  navigator.serviceWorker.addEventListener('message', event => {
+    if (event.data.action === 'update') {
+      if (confirm('Update tersedia! Segarkan halaman sekarang?')) {
+        window.location.reload();
+      }
+    }
+  });
+}
+</script>
 </body>
 </html>
