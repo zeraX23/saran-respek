@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Suara Pemuda RESPEK</title>
-    
+
     <link rel="manifest" href="manifest-admin.json">
     <meta name="theme-color" content="#A62122">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -27,7 +27,7 @@
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-body); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; }
-        
+
         #loginSection { display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; }
         .login-card { background: var(--bg-card); padding: 40px; border-radius: 16px; box-shadow: var(--shadow-md); width: 100%; max-width: 400px; text-align: center; }
         .login-card h2 { color: var(--primary); margin-bottom: 8px; font-weight: 800; }
@@ -44,7 +44,7 @@
 
         #adminSection { display: none; flex: 1; height: 100vh; overflow: hidden; }
         .admin-layout { display: flex; height: 100%; width: 100%; }
-        
+
         .sidebar { width: 250px; background: #111827; color: white; display: flex; flex-direction: column; padding: 20px 0; }
         .sidebar-brand { padding: 0 20px 20px; border-bottom: 1px solid #374151; margin-bottom: 20px; }
         .sidebar-brand h2 { font-size: 18px; font-weight: 800; color: #FFFFFF; }
@@ -59,7 +59,7 @@
         .panel-section { display: none; animation: fadeIn 0.3s ease; }
         .panel-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        
+
         .card-box { background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); overflow: hidden; margin-bottom: 24px; }
         .card-box-padding { padding: 20px; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
@@ -70,7 +70,7 @@
         .status-menunggu { background: #FEF3C7; color: #92400E; }
         .status-diproses { background: #DBEAFE; color: #1E40AF; }
         .status-selesai { background: #D1FAE5; color: #065F46; }
-        
+
         select.action-select { padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-size: 13px; font-family: inherit; font-weight: 600; cursor: pointer; }
         .finance-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; align-items: end; }
 
@@ -111,7 +111,7 @@
                 cursor: pointer;
                 color: var(--text-main);
             }
-            
+
             .sidebar {
                 position: fixed;
                 left: -260px;
@@ -124,7 +124,7 @@
             .sidebar.open {
                 left: 0; 
             }
-            
+
             .finance-form-grid {
                 grid-template-columns: 1fr;
             }
@@ -159,14 +159,14 @@
                 <div class="nav-link" data-target="section-umkm">🏪 Kelola UMKM</div>
                 <button class="btn-logout" id="btnLogout">⎋ Keluar (Log Out)</button>
             </div>
-            
+
             <div class="main-content">
-                
+
                 <div class="mobile-header">
                     <h2>Admin RESPEK</h2>
                     <button class="btn-hamburger" id="btnHamburger">☰</button>
                 </div>
-                
+
                 <div id="section-laporan" class="panel-section active">
                     <h1 class="header-title">Kelola Laporan Warga</h1>
                     <div class="card-box">
@@ -235,7 +235,7 @@
 
                 <div id="section-umkm" class="panel-section">
                     <h1 class="header-title">Kelola UMKM Warga</h1>
-                    
+
                     <div class="card-box card-box-padding">
                         <h3 style="margin-bottom: 16px; font-size: 16px;">➕ Tambah Usaha Baru</h3>
                         <form id="formUMKM" class="finance-form-grid">
@@ -304,7 +304,7 @@
 
     <script type="module">
         import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-        
+
         const supabaseUrl = 'https://omqxookhwflcmwvqmwyv.supabase.co';
         const supabaseKey = 'sb_publishable_VqZJB-MLy7-f2lqyX3kZig_BVMSkIKX';
         const supabase = createClient(supabaseUrl, supabaseKey);
@@ -336,7 +336,7 @@
             const btn = document.getElementById('btnLogin');
             btn.innerText = 'Memeriksa...'; btn.disabled = true; loginAlert.style.display = 'none';
             const { data, error } = await supabase.auth.signInWithPassword({ email: document.getElementById('email').value, password: document.getElementById('password').value });
-            
+
             if (error) {
                 console.error("Login error:", error);
                 loginAlert.innerText = "Gagal masuk! Periksa email dan password."; loginAlert.style.display = 'block';
@@ -367,22 +367,41 @@
         });
 
         // ======================
-        // LOGIKA MOBILE MENU
+        // LOGIKA MOBILE MENU (DENGAN ERROR HANDLING)
         // ======================
-        const btnHamburger = document.getElementById('btnHamburger');
-        const sidebar = document.querySelector('.sidebar');
+        try {
+            const btnHamburger = document.getElementById('btnHamburger');
+            const sidebar = document.querySelector('.sidebar');
 
-        btnHamburger.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-        });
+            if (!btnHamburger) throw new Error("Elemen dengan ID 'btnHamburger' tidak ditemukan.");
+            if (!sidebar) throw new Error("Elemen dengan class '.sidebar' tidak ditemukan.");
 
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    sidebar.classList.remove('open');
+            btnHamburger.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            if (navLinks.length === 0) console.warn("Peringatan: Tidak ada elemen '.nav-link' ditemukan.");
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('open');
+                    }
+                });
+            });
+
+            document.addEventListener('click', (event) => {
+                if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+                    if (!sidebar.contains(event.target) && !btnHamburger.contains(event.target)) {
+                        sidebar.classList.remove('open');
+                    }
                 }
             });
-        });
+
+        } catch (error) {
+            console.error("Gagal memuat Mobile Menu:", error.message);
+        }
 
         // ======================
         // LAPORAN WARGA
@@ -498,24 +517,24 @@
             try {
                 let imageUrl = "";
                 const fotoFile = document.getElementById('umkmImage').files[0];
-                
+
                 if (fotoFile) {
                     const img = new Image();
                     const objectUrl = URL.createObjectURL(fotoFile);
                     img.src = objectUrl;
                     await new Promise(r => img.onload = r);
                     URL.revokeObjectURL(objectUrl);
-                    
+
                     const canvas = document.createElement('canvas');
                     canvas.width = 600; canvas.height = img.height * (600 / img.width);
                     canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-                    
+
                     const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.8));
                     const fileKompres = new File([blob], `umkm_${Date.now()}.jpg`, { type: 'image/jpeg' });
-                    
+
                     const { error: uploadError } = await supabase.storage.from('foto-umkm').upload(fileKompres.name, fileKompres);
                     if (uploadError) throw uploadError;
-                    
+
                     imageUrl = supabase.storage.from('foto-umkm').getPublicUrl(fileKompres.name).data.publicUrl;
                 }
 
@@ -528,14 +547,14 @@
                     description: document.getElementById('umkmDesc').value,
                     image_url: imageUrl
                 };
-                
+
                 const { error } = await supabase.from('umkm').insert([data]);
                 if (error) throw error;
-                
+
                 alert('UMKM Berhasil Disimpan!'); 
                 document.getElementById('formUMKM').reset(); 
                 fetchUMKMAdmin();
-                
+
             } catch (error) {
                 console.error("UMKM Save Error:", error);
                 alert('Gagal menyimpan UMKM: Pastikan Storage bucket "foto-umkm" sudah ada. Error: ' + error.message);
@@ -548,7 +567,7 @@
             const tbody = document.getElementById('tableUMKM');
             if(!tbody) return;
             const { data, error } = await supabase.from('umkm').select('*').order('created_at', { ascending: false });
-            
+
             if (error) {
                 console.error("Error fetching UMKM:", error);
                 tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Gagal memuat data UMKM.</td></tr>';
@@ -557,7 +576,7 @@
             if (!data || data.length === 0) { 
                 tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Belum ada data UMKM.</td></tr>'; return; 
             }
-            
+
             let html = '';
             data.forEach(item => {
                 html += `
