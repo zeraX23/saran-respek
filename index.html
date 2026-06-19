@@ -456,6 +456,34 @@
             .fab-chat { bottom: 20px; right: 20px; width: 48px; height: 48px; font-size: 20px; }
             .social-btn { padding: 10px 20px; font-size: 13px; }
         }
+
+        /* Grid untuk struktur panitia */
+        .panitia-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .panitia-card {
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.6);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .panitia-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 3px solid var(--primary);
+        }
+        .panitia-nama { font-weight: 800; font-size: 15px; }
+        .panitia-jabatan { color: var(--primary); font-weight: 700; font-size: 13px; }
+        .panitia-divisi { color: var(--text-muted); font-size: 12px; margin-top: 4px; }
     </style>
 </head>
 <body>
@@ -489,7 +517,7 @@
         </div>
 
         <nav class="quick-menu">
-            <a href="#" class="menu-item" onclick="alert('Halaman Struktur Organisasi segera hadir!'); return false;">
+            <a href="#" class="menu-item" onclick="tampilkanStruktur(); return false;">
                 <span class="menu-icon">🏛️</span>
                 <span class="menu-text">Struktur Organisasi</span>
             </a>
@@ -635,19 +663,24 @@
             <div class="umkm-grid" id="daftarUMKM"><div class="loading-box" style="grid-column: span 2;"><div class="loader"></div>Memuat data usaha warga...</div></div>
             <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 24px; background-color: var(--text-muted); box-shadow: none;">← Kembali ke Beranda</button>
         </section>
+
+        <!-- ========== STRUKTUR PANITIA 17 AGUSTUS ========== -->
+        <section id="strukturSection" style="display: none; animation: fadeIn 0.3s ease; margin-bottom: 40px;">
+            <button class="btn-back-top" onclick="tampilkanBeranda()">← Kembali ke Beranda</button>
+            <div class="umkm-header"><h2>Struktur Panitia 17 Agustus</h2></div>
+            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">Susunan panitia kegiatan HUT RI ke-81 Dukuh Kepuh.</p>
+            <div class="panitia-grid" id="daftarPanitia">
+                <div class="loading-box" style="grid-column: span 4;"><div class="loader"></div>Memuat data panitia...</div>
+            </div>
+            <button class="btn-submit" onclick="tampilkanBeranda()" style="margin-top: 24px; background-color: var(--text-muted); box-shadow: none;">← Kembali ke Beranda</button>
+        </section>
     </div>
 
     <footer class="app-footer">
         &copy; 2026 Pemuda RESPEK (Revolusi Pemuda Kepuh)
-        <!-- Tombol Hapus Cache -->
-        <div style="margin-top: 15px;">
-            <button id="hapusCacheBtn" style="padding: 8px 20px; border-radius: 30px; border: 1px solid #ccc; background: white; font-family: inherit; font-weight: 600; cursor: pointer; font-size: 13px; color: var(--text-main); box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
-                🗑️ Hapus Cache
-            </button>
-        </div>
     </footer>
 
-    <!-- ========== SCRIPTS (TIDAK DIUBAH) ========== -->
+    <!-- ========== SCRIPTS ========== -->
     <script type="module">
         import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
         const supabaseUrl = 'https://omqxookhwflcmwvqmwyv.supabase.co';
@@ -665,6 +698,7 @@
         window.tampilkanPengembanganDiri = function() { hideAll(); document.getElementById('pengembanganDiriSection').style.display = 'block'; window.scrollTo(0,0); }
         window.tampilkanAgenda = function() { hideAll(); document.getElementById('agendaSection').style.display = 'block'; window.fetchAgendaWarga(); window.scrollTo(0,0); }
         window.tampilkanKeuangan = function() { hideAll(); document.getElementById('keuanganSection').style.display = 'block'; window.fetchKeuanganWarga(); window.scrollTo(0,0); }
+        window.tampilkanStruktur = function() { hideAll(); document.getElementById('strukturSection').style.display = 'block'; fetchStrukturPanitia(); window.scrollTo(0,0); }
         window.tampilkanBeranda = function() {
             document.getElementById('formSection').style.display = 'block';
             document.getElementById('boardSection').style.display = 'block';
@@ -673,6 +707,7 @@
             document.getElementById('pengembanganDiriSection').style.display = 'none';
             document.getElementById('keuanganSection').style.display = 'none';
             document.getElementById('agendaSection').style.display = 'none';
+            document.getElementById('strukturSection').style.display = 'none';
             document.getElementById('filterKategoriLaporan').value = 'Semua';
             window.filterLaporanSisiKlien();
             window.scrollTo(0,0);
@@ -686,6 +721,7 @@
             document.getElementById('pengembanganDiriSection').style.display = 'none';
             document.getElementById('keuanganSection').style.display = 'none';
             document.getElementById('agendaSection').style.display = 'none';
+            document.getElementById('strukturSection').style.display = 'none';
         }
 
         window.tutupPopup = function() {
@@ -870,6 +906,39 @@
             } catch (error) {}
         }
 
+        // Fungsi untuk menampilkan struktur panitia
+        async function fetchStrukturPanitia() {
+            const container = document.getElementById('daftarPanitia');
+            container.innerHTML = '<div class="loading-box" style="grid-column: span 4;"><div class="loader"></div>Memuat data panitia...</div>';
+            try {
+                const { data, error } = await supabase
+                    .from('committee')
+                    .select('*')
+                    .eq('event', '17 Agustus')
+                    .order('created_at', { ascending: true });
+                if (error) throw error;
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#6B7280; font-size:14px; padding:20px; grid-column: span 4;">Belum ada data panitia.</p>';
+                    return;
+                }
+                let html = '';
+                data.forEach(org => {
+                    const foto = org.foto_url ? org.foto_url : 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="50" fill="%23E5E7EB"/%3E%3Ctext x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="40" fill="%239CA3AF"%3E👤%3C/text%3E%3C/svg%3E';
+                    html += `
+                        <div class="panitia-card">
+                            <img src="${foto}" alt="${org.nama}" onerror="this.src='data:image/svg+xml,...'">
+                            <div class="panitia-nama">${org.nama}</div>
+                            <div class="panitia-jabatan">${org.jabatan}</div>
+                            ${org.divisi ? `<div class="panitia-divisi">${org.divisi}</div>` : ''}
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = '<p style="text-align:center; color:var(--error-text); font-size:14px; padding:20px; grid-column: span 4;">⚠️ Gagal memuat data panitia.</p>';
+            }
+        }
+
         function showAlert(msg, type) {
             alertBox.textContent = msg; alertBox.className = type === 'success' ? 'alert-success' : 'alert-error';
             alertBox.style.display = 'block'; alertBox.style.animation = 'fadeIn 0.3s ease';
@@ -969,47 +1038,18 @@
             s0.parentNode.insertBefore(s1,s0);
         })();
     </script>
-
-    <!-- Script untuk Hapus Cache -->
-    <script>
-        document.getElementById('hapusCacheBtn').addEventListener('click', async () => {
-            if (confirm('Hapus semua cache aplikasi? Halaman akan dimuat ulang setelahnya.')) {
-                try {
-                    // Hapus semua Cache Storage (service worker cache)
-                    if ('caches' in window) {
-                        const cacheNames = await caches.keys();
-                        await Promise.all(cacheNames.map(name => caches.delete(name)));
-                    }
-                    // Unregister service worker untuk bersih total
-                    if ('serviceWorker' in navigator) {
-                        const registrations = await navigator.serviceWorker.getRegistrations();
-                        for (let registration of registrations) {
-                            await registration.unregister();
-                        }
-                    }
-                    // Bersihkan localStorage yang terkait (opsional, jika diinginkan)
-                    // localStorage.clear(); // Hanya jika Anda ingin menghapus semua data lokal
-                    alert('Cache berhasil dihapus. Halaman akan dimuat ulang.');
-                    window.location.reload(true);
-                } catch (err) {
-                    alert('Gagal menghapus cache: ' + err.message);
-                }
-            }
-        });
-    </script>
-
-    <script>
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/sw.js');
-          navigator.serviceWorker.addEventListener('message', event => {
-            if (event.data.action === 'update') {
-              if (confirm('Update tersedia! Segarkan halaman sekarang?')) {
-                window.location.reload();
-              }
-            }
-          });
-        }
-    </script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+  navigator.serviceWorker.addEventListener('message', event => {
+    if (event.data.action === 'update') {
+      if (confirm('Update tersedia! Segarkan halaman sekarang?')) {
+        window.location.reload();
+      }
+    }
+  });
+}
+</script>
 
 </body>
 </html>
