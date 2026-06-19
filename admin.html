@@ -157,6 +157,7 @@
                 <div class="nav-link" data-target="section-keuangan">💰 Laporan Keuangan</div>
                 <div class="nav-link" data-target="section-agenda">📅 Kelola Agenda Acara</div>
                 <div class="nav-link" data-target="section-umkm">🏪 Kelola UMKM</div>
+                <div class="nav-link" data-target="section-panitia">👥 Struktur Panitia 17 Agustus</div>
                 <button class="btn-logout" id="btnLogout">⎋ Keluar (Log Out)</button>
             </div>
 
@@ -298,6 +299,53 @@
                     </div>
                 </div>
 
+                <!-- ========== STRUKTUR PANITIA 17 AGUSTUS ========== -->
+                <div id="section-panitia" class="panel-section">
+                    <h1 class="header-title">Struktur Panitia 17 Agustus</h1>
+
+                    <div class="card-box card-box-padding">
+                        <h3 style="margin-bottom: 16px; font-size: 16px;">➕ Tambah Anggota Panitia</h3>
+                        <form id="formPanitia" class="finance-form-grid">
+                            <div style="grid-column: span 2;">
+                                <label>Nama Lengkap</label>
+                                <input type="text" id="panNama" placeholder="Contoh: Ahmad Fauzi" required>
+                            </div>
+                            <div>
+                                <label>Jabatan</label>
+                                <input type="text" id="panJabatan" placeholder="Ketua, Sekretaris, ..." required>
+                            </div>
+                            <div>
+                                <label>Divisi (Opsional)</label>
+                                <input type="text" id="panDivisi" placeholder="Acara, Humas, ...">
+                            </div>
+                            <div style="grid-column: span 2;">
+                                <label>Upload Foto (Wajib)</label>
+                                <input type="file" id="panFoto" accept="image/*" required style="padding:8px;">
+                            </div>
+                            <div>
+                                <button type="submit" class="btn-primary" id="btnSavePanitia">Simpan Anggota</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card-box">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Foto</th>
+                                    <th>Nama</th>
+                                    <th>Jabatan</th>
+                                    <th>Divisi</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablePanitia">
+                                <tr><td colspan="5" style="text-align:center; padding: 20px;">Memuat data panitia...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -320,7 +368,7 @@
                 if (session) {
                     loginSection.style.display = 'none';
                     adminSection.style.display = 'flex';
-                    loadDataAduan(); fetchFinances(); fetchAgendasAdmin(); fetchUMKMAdmin();
+                    loadDataAduan(); fetchFinances(); fetchAgendasAdmin(); fetchUMKMAdmin(); fetchPanitia();
                 } else {
                     loginSection.style.display = 'flex';
                     adminSection.style.display = 'none';
@@ -363,6 +411,7 @@
                 if(targetId === 'section-keuangan') fetchFinances();
                 if(targetId === 'section-agenda') fetchAgendasAdmin();
                 if(targetId === 'section-umkm') fetchUMKMAdmin();
+                if(targetId === 'section-panitia') fetchPanitia();
             });
         });
 
@@ -603,6 +652,114 @@
                 fetchUMKMAdmin();
             }
         }
+
+        // ======================
+        // STRUKTUR PANITIA 17 AGUSTUS
+        // ======================
+        async function fetchPanitia() {
+            const tbody = document.getElementById('tablePanitia');
+            const { data, error } = await supabase
+                .from('committee')
+                .select('*')
+                .eq('event', '17 Agustus')
+                .order('created_at', { ascending: true });
+
+            if (error) {
+                console.error("Error fetching panitia:", error);
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Gagal memuat data panitia.</td></tr>';
+                return;
+            }
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Belum ada anggota panitia.</td></tr>';
+                return;
+            }
+
+            let html = '';
+            data.forEach(org => {
+                const foto = org.foto_url 
+                    ? `<img src="${org.foto_url}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">` 
+                    : '👤';
+                html += `
+                    <tr>
+                        <td>${foto}</td>
+                        <td style="font-weight:600;">${org.nama}</td>
+                        <td>${org.jabatan}</td>
+                        <td>${org.divisi || '-'}</td>
+                        <td><button class="btn-danger" onclick="deletePanitia('${org.id}')">Hapus</button></td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        window.deletePanitia = async (id) => {
+            if (!confirm('Hapus anggota panitia ini?')) return;
+            const { error } = await supabase.from('committee').delete().eq('id', id);
+            if (error) {
+                console.error("Error deleting panitia:", error);
+                alert('Gagal menghapus.');
+            } else {
+                fetchPanitia();
+            }
+        }
+
+        document.getElementById('formPanitia').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnSavePanitia');
+            btn.innerText = 'Mengupload...'; btn.disabled = true;
+
+            try {
+                let fotoUrl = "";
+                const fotoFile = document.getElementById('panFoto').files[0];
+
+                if (fotoFile) {
+                    const img = new Image();
+                    const objUrl = URL.createObjectURL(fotoFile);
+                    img.src = objUrl;
+                    await new Promise(r => img.onload = r);
+                    URL.revokeObjectURL(objUrl);
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 400;
+                    canvas.height = img.height * (400 / img.width);
+                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.8));
+                    const fileKompres = new File([blob], `panitia_${Date.now()}.jpg`, { type: 'image/jpeg' });
+
+                    const { error: uploadError } = await supabase.storage
+                        .from('foto-panitia')
+                        .upload(fileKompres.name, fileKompres);
+                    if (uploadError) throw uploadError;
+
+                    fotoUrl = supabase.storage.from('foto-panitia').getPublicUrl(fileKompres.name).data.publicUrl;
+                }
+
+                const data = {
+                    nama: document.getElementById('panNama').value,
+                    jabatan: document.getElementById('panJabatan').value,
+                    divisi: document.getElementById('panDivisi').value || null,
+                    foto_url: fotoUrl,
+                    event: '17 Agustus'
+                };
+
+                const { error } = await supabase.from('committee').insert([data]);
+                if (error) throw error;
+
+                alert('Anggota panitia berhasil ditambahkan!');
+                document.getElementById('formPanitia').reset();
+                fetchPanitia();
+            } catch (err) {
+                console.error("Error tambah panitia:", err);
+                alert('Gagal menyimpan. Pastikan bucket "foto-panitia" sudah dibuat. ' + err.message);
+            } finally {
+                btn.innerText = 'Simpan Anggota';
+                btn.disabled = false;
+            }
+        });
+
+        // Panggil fetchPanitia saat login
+        // (sudah dipanggil di checkSession)
 
         // SISTEM REGISTRASI SERVICE WORKER PWA
         if ('serviceWorker' in navigator) {
