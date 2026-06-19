@@ -639,6 +639,12 @@
 
     <footer class="app-footer">
         &copy; 2026 Pemuda RESPEK (Revolusi Pemuda Kepuh)
+        <!-- Tombol Hapus Cache -->
+        <div style="margin-top: 15px;">
+            <button id="hapusCacheBtn" style="padding: 8px 20px; border-radius: 30px; border: 1px solid #ccc; background: white; font-family: inherit; font-weight: 600; cursor: pointer; font-size: 13px; color: var(--text-main); box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+                🗑️ Hapus Cache
+            </button>
+        </div>
     </footer>
 
     <!-- ========== SCRIPTS (TIDAK DIUBAH) ========== -->
@@ -963,18 +969,47 @@
             s0.parentNode.insertBefore(s1,s0);
         })();
     </script>
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js');
-  navigator.serviceWorker.addEventListener('message', event => {
-    if (event.data.action === 'update') {
-      if (confirm('Update tersedia! Segarkan halaman sekarang?')) {
-        window.location.reload();
-      }
-    }
-  });
-}
-</script>
+
+    <!-- Script untuk Hapus Cache -->
+    <script>
+        document.getElementById('hapusCacheBtn').addEventListener('click', async () => {
+            if (confirm('Hapus semua cache aplikasi? Halaman akan dimuat ulang setelahnya.')) {
+                try {
+                    // Hapus semua Cache Storage (service worker cache)
+                    if ('caches' in window) {
+                        const cacheNames = await caches.keys();
+                        await Promise.all(cacheNames.map(name => caches.delete(name)));
+                    }
+                    // Unregister service worker untuk bersih total
+                    if ('serviceWorker' in navigator) {
+                        const registrations = await navigator.serviceWorker.getRegistrations();
+                        for (let registration of registrations) {
+                            await registration.unregister();
+                        }
+                    }
+                    // Bersihkan localStorage yang terkait (opsional, jika diinginkan)
+                    // localStorage.clear(); // Hanya jika Anda ingin menghapus semua data lokal
+                    alert('Cache berhasil dihapus. Halaman akan dimuat ulang.');
+                    window.location.reload(true);
+                } catch (err) {
+                    alert('Gagal menghapus cache: ' + err.message);
+                }
+            }
+        });
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js');
+          navigator.serviceWorker.addEventListener('message', event => {
+            if (event.data.action === 'update') {
+              if (confirm('Update tersedia! Segarkan halaman sekarang?')) {
+                window.location.reload();
+              }
+            }
+          });
+        }
+    </script>
 
 </body>
 </html>
