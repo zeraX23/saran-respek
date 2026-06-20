@@ -2,17 +2,20 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Suara Pemuda RESPEK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Admin Panel · Suara Pemuda RESPEK</title>
 
     <link rel="manifest" href="manifest-admin.json">
     <meta name="theme-color" content="#A62122">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Admin RESPEK">
     <link rel="apple-touch-icon" href="logo-admin.png">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --primary: #A62122;
@@ -24,168 +27,285 @@
             --border: #E5E7EB;
             --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
             --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --sidebar-width: 250px;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-body); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; }
 
-        #loginSection { display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; }
-        .login-card { background: var(--bg-card); padding: 40px; border-radius: 16px; box-shadow: var(--shadow-md); width: 100%; max-width: 400px; text-align: center; }
-        .login-card h2 { color: var(--primary); margin-bottom: 8px; font-weight: 800; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ========== POPUP UPDATE (BARU) ========== */
+        .popup-update-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .popup-update-overlay.show { opacity: 1; visibility: visible; }
+        .popup-update-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 32px 24px 28px;
+            max-width: 380px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.5);
+            animation: popInUpdate 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes popInUpdate {
+            0% { opacity: 0; transform: scale(0.85) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .popup-update-icon {
+            font-size: 56px;
+            margin-bottom: 16px;
+            display: block;
+            filter: drop-shadow(0 8px 12px rgba(166,33,34,0.2));
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .popup-update-title { font-size: 22px; font-weight: 800; color: var(--text-main); margin-bottom: 8px; letter-spacing: -0.3px; }
+        .popup-update-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
+        .popup-update-buttons { display: flex; flex-direction: column; gap: 10px; }
+        .btn-update-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 8px 18px rgba(166,33,34,0.3);
+            font-family: inherit;
+        }
+        .btn-update-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(166,33,34,0.4); }
+        .btn-update-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 14px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            background: rgba(255,255,255,0.6);
+        }
+        .btn-update-secondary:hover { background: rgba(0,0,0,0.03); color: var(--text-main); }
+
+        /* Login */
+        #loginSection {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f0f0 0%, #ffffff 100%);
+        }
+        .login-card {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+        .login-card h2 { color: var(--primary); margin-bottom: 6px; font-weight: 800; font-size: 24px; }
         .login-card p { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
-        .form-group { margin-bottom: 16px; text-align: left; }
+        .form-group { margin-bottom: 18px; text-align: left; }
         label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-        input[type="email"], input[type="password"], input[type="text"], input[type="number"], input[type="date"], input[type="file"], select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; background: white; }
-        input:focus, select:focus { outline: none; border-color: var(--primary); }
-        .btn-primary { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; font-family: inherit;}
-        .btn-primary:hover { background: var(--primary-hover); }
-        .btn-danger { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s;}
-        .btn-danger:hover { background: #FECACA; }
+        input[type="email"], input[type="password"] {
+            width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-md);
+            font-family: inherit; font-size: 14px; background: #F9FAFB; transition: 0.2s;
+        }
+        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(166,33,34,0.1); }
+        .btn-primary {
+            width: 100%; padding: 14px; background: var(--primary); color: white; border: none;
+            border-radius: var(--radius-md); font-weight: 700; cursor: pointer; transition: 0.2s;
+            font-family: inherit; font-size: 15px;
+        }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 6px 15px rgba(166,33,34,0.3); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         #loginAlert { color: #991B1B; background: #FEE2E2; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; display: none; font-weight: 600; }
 
+        /* Admin Layout */
         #adminSection { display: none; flex: 1; height: 100vh; overflow: hidden; }
-        .admin-layout { display: flex; height: 100%; width: 100%; }
+        .admin-layout { display: flex; height: 100%; }
 
-        .sidebar { width: 250px; background: #111827; color: white; display: flex; flex-direction: column; padding: 20px 0; }
+        .sidebar {
+            width: var(--sidebar-width); min-width: var(--sidebar-width);
+            background: #111827; color: white; display: flex; flex-direction: column;
+            padding: 20px 0; overflow-y: auto; transition: transform 0.3s ease; z-index: 100;
+        }
         .sidebar-brand { padding: 0 20px 20px; border-bottom: 1px solid #374151; margin-bottom: 20px; }
-        .sidebar-brand h2 { font-size: 18px; font-weight: 800; color: #FFFFFF; }
+        .sidebar-brand h2 { font-size: 18px; font-weight: 800; }
         .sidebar-brand span { color: var(--primary); }
-        .nav-link { display: block; padding: 12px 20px; color: #D1D5DB; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; cursor: pointer; border-left: 4px solid transparent;}
-        .nav-link:hover, .nav-link.active { background: #1F2937; color: white; border-left: 4px solid var(--primary); }
-        .btn-logout { margin-top: auto; padding: 12px 20px; color: #FCA5A5; text-decoration: none; font-weight: 600; cursor: pointer; transition: 0.2s; background: none; border: none; text-align: left; width: 100%; font-family: inherit; font-size: 14px; }
+        .nav-link {
+            display: block; padding: 12px 20px; color: #D1D5DB; text-decoration: none;
+            font-weight: 500; font-size: 14px; transition: 0.2s; cursor: pointer;
+            border-left: 4px solid transparent; background: none; border: none;
+            text-align: left; width: 100%; font-family: inherit;
+        }
+        .nav-link:hover, .nav-link.active { background: #1F2937; color: white; border-left-color: var(--primary); }
+        .btn-logout {
+            margin-top: auto; padding: 12px 20px; color: #FCA5A5; font-weight: 600;
+            cursor: pointer; transition: 0.2s; background: none; border: none;
+            text-align: left; width: 100%; font-family: inherit; font-size: 14px;
+        }
         .btn-logout:hover { background: #311313; color: white; }
 
         .main-content { flex: 1; padding: 30px; overflow-y: auto; background: var(--bg-body); }
-        .header-title { font-size: 24px; font-weight: 800; margin-bottom: 24px; }
+        .header-title { font-size: 26px; font-weight: 800; margin-bottom: 24px; }
         .panel-section { display: none; animation: fadeIn 0.3s ease; }
         .panel-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .card-box { background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); overflow: hidden; margin-bottom: 24px; }
+        .card-box {
+            background: var(--bg-card); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border); overflow: hidden; margin-bottom: 24px;
+        }
         .card-box-padding { padding: 20px; }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-        th, td { padding: 14px 20px; border-bottom: 1px solid var(--border); }
-        th { background: #F9FAFB; font-weight: 700; color: var(--text-muted); }
+
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; min-width: 600px; }
+        th, td { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+        th { background: #F9FAFB; font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 12px; }
         tr:hover { background: #F9FAFB; }
+
         .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
         .status-menunggu { background: #FEF3C7; color: #92400E; }
         .status-diproses { background: #DBEAFE; color: #1E40AF; }
         .status-selesai { background: #D1FAE5; color: #065F46; }
 
-        select.action-select { padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-size: 13px; font-family: inherit; font-weight: 600; cursor: pointer; }
-        .finance-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; align-items: end; }
+        .btn-danger {
+            background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA;
+            padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold;
+            cursor: pointer; transition: 0.2s;
+        }
+        .btn-danger:hover { background: #FECACA; }
 
-        /* --- PENGATURAN RESPONSIVE MOBILE --- */
-        .card-box {
-            overflow-x: auto; 
-            -webkit-overflow-scrolling: touch; 
+        .finance-form-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; align-items: end;
+        }
+        select.action-select {
+            padding: 6px; border-radius: 6px; border: 1px solid var(--border);
+            font-size: 13px; font-family: inherit; font-weight: 600; cursor: pointer;
         }
 
-        .mobile-header { display: none; }
+        .mobile-header { display: none; justify-content: space-between; align-items: center; margin-bottom: 20px; background: var(--bg-card); padding: 12px 16px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+        .mobile-header h2 { font-size: 18px; font-weight: 800; color: var(--primary); }
+        .btn-hamburger { background: none; border: none; font-size: 24px; cursor: pointer; }
 
         @media (max-width: 768px) {
-            .main-content {
-                padding: 16px;
-            }
-            .header-title {
-                font-size: 20px;
-            }
-            .mobile-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 20px;
-                background: var(--bg-card);
-                padding: 12px 16px;
-                border-radius: 8px;
-                box-shadow: var(--shadow-sm);
-            }
-            .mobile-header h2 {
-                font-size: 16px;
-                font-weight: 800;
-                color: var(--primary);
-            }
-            .btn-hamburger {
-                background: none;
-                border: none;
-                font-size: 24px;
-                cursor: pointer;
-                color: var(--text-main);
-            }
-
             .sidebar {
-                position: fixed;
-                left: -260px;
-                top: 0;
-                bottom: 0;
-                z-index: 999;
-                transition: left 0.3s ease-in-out;
-                box-shadow: 4px 0 10px rgba(0,0,0,0.3);
+                position: fixed; left: 0; top: 0; bottom: 0;
+                transform: translateX(-100%); box-shadow: 4px 0 10px rgba(0,0,0,0.3);
             }
-            .sidebar.open {
-                left: 0; 
-            }
-
-            .finance-form-grid {
-                grid-template-columns: 1fr;
-            }
-            .finance-form-grid > div[style*="grid-column: span"] {
-                grid-column: span 1 !important;
-            }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { padding: 16px; }
+            .mobile-header { display: flex; }
+            .finance-form-grid { grid-template-columns: 1fr; }
+            .finance-form-grid > div[style*="grid-column: span"] { grid-column: span 1 !important; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Pop-up Update (BARU) -->
+    <div class="popup-update-overlay" id="popupUpdate">
+        <div class="popup-update-card">
+            <span class="popup-update-icon">🚀</span>
+            <h3 class="popup-update-title">Pembaruan Tersedia!</h3>
+            <p class="popup-update-desc">Versi terbaru panel admin sudah siap. Perbarui sekarang untuk fitur terkini.</p>
+            <div class="popup-update-buttons">
+                <button class="btn-update-primary" id="btnUpdateNow">Perbarui Sekarang</button>
+                <button class="btn-update-secondary" id="btnUpdateLater">Nanti Saja</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login -->
     <div id="loginSection">
         <div class="login-card">
-            <h2>Portal Admin</h2>
-            <p>Pengurus RESPEK</p>
-            <div id="loginAlert">Email atau password salah!</div>
-            <form id="loginForm">
-                <div class="form-group"><label>Email Admin</label><input type="email" id="email" required></div>
-                <div class="form-group"><label>Password</label><input type="password" id="password" required></div>
+            <h2>🔐 Admin RESPEK</h2>
+            <p>Silakan masuk untuk mengelola portal</p>
+            <div id="loginAlert">Email atau password salah</div>
+            <form id="loginForm" autocomplete="on">
+                <div class="form-group">
+                    <label>Email Admin</label>
+                    <input type="email" id="email" required placeholder="admin@respek.or.id">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" required placeholder="········">
+                </div>
                 <button type="submit" class="btn-primary" id="btnLogin">Masuk ke Dashboard</button>
             </form>
         </div>
     </div>
 
+    <!-- Admin Panel -->
     <div id="adminSection">
         <div class="admin-layout">
-            <div class="sidebar">
+            <div class="sidebar" id="sidebar">
                 <div class="sidebar-brand"><h2>Admin<span>RESPEK</span></h2></div>
-                <div class="nav-link active" data-target="section-laporan">📝 Laporan Warga</div>
-                <div class="nav-link" data-target="section-keuangan">💰 Laporan Keuangan</div>
-                <div class="nav-link" data-target="section-agenda">📅 Kelola Agenda Acara</div>
-                <div class="nav-link" data-target="section-umkm">🏪 Kelola UMKM</div>
-                <div class="nav-link" data-target="section-panitia">👥 Struktur Panitia 17 Agustus</div>
-                <button class="btn-logout" id="btnLogout">⎋ Keluar (Log Out)</button>
+                <button class="nav-link active" data-target="section-laporan">📝 Laporan Warga</button>
+                <button class="nav-link" data-target="section-keuangan">💰 Keuangan</button>
+                <button class="nav-link" data-target="section-agenda">📅 Agenda</button>
+                <button class="nav-link" data-target="section-umkm">🏪 UMKM</button>
+                <button class="nav-link" data-target="section-panitia">👥 Panitia 17 Agustus</button>
+                <button class="btn-logout" id="btnLogout">⎋ Keluar</button>
             </div>
 
-            <div class="main-content">
-
+            <div class="main-content" id="mainContent">
                 <div class="mobile-header">
                     <h2>Admin RESPEK</h2>
                     <button class="btn-hamburger" id="btnHamburger">☰</button>
                 </div>
 
+                <!-- Laporan -->
                 <div id="section-laporan" class="panel-section active">
-                    <h1 class="header-title">Kelola Laporan Warga</h1>
-                    <div class="card-box">
+                    <h1 class="header-title">📝 Kelola Laporan Warga</h1>
+                    <div class="card-box table-wrapper">
                         <table>
-                            <thead><tr><th>Tanggal</th><th>Judul Laporan</th><th>Kategori</th><th>Status</th><th>Aksi Ubah Status</th></tr></thead>
-                            <tbody id="tableAduan"><tr><td colspan="5" style="text-align:center; padding: 20px;">Memuat...</td></tr></tbody>
+                            <thead><tr><th>Tanggal</th><th>Judul</th><th>Kategori</th><th>Status</th><th>Aksi</th></tr></thead>
+                            <tbody id="tableAduan"><tr><td colspan="5" style="text-align:center;">Memuat...</td></tr></tbody>
                         </table>
                     </div>
                 </div>
 
+                <!-- Keuangan -->
                 <div id="section-keuangan" class="panel-section">
-                    <h1 class="header-title">Kelola Laporan Keuangan</h1>
+                    <h1 class="header-title">💰 Kelola Laporan Keuangan</h1>
                     <div class="card-box card-box-padding">
-                        <h3 style="margin-bottom: 16px; font-size: 16px;">➕ Tambah Transaksi</h3>
+                        <h3 style="margin-bottom:16px;">➕ Tambah Transaksi</h3>
                         <form id="formFinance" class="finance-form-grid">
                             <div><label>Tanggal</label><input type="date" id="finDate" required></div>
                             <div>
-                                <label>Kategori Tab</label>
+                                <label>Kategori</label>
                                 <select id="finCat" required>
                                     <option value="Kas Pemuda">Kas Pemuda</option>
                                     <option value="Malam 1 Suro">Malam 1 Suro</option>
@@ -194,158 +314,98 @@
                                 </select>
                             </div>
                             <div>
-                                <label>Jenis Arus Kas</label>
+                                <label>Jenis</label>
                                 <select id="finType" required>
-                                    <option value="masuk">Pemasukan (Masuk)</option>
-                                    <option value="keluar">Pengeluaran (Keluar)</option>
+                                    <option value="masuk">Pemasukan</option>
+                                    <option value="keluar">Pengeluaran</option>
                                 </select>
                             </div>
-                            <div style="grid-column: span 2;"><label>Keterangan / Rincian</label><input type="text" id="finDesc" required></div>
+                            <div style="grid-column: span 2;"><label>Keterangan</label><input type="text" id="finDesc" required></div>
                             <div><label>Nominal (Rp)</label><input type="number" id="finAmount" min="1" required></div>
-                            <div><button type="submit" class="btn-primary" id="btnSaveFinance">Simpan Data</button></div>
+                            <div><button type="submit" class="btn-primary">Simpan</button></div>
                         </form>
                     </div>
-                    <div class="card-box">
+                    <div class="card-box table-wrapper">
                         <table>
-                            <thead><tr><th>Tanggal</th><th>Kategori Tab</th><th>Keterangan</th><th>Jenis</th><th>Nominal</th><th>Aksi</th></tr></thead>
-                            <tbody id="tableFinance"><tr><td colspan="6" style="text-align:center; padding: 20px;">Memuat...</td></tr></tbody>
+                            <thead><tr><th>Tanggal</th><th>Kategori</th><th>Keterangan</th><th>Jenis</th><th>Nominal</th><th>Aksi</th></tr></thead>
+                            <tbody id="tableFinance"><tr><td colspan="6" style="text-align:center;">Memuat...</td></tr></tbody>
                         </table>
                     </div>
                 </div>
 
+                <!-- Agenda -->
                 <div id="section-agenda" class="panel-section">
-                    <h1 class="header-title">Kelola Agenda Acara</h1>
+                    <h1 class="header-title">📅 Kelola Agenda Acara</h1>
                     <div class="card-box card-box-padding">
-                        <h3 style="margin-bottom: 16px; font-size: 16px;">➕ Tambah Agenda</h3>
+                        <h3 style="margin-bottom:16px;">➕ Tambah Agenda</h3>
                         <form id="formAgenda" class="finance-form-grid">
-                            <div style="grid-column: span 2;"><label>Nama / Judul Acara</label><input type="text" id="ageTitle" required></div>
+                            <div style="grid-column: span 2;"><label>Judul Acara</label><input type="text" id="ageTitle" required></div>
                             <div><label>Tanggal</label><input type="date" id="ageDate" required></div>
-                            <div><label>Waktu (WIB)</label><input type="text" id="ageTime" required></div>
-                            <div style="grid-column: span 2;"><label>Tempat / Lokasi</label><input type="text" id="ageLoc" required></div>
-                            <div style="grid-column: span 3;"><label>Deskripsi Acara</label><input type="text" id="ageDesc" required></div>
-                            <div><button type="submit" class="btn-primary" id="btnSaveAgenda">Simpan Agenda</button></div>
+                            <div><label>Waktu</label><input type="text" id="ageTime" required placeholder="08:00 - 12:00"></div>
+                            <div style="grid-column: span 2;"><label>Lokasi</label><input type="text" id="ageLoc" required></div>
+                            <div style="grid-column: span 3;"><label>Deskripsi</label><input type="text" id="ageDesc" required></div>
+                            <div><button type="submit" class="btn-primary">Simpan</button></div>
                         </form>
                     </div>
-                    <div class="card-box">
+                    <div class="card-box table-wrapper">
                         <table>
-                            <thead><tr><th>Tanggal</th><th>Waktu</th><th>Judul Acara</th><th>Lokasi</th><th>Keterangan</th><th>Aksi</th></tr></thead>
-                            <tbody id="tableAgenda"><tr><td colspan="6" style="text-align:center; padding: 20px;">Memuat...</td></tr></tbody>
+                            <thead><tr><th>Tanggal</th><th>Waktu</th><th>Judul</th><th>Lokasi</th><th>Deskripsi</th><th>Aksi</th></tr></thead>
+                            <tbody id="tableAgenda"><tr><td colspan="6" style="text-align:center;">Memuat...</td></tr></tbody>
                         </table>
                     </div>
                 </div>
 
+                <!-- UMKM -->
                 <div id="section-umkm" class="panel-section">
-                    <h1 class="header-title">Kelola UMKM Warga</h1>
-
+                    <h1 class="header-title">🏪 Kelola UMKM Warga</h1>
                     <div class="card-box card-box-padding">
-                        <h3 style="margin-bottom: 16px; font-size: 16px;">➕ Tambah Usaha Baru</h3>
+                        <h3 style="margin-bottom:16px;">➕ Tambah Usaha</h3>
                         <form id="formUMKM" class="finance-form-grid">
-                            <div style="grid-column: span 2;">
-                                <label style="font-size: 12px; margin-bottom: 4px;">Nama Usaha / Produk</label>
-                                <input type="text" id="umkmTitle" placeholder="Contoh: Kripik Singkong Balado" required>
-                            </div>
+                            <div style="grid-column: span 2;"><label>Nama Usaha</label><input type="text" id="umkmTitle" required></div>
                             <div>
-                                <label style="font-size: 12px; margin-bottom: 4px;">Kategori</label>
+                                <label>Kategori</label>
                                 <select id="umkmCategory" required>
-                                    <option value="Kuliner">Kuliner / Makanan</option>
-                                    <option value="Jasa">Jasa / Layanan</option>
-                                    <option value="Fashion">Fashion / Pakaian</option>
-                                    <option value="Barang">Barang / Retail</option>
+                                    <option value="Kuliner">Kuliner</option><option value="Jasa">Jasa</option>
+                                    <option value="Fashion">Fashion</option><option value="Barang">Barang</option>
                                     <option value="Lainnya">Lainnya</option>
                                 </select>
                             </div>
-                            <div>
-                                <label style="font-size: 12px; margin-bottom: 4px;">Harga</label>
-                                <input type="text" id="umkmPrice" placeholder="Contoh: Rp 15.000 / Mulai Rp 50rb" required>
-                            </div>
-                            <div>
-                                <label style="font-size: 12px; margin-bottom: 4px;">Nama Pemilik</label>
-                                <input type="text" id="umkmOwner" placeholder="Contoh: Budi Santoso" required>
-                            </div>
-                            <div>
-                                <label style="font-size: 12px; margin-bottom: 4px;">No WhatsApp</label>
-                                <input type="number" id="umkmWa" placeholder="Contoh: 6281234567890" required>
-                            </div>
-                            <div style="grid-column: span 2;">
-                                <label style="font-size: 12px; margin-bottom: 4px;">Deskripsi Singkat</label>
-                                <input type="text" id="umkmDesc" placeholder="Jelaskan keunggulan produk/jasa ini..." required>
-                            </div>
-                            <div style="grid-column: span 2;">
-                                <label style="font-size: 12px; margin-bottom: 4px;">Upload Foto (Wajib)</label>
-                                <input type="file" id="umkmImage" accept="image/*" required style="padding:8px;">
-                            </div>
-                            <div>
-                                <button type="submit" class="btn-primary" id="btnSaveUMKM">Simpan UMKM</button>
-                            </div>
+                            <div><label>Harga</label><input type="text" id="umkmPrice" required placeholder="Rp 15.000"></div>
+                            <div><label>Pemilik</label><input type="text" id="umkmOwner" required></div>
+                            <div><label>No. WA</label><input type="text" id="umkmWa" required placeholder="62812xxx"></div>
+                            <div style="grid-column: span 2;"><label>Deskripsi</label><input type="text" id="umkmDesc" required></div>
+                            <div style="grid-column: span 2;"><label>Foto</label><input type="file" id="umkmImage" accept="image/*" required></div>
+                            <div><button type="submit" class="btn-primary">Simpan</button></div>
                         </form>
                     </div>
-
-                    <div class="card-box">
+                    <div class="card-box table-wrapper">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Kategori</th>
-                                    <th>Nama Usaha</th>
-                                    <th>Pemilik</th>
-                                    <th>Harga</th>
-                                    <th>No WA</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableUMKM">
-                                <tr><td colspan="6" style="text-align:center; padding: 20px;">Memuat data UMKM...</td></tr>
-                            </tbody>
+                            <thead><tr><th>Kategori</th><th>Nama Usaha</th><th>Pemilik</th><th>Harga</th><th>No WA</th><th>Aksi</th></tr></thead>
+                            <tbody id="tableUMKM"><tr><td colspan="6" style="text-align:center;">Memuat...</td></tr></tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- ========== STRUKTUR PANITIA 17 AGUSTUS ========== -->
+                <!-- Panitia -->
                 <div id="section-panitia" class="panel-section">
-                    <h1 class="header-title">Struktur Panitia 17 Agustus</h1>
-
+                    <h1 class="header-title">👥 Struktur Panitia 17 Agustus</h1>
                     <div class="card-box card-box-padding">
-                        <h3 style="margin-bottom: 16px; font-size: 16px;">➕ Tambah Anggota Panitia</h3>
+                        <h3 style="margin-bottom:16px;">➕ Tambah Anggota</h3>
                         <form id="formPanitia" class="finance-form-grid">
-                            <div style="grid-column: span 2;">
-                                <label>Nama Lengkap</label>
-                                <input type="text" id="panNama" placeholder="Contoh: Ahmad Fauzi" required>
-                            </div>
-                            <div>
-                                <label>Jabatan</label>
-                                <input type="text" id="panJabatan" placeholder="Ketua, Sekretaris, ..." required>
-                            </div>
-                            <div>
-                                <label>Divisi (Opsional)</label>
-                                <input type="text" id="panDivisi" placeholder="Acara, Humas, ...">
-                            </div>
-                            <div style="grid-column: span 2;">
-                                <label>Upload Foto (Wajib)</label>
-                                <input type="file" id="panFoto" accept="image/*" required style="padding:8px;">
-                            </div>
-                            <div>
-                                <button type="submit" class="btn-primary" id="btnSavePanitia">Simpan Anggota</button>
-                            </div>
+                            <div style="grid-column: span 2;"><label>Nama Lengkap</label><input type="text" id="panNama" required></div>
+                            <div><label>Jabatan</label><input type="text" id="panJabatan" required></div>
+                            <div><label>Divisi</label><input type="text" id="panDivisi"></div>
+                            <div style="grid-column: span 2;"><label>Foto</label><input type="file" id="panFoto" accept="image/*" required></div>
+                            <div><button type="submit" class="btn-primary">Simpan</button></div>
                         </form>
                     </div>
-
-                    <div class="card-box">
+                    <div class="card-box table-wrapper">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Foto</th>
-                                    <th>Nama</th>
-                                    <th>Jabatan</th>
-                                    <th>Divisi</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tablePanitia">
-                                <tr><td colspan="5" style="text-align:center; padding: 20px;">Memuat data panitia...</td></tr>
-                            </tbody>
+                            <thead><tr><th>Foto</th><th>Nama</th><th>Jabatan</th><th>Divisi</th><th>Aksi</th></tr></thead>
+                            <tbody id="tablePanitia"><tr><td colspan="5" style="text-align:center;">Memuat...</td></tr></tbody>
                         </table>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -359,22 +419,18 @@
 
         const loginSection = document.getElementById('loginSection');
         const adminSection = document.getElementById('adminSection');
-        const loginAlert = document.getElementById('loginAlert');
+        const sidebar = document.getElementById('sidebar');
+        const btnHamburger = document.getElementById('btnHamburger');
 
         async function checkSession() {
-            try {
-                const { data: { session }, error } = await supabase.auth.getSession();
-                if (error) throw error;
-                if (session) {
-                    loginSection.style.display = 'none';
-                    adminSection.style.display = 'flex';
-                    loadDataAduan(); fetchFinances(); fetchAgendasAdmin(); fetchUMKMAdmin(); fetchPanitia();
-                } else {
-                    loginSection.style.display = 'flex';
-                    adminSection.style.display = 'none';
-                }
-            } catch (err) {
-                console.error("Session check error:", err);
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                loginSection.style.display = 'none';
+                adminSection.style.display = 'flex';
+                loadAllData();
+            } else {
+                loginSection.style.display = 'flex';
+                adminSection.style.display = 'none';
             }
         }
         checkSession();
@@ -382,12 +438,13 @@
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btnLogin');
-            btn.innerText = 'Memeriksa...'; btn.disabled = true; loginAlert.style.display = 'none';
-            const { data, error } = await supabase.auth.signInWithPassword({ email: document.getElementById('email').value, password: document.getElementById('password').value });
-
+            btn.innerText = 'Memeriksa...'; btn.disabled = true;
+            const { error } = await supabase.auth.signInWithPassword({
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            });
             if (error) {
-                console.error("Login error:", error);
-                loginAlert.innerText = "Gagal masuk! Periksa email dan password."; loginAlert.style.display = 'block';
+                document.getElementById('loginAlert').style.display = 'block';
                 btn.innerText = 'Masuk ke Dashboard'; btn.disabled = false;
             } else {
                 window.location.reload();
@@ -400,194 +457,146 @@
         });
 
         document.querySelectorAll('.nav-link[data-target]').forEach(link => {
-            link.addEventListener('click', function() {
+            link.addEventListener('click', () => {
                 document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
+                link.classList.add('active');
                 document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
-                const targetId = this.getAttribute('data-target');
-                document.getElementById(targetId).classList.add('active');
-
-                if(targetId === 'section-laporan') loadDataAduan();
-                if(targetId === 'section-keuangan') fetchFinances();
-                if(targetId === 'section-agenda') fetchAgendasAdmin();
-                if(targetId === 'section-umkm') fetchUMKMAdmin();
-                if(targetId === 'section-panitia') fetchPanitia();
+                document.getElementById(link.dataset.target).classList.add('active');
+                if (window.innerWidth <= 768) sidebar.classList.remove('open');
+                const target = link.dataset.target;
+                if (target === 'section-laporan') loadDataAduan();
+                else if (target === 'section-keuangan') fetchFinances();
+                else if (target === 'section-agenda') fetchAgendasAdmin();
+                else if (target === 'section-umkm') fetchUMKMAdmin();
+                else if (target === 'section-panitia') fetchPanitia();
             });
         });
 
-        // ======================
-        // LOGIKA MOBILE MENU (DENGAN ERROR HANDLING)
-        // ======================
-        try {
-            const btnHamburger = document.getElementById('btnHamburger');
-            const sidebar = document.querySelector('.sidebar');
+        btnHamburger?.addEventListener('click', () => sidebar.classList.toggle('open'));
 
-            if (!btnHamburger) throw new Error("Elemen dengan ID 'btnHamburger' tidak ditemukan.");
-            if (!sidebar) throw new Error("Elemen dengan class '.sidebar' tidak ditemukan.");
-
-            btnHamburger.addEventListener('click', () => {
-                sidebar.classList.toggle('open');
-            });
-
-            const navLinks = document.querySelectorAll('.nav-link');
-            if (navLinks.length === 0) console.warn("Peringatan: Tidak ada elemen '.nav-link' ditemukan.");
-            
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (window.innerWidth <= 768) {
-                        sidebar.classList.remove('open');
-                    }
-                });
-            });
-
-            document.addEventListener('click', (event) => {
-                if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
-                    if (!sidebar.contains(event.target) && !btnHamburger.contains(event.target)) {
-                        sidebar.classList.remove('open');
-                    }
-                }
-            });
-
-        } catch (error) {
-            console.error("Gagal memuat Mobile Menu:", error.message);
+        async function compressImage(file, maxWidth = 800, quality = 0.8) {
+            const img = new Image();
+            img.src = URL.createObjectURL(file);
+            await new Promise(r => img.onload = r);
+            const canvas = document.createElement('canvas');
+            canvas.width = maxWidth;
+            canvas.height = img.height * (maxWidth / img.width);
+            canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+            const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', quality));
+            return new File([blob], `comp_${Date.now()}.jpg`, { type: 'image/jpeg' });
         }
 
-        // ======================
-        // LAPORAN WARGA
-        // ======================
+        async function uploadImage(file, bucket) {
+            const compressed = await compressImage(file, 800, 0.8);
+            const fileName = `${Date.now()}_${compressed.name}`;
+            const { error } = await supabase.storage.from(bucket).upload(fileName, compressed);
+            if (error) throw error;
+            const { data: { publicUrl } } = supabase.storage.from(bucket).getPublicUrl(fileName);
+            return publicUrl;
+        }
+
         async function loadDataAduan() {
             const tbody = document.getElementById('tableAduan');
             const { data, error } = await supabase.from('reports').select('*').order('created_at', { ascending: false });
-            if (error) { 
-                console.error("Error loading reports:", error);
-                tbody.innerHTML = '<tr><td colspan="5">Gagal memuat.</td></tr>'; 
-                return; 
-            }
-            if (data.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Kosong.</td></tr>'; return; }
-            let html = '';
-            data.forEach(report => {
-                const tgl = new Date(report.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-                let badgeClass = report.status === 'Selesai' ? 'status-selesai' : report.status === 'Diproses' ? 'status-diproses' : 'status-menunggu';
-                html += `<tr><td>${tgl}</td><td style="font-weight:600;">${report.title}</td><td>${report.category}</td><td><span class="status-badge ${badgeClass}">${report.status}</span></td><td><select class="action-select" onchange="updateStatus('${report.id}', this.value)"><option value="" disabled selected>Ubah Status</option><option value="Menunggu">Menunggu</option><option value="Diproses">Diproses</option><option value="Selesai">Selesai</option></select></td></tr>`;
-            });
-            tbody.innerHTML = html;
+            if (error) { tbody.innerHTML = '<tr><td colspan="5">Gagal memuat</td></tr>'; return; }
+            if (!data.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Belum ada laporan</td></tr>'; return; }
+            tbody.innerHTML = data.map(r => {
+                const tgl = new Date(r.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                let badge = r.status === 'Selesai' ? 'status-selesai' : r.status === 'Diproses' ? 'status-diproses' : 'status-menunggu';
+                return `<tr>
+                    <td>${tgl}</td>
+                    <td style="font-weight:600;">${escapeHtml(r.title)}</td>
+                    <td>${r.category}</td>
+                    <td><span class="status-badge ${badge}">${r.status}</span></td>
+                    <td>
+                        <select class="action-select" onchange="updateStatus('${r.id}', this.value)">
+                            <option disabled selected>Ubah</option>
+                            <option value="Menunggu">Menunggu</option>
+                            <option value="Diproses">Diproses</option>
+                            <option value="Selesai">Selesai</option>
+                        </select>
+                    </td>
+                </tr>`;
+            }).join('');
         }
+        window.updateStatus = async (id, newStatus) => {
+            if (!confirm(`Ubah status menjadi ${newStatus}?`)) return loadDataAduan();
+            await supabase.from('reports').update({ status: newStatus }).eq('id', id);
+            loadDataAduan();
+        };
 
-        window.updateStatus = async function(id, statusBaru) {
-            if(!confirm(`Yakin mengubah status menjadi ${statusBaru}?`)) { loadDataAduan(); return; }
-            const { error } = await supabase.from('reports').update({ status: statusBaru }).eq('id', id); 
-            if (error) console.error("Error updating status:", error);
-            loadDataAduan(); 
-        }
-
-        // ======================
-        // KEUANGAN
-        // ======================
         document.getElementById('formFinance').addEventListener('submit', async (e) => {
-            e.preventDefault(); const btn = document.getElementById('btnSaveFinance'); btn.innerText = 'Menyimpan...'; btn.disabled = true;
-            const data = { 
-                date: document.getElementById('finDate').value, 
-                category: document.getElementById('finCat').value, 
-                type: document.getElementById('finType').value, 
-                description: document.getElementById('finDesc').value, 
-                amount: Number(document.getElementById('finAmount').value) 
-            };
-            const { error } = await supabase.from('finances').insert([data]);
-            if (!error) { alert('Tersimpan!'); document.getElementById('formFinance').reset(); fetchFinances(); } else { console.error("Error inserting finance:", error); alert('Gagal!'); }
-            btn.innerText = 'Simpan Data'; btn.disabled = false;
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.disabled = true; btn.innerText = 'Menyimpan...';
+            const { error } = await supabase.from('finances').insert([{
+                date: document.getElementById('finDate').value,
+                category: document.getElementById('finCat').value,
+                type: document.getElementById('finType').value,
+                description: document.getElementById('finDesc').value,
+                amount: Number(document.getElementById('finAmount').value)
+            }]);
+            if (!error) { alert('Tersimpan!'); e.target.reset(); fetchFinances(); }
+            else alert('Gagal menyimpan.');
+            btn.disabled = false; btn.innerText = 'Simpan';
         });
 
         async function fetchFinances() {
             const tbody = document.getElementById('tableFinance');
             const { data, error } = await supabase.from('finances').select('*').order('date', { ascending: false });
-            if (error) {
-                console.error("Error fetching finances:", error);
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Gagal memuat data keuangan.</td></tr>';
-                return;
-            }
-            if (!data.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Kosong.</td></tr>'; return; }
-            let html = '';
-            data.forEach(item => {
-                const tgl = new Date(item.date).toLocaleDateString('id-ID'); const isMasuk = item.type.toLowerCase() === 'masuk';
-                html += `<tr><td>${tgl}</td><td style="font-weight:600;">${item.category}</td><td>${item.description}</td><td>${isMasuk ? '🟢 Masuk' : '🔴 Keluar'}</td><td style="color:${isMasuk?'#065F46':'#991B1B'}; font-weight:bold;">${isMasuk?'+':'-'} Rp ${item.amount.toLocaleString('id-ID')}</td><td><button class="btn-danger" onclick="deleteFinance('${item.id}')">Hapus</button></td></tr>`;
-            });
-            tbody.innerHTML = html;
+            if (error) { tbody.innerHTML = '<tr><td colspan="6">Gagal memuat</td></tr>'; return; }
+            if (!data.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Belum ada transaksi</td></tr>'; return; }
+            tbody.innerHTML = data.map(item => {
+                const tgl = new Date(item.date).toLocaleDateString('id-ID');
+                const isMasuk = item.type === 'masuk';
+                return `<tr>
+                    <td>${tgl}</td><td>${item.category}</td><td>${escapeHtml(item.description)}</td>
+                    <td>${isMasuk ? '🟢 Masuk' : '🔴 Keluar'}</td>
+                    <td style="color:${isMasuk?'#065F46':'#991B1B'}; font-weight:bold;">${isMasuk ? '+' : '-'} Rp ${item.amount.toLocaleString('id-ID')}</td>
+                    <td><button class="btn-danger" onclick="deleteFinance('${item.id}')">Hapus</button></td>
+                </tr>`;
+            }).join('');
         }
-        window.deleteFinance = async (id) => { 
-            if(confirm('Hapus?')) { 
-                const { error } = await supabase.from('finances').delete().eq('id', id); 
-                if (error) console.error("Error deleting finance:", error);
-                fetchFinances(); 
-            } 
-        }
+        window.deleteFinance = async (id) => { if(confirm('Hapus?')) { await supabase.from('finances').delete().eq('id', id); fetchFinances(); } };
 
-        // ======================
-        // AGENDA
-        // ======================
         document.getElementById('formAgenda').addEventListener('submit', async (e) => {
-            e.preventDefault(); const btn = document.getElementById('btnSaveAgenda'); btn.innerText = 'Menyimpan...'; btn.disabled = true;
-            const data = { title: document.getElementById('ageTitle').value, date: document.getElementById('ageDate').value, time: document.getElementById('ageTime').value, location: document.getElementById('ageLoc').value, description: document.getElementById('ageDesc').value };
-            const { error } = await supabase.from('agendas').insert([data]);
-            if (!error) { alert('Tersimpan!'); document.getElementById('formAgenda').reset(); fetchAgendasAdmin(); } else { console.error("Error inserting agenda:", error); }
-            btn.innerText = 'Simpan Agenda'; btn.disabled = false;
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.disabled = true; btn.innerText = 'Menyimpan...';
+            await supabase.from('agendas').insert([{
+                title: document.getElementById('ageTitle').value,
+                date: document.getElementById('ageDate').value,
+                time: document.getElementById('ageTime').value,
+                location: document.getElementById('ageLoc').value,
+                description: document.getElementById('ageDesc').value
+            }]);
+            alert('Tersimpan!'); e.target.reset(); fetchAgendasAdmin();
+            btn.disabled = false; btn.innerText = 'Simpan';
         });
 
         async function fetchAgendasAdmin() {
             const tbody = document.getElementById('tableAgenda');
             const { data, error } = await supabase.from('agendas').select('*').order('date', { ascending: true });
-            if (error) {
-                console.error("Error fetching agendas:", error);
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Gagal memuat agenda.</td></tr>';
-                return;
-            }
-            if (!data.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Kosong.</td></tr>'; return; }
-            let html = '';
-            data.forEach(item => {
-                html += `<tr><td>${new Date(item.date).toLocaleDateString('id-ID')}</td><td>${item.time}</td><td style="font-weight:600;">${item.title}</td><td>${item.location}</td><td>${item.description}</td><td><button class="btn-danger" onclick="deleteAgenda('${item.id}')">Hapus</button></td></tr>`;
-            });
-            tbody.innerHTML = html;
+            if (error) { tbody.innerHTML = '<tr><td colspan="6">Gagal memuat</td></tr>'; return; }
+            if (!data.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Belum ada agenda</td></tr>'; return; }
+            tbody.innerHTML = data.map(item => `<tr>
+                <td>${new Date(item.date).toLocaleDateString('id-ID')}</td>
+                <td>${item.time}</td><td style="font-weight:600;">${escapeHtml(item.title)}</td>
+                <td>${escapeHtml(item.location)}</td><td>${escapeHtml(item.description)}</td>
+                <td><button class="btn-danger" onclick="deleteAgenda('${item.id}')">Hapus</button></td>
+            </tr>`).join('');
         }
-        window.deleteAgenda = async (id) => { 
-            if(confirm('Hapus?')) { 
-                const { error } = await supabase.from('agendas').delete().eq('id', id); 
-                if (error) console.error("Error deleting agenda:", error);
-                fetchAgendasAdmin(); 
-            } 
-        }
+        window.deleteAgenda = async (id) => { if(confirm('Hapus?')) { await supabase.from('agendas').delete().eq('id', id); fetchAgendasAdmin(); } };
 
-        // ======================
-        // UMKM
-        // ======================
         document.getElementById('formUMKM').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('btnSaveUMKM');
-            btn.innerText = 'Mengupload foto & Menyimpan...'; btn.disabled = true;
-
+            const btn = e.target.querySelector('button');
+            btn.disabled = true; btn.innerText = 'Mengunggah...';
             try {
-                let imageUrl = "";
-                const fotoFile = document.getElementById('umkmImage').files[0];
-
-                if (fotoFile) {
-                    const img = new Image();
-                    const objectUrl = URL.createObjectURL(fotoFile);
-                    img.src = objectUrl;
-                    await new Promise(r => img.onload = r);
-                    URL.revokeObjectURL(objectUrl);
-
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 600; canvas.height = img.height * (600 / img.width);
-                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                    const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.8));
-                    const fileKompres = new File([blob], `umkm_${Date.now()}.jpg`, { type: 'image/jpeg' });
-
-                    const { error: uploadError } = await supabase.storage.from('foto-umkm').upload(fileKompres.name, fileKompres);
-                    if (uploadError) throw uploadError;
-
-                    imageUrl = supabase.storage.from('foto-umkm').getPublicUrl(fileKompres.name).data.publicUrl;
-                }
-
-                const data = {
+                const file = document.getElementById('umkmImage').files[0];
+                if (!file) throw new Error('Foto wajib diunggah');
+                const imageUrl = await uploadImage(file, 'foto-umkm');
+                await supabase.from('umkm').insert([{
                     title: document.getElementById('umkmTitle').value,
                     category: document.getElementById('umkmCategory').value,
                     price: document.getElementById('umkmPrice').value,
@@ -595,195 +604,127 @@
                     whatsapp: document.getElementById('umkmWa').value,
                     description: document.getElementById('umkmDesc').value,
                     image_url: imageUrl
-                };
-
-                const { error } = await supabase.from('umkm').insert([data]);
-                if (error) throw error;
-
-                alert('UMKM Berhasil Disimpan!'); 
-                document.getElementById('formUMKM').reset(); 
+                }]);
+                alert('UMKM berhasil disimpan!');
+                e.target.reset();
                 fetchUMKMAdmin();
-
-            } catch (error) {
-                console.error("UMKM Save Error:", error);
-                alert('Gagal menyimpan UMKM: Pastikan Storage bucket "foto-umkm" sudah ada. Error: ' + error.message);
-            } finally {
-                btn.innerText = 'Simpan UMKM'; btn.disabled = false;
+            } catch (err) {
+                alert('Error: ' + err.message);
             }
+            btn.disabled = false; btn.innerText = 'Simpan';
         });
 
         async function fetchUMKMAdmin() {
             const tbody = document.getElementById('tableUMKM');
-            if(!tbody) return;
             const { data, error } = await supabase.from('umkm').select('*').order('created_at', { ascending: false });
-
-            if (error) {
-                console.error("Error fetching UMKM:", error);
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Gagal memuat data UMKM.</td></tr>';
-                return;
-            }
-            if (!data || data.length === 0) { 
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Belum ada data UMKM.</td></tr>'; return; 
-            }
-
-            let html = '';
-            data.forEach(item => {
-                html += `
-                    <tr>
-                        <td><span style="background:#F3F4F6; padding:4px 8px; border-radius:4px; font-size:11px; font-weight:bold;">${item.category}</span></td>
-                        <td style="font-weight:600;">${item.title}</td>
-                        <td>👤 ${item.owner}</td>
-                        <td style="color:var(--primary); font-weight:bold;">${item.price}</td>
-                        <td>${item.whatsapp}</td>
-                        <td><button class="btn-danger" onclick="deleteUMKM('${item.id}')">Hapus</button></td>
-                    </tr>
-                `;
-            });
-            tbody.innerHTML = html;
+            if (error) { tbody.innerHTML = '<tr><td colspan="6">Gagal memuat</td></tr>'; return; }
+            if (!data.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Belum ada UMKM</td></tr>'; return; }
+            tbody.innerHTML = data.map(item => `<tr>
+                <td><span style="background:#F3F4F6; padding:2px 8px; border-radius:4px; font-size:11px;">${item.category}</span></td>
+                <td style="font-weight:600;">${escapeHtml(item.title)}</td>
+                <td>${escapeHtml(item.owner)}</td>
+                <td style="color:var(--primary); font-weight:bold;">${escapeHtml(item.price)}</td>
+                <td>${item.whatsapp}</td>
+                <td><button class="btn-danger" onclick="deleteUMKM('${item.id}')">Hapus</button></td>
+            </tr>`).join('');
         }
+        window.deleteUMKM = async (id) => { if(confirm('Hapus?')) { await supabase.from('umkm').delete().eq('id', id); fetchUMKMAdmin(); } };
 
-        window.deleteUMKM = async (id) => {
-            if(!confirm('Anda yakin ingin menghapus data usaha ini?')) return;
-            const { error } = await supabase.from('umkm').delete().eq('id', id);
-            if(error) {
-                console.error("Error deleting UMKM:", error);
-                alert('Gagal menghapus.');
-            } else {
-                fetchUMKMAdmin();
-            }
-        }
-
-        // ======================
-        // STRUKTUR PANITIA 17 AGUSTUS
-        // ======================
-        async function fetchPanitia() {
-            const tbody = document.getElementById('tablePanitia');
-            const { data, error } = await supabase
-                .from('committee')
-                .select('*')
-                .eq('event', '17 Agustus')
-                .order('created_at', { ascending: true });
-
-            if (error) {
-                console.error("Error fetching panitia:", error);
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Gagal memuat data panitia.</td></tr>';
-                return;
-            }
-            if (!data || data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Belum ada anggota panitia.</td></tr>';
-                return;
-            }
-
-            let html = '';
-            data.forEach(org => {
-                const foto = org.foto_url 
-                    ? `<img src="${org.foto_url}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">` 
-                    : '👤';
-                html += `
-                    <tr>
-                        <td>${foto}</td>
-                        <td style="font-weight:600;">${org.nama}</td>
-                        <td>${org.jabatan}</td>
-                        <td>${org.divisi || '-'}</td>
-                        <td><button class="btn-danger" onclick="deletePanitia('${org.id}')">Hapus</button></td>
-                    </tr>
-                `;
-            });
-            tbody.innerHTML = html;
-        }
-
-        window.deletePanitia = async (id) => {
-            if (!confirm('Hapus anggota panitia ini?')) return;
-            const { error } = await supabase.from('committee').delete().eq('id', id);
-            if (error) {
-                console.error("Error deleting panitia:", error);
-                alert('Gagal menghapus.');
-            } else {
-                fetchPanitia();
-            }
-        }
-
+        // ========== PANITIA ==========
         document.getElementById('formPanitia').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('btnSavePanitia');
-            btn.innerText = 'Mengupload...'; btn.disabled = true;
-
+            const btn = e.target.querySelector('button');
+            btn.disabled = true; btn.innerText = 'Mengunggah...';
             try {
-                let fotoUrl = "";
-                const fotoFile = document.getElementById('panFoto').files[0];
-
-                if (fotoFile) {
-                    const img = new Image();
-                    const objUrl = URL.createObjectURL(fotoFile);
-                    img.src = objUrl;
-                    await new Promise(r => img.onload = r);
-                    URL.revokeObjectURL(objUrl);
-
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 400;
-                    canvas.height = img.height * (400 / img.width);
-                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                    const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.8));
-                    const fileKompres = new File([blob], `panitia_${Date.now()}.jpg`, { type: 'image/jpeg' });
-
-                    const { error: uploadError } = await supabase.storage
-                        .from('foto-panitia')
-                        .upload(fileKompres.name, fileKompres);
-                    if (uploadError) throw uploadError;
-
-                    fotoUrl = supabase.storage.from('foto-panitia').getPublicUrl(fileKompres.name).data.publicUrl;
-                }
-
-                const data = {
+                const file = document.getElementById('panFoto').files[0];
+                if (!file) throw new Error('Foto wajib diunggah');
+                const fotoUrl = await uploadImage(file, 'foto-panitia');
+                await supabase.from('committee').insert([{
                     nama: document.getElementById('panNama').value,
                     jabatan: document.getElementById('panJabatan').value,
                     divisi: document.getElementById('panDivisi').value || null,
                     foto_url: fotoUrl,
                     event: '17 Agustus'
-                };
-
-                const { error } = await supabase.from('committee').insert([data]);
-                if (error) throw error;
-
-                alert('Anggota panitia berhasil ditambahkan!');
-                document.getElementById('formPanitia').reset();
+                }]);
+                alert('Anggota panitia ditambahkan!');
+                e.target.reset();
                 fetchPanitia();
             } catch (err) {
-                console.error("Error tambah panitia:", err);
-                alert('Gagal menyimpan. Pastikan bucket "foto-panitia" sudah dibuat. ' + err.message);
-            } finally {
-                btn.innerText = 'Simpan Anggota';
-                btn.disabled = false;
+                alert('Error: ' + err.message);
             }
+            btn.disabled = false; btn.innerText = 'Simpan';
         });
 
-        // Panggil fetchPanitia saat login
-        // (sudah dipanggil di checkSession)
+        async function fetchPanitia() {
+            const tbody = document.getElementById('tablePanitia');
+            const { data, error } = await supabase.from('committee').select('*').eq('event', '17 Agustus').order('created_at', { ascending: true });
+            if (error) { tbody.innerHTML = '<tr><td colspan="5">Gagal memuat</td></tr>'; return; }
+            if (!data.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Belum ada anggota</td></tr>'; return; }
+            tbody.innerHTML = data.map(org => `<tr>
+                <td>${org.foto_url ? `<img src="${org.foto_url}" style="width:35px;height:35px;border-radius:50%;object-fit:cover;">` : '👤'}</td>
+                <td style="font-weight:600;">${escapeHtml(org.nama)}</td>
+                <td>${escapeHtml(org.jabatan)}</td>
+                <td>${org.divisi || '-'}</td>
+                <td><button class="btn-danger" onclick="deletePanitia('${org.id}')">Hapus</button></td>
+            </tr>`).join('');
+        }
+        window.deletePanitia = async (id) => { if(confirm('Hapus?')) { await supabase.from('committee').delete().eq('id', id); fetchPanitia(); } };
 
-        // SISTEM REGISTRASI SERVICE WORKER PWA
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+        }
+
+        function loadAllData() {
+            loadDataAduan();
+            fetchFinances();
+            fetchAgendasAdmin();
+            fetchUMKMAdmin();
+            fetchPanitia();
+        }
+    </script>
+
+    <script>
+        // Service Worker & Pop-up Update
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('PWA Service Worker aktif:', reg.scope))
-                    .catch(err => console.error('PWA gagal dimuat:', err));
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => {
+                    console.log('[SW] Registered');
+                    reg.onupdatefound = () => {
+                        const installingWorker = reg.installing;
+                        installingWorker.onstatechange = () => {
+                            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                tampilkanPopupUpdate();
+                            }
+                        };
+                    };
+                })
+                .catch(err => console.error('SW failed', err));
+
+            navigator.serviceWorker.addEventListener('message', event => {
+                if (event.data && event.data.action === 'update') {
+                    tampilkanPopupUpdate();
+                }
+            });
+        }
+
+        function tampilkanPopupUpdate() {
+            const popup = document.getElementById('popupUpdate');
+            if (!popup) return;
+            popup.classList.add('show');
+
+            document.getElementById('btnUpdateNow').onclick = () => {
+                window.location.reload(true);
+            };
+
+            document.getElementById('btnUpdateLater').onclick = () => {
+                popup.classList.remove('show');
+            };
+
+            popup.addEventListener('click', function(e) {
+                if (e.target === popup) popup.classList.remove('show');
             });
         }
     </script>
-<script>
-if ('serviceWorker' in navigator) {
-  // Daftarkan Service Worker
-  navigator.serviceWorker.register('/sw.js');
-
-  // Tangkap pesan dari Service Worker
-  navigator.serviceWorker.addEventListener('message', event => {
-    if (event.data.action === 'update') {
-      if (confirm('Update tersedia! Segarkan halaman sekarang?')) {
-        window.location.reload();
-      }
-    }
-  });
-}
-</script>
 </body>
 </html>
