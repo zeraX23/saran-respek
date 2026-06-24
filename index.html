@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
 <script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "6752d413-9183-4e6c-a900-6a1ba79cd16c",
+  window.OneSignal = window.OneSignal || [];
+  OneSignal.push(function() {
+    OneSignal.init({
+      appId: "6752d413-9183-4e6c-a900-6a1ba79cd16c", // Ganti dengan App ID dari dashboard
+      autoRegister: true, // Otomatis meminta izin notifikasi saat user buka web
       notifyButton: {
-        enable: true,
+        enable: true, // Menampilkan tombol lonceng notifikasi di pojok layar
+        position: 'bottom-right', // Posisi tombol
       },
+      // Konfigurasi Service Worker:
+      serviceWorkerPath: "OneSignalSDKWorker.js", // Pastikan path ini sesuai dengan letak file Anda (di root)
+      // OPSIONAL: Jika Anda ingin menggabungkan dengan sw.js Anda yang sudah ada:
+      // serviceWorkerPath: "sw.js"
     });
   });
 </script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
