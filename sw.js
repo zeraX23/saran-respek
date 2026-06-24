@@ -12,33 +12,29 @@ const ASSETS_TO_CACHE = [
 ];
 
 self.addEventListener('install', (e) => {
-  console.log('[Service Worker] Terinstal dan menyimpan cache');
-  self.skipWaiting(); // Memaksa update SW baru langsung aktif
-
+  console.log('[SW] Install: menyimpan cache...');
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
+      return cache.addAll(ASSETS_TO_CACHE).then(() => self.skipWaiting());
     })
   );
 });
 
 self.addEventListener('activate', (e) => {
-  console.log('[Service Worker] Aktif dan mengambil alih kontrol');
+  console.log('[SW] Aktif: hapus cache lama...');
   e.waitUntil(
-    clients.claim().then(() => {
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+    ).then(() => clients.claim()).then(() => {
       return self.clients.matchAll().then(clients => {
-        clients.forEach(client => client.postMessage({action: 'update'}));
+        clients.forEach(client => client.postMessage({ action: 'update' }));
       });
     })
   );
 });
 
 self.addEventListener('fetch', (e) => {
-  // Penting: Jangan di-cache request Supabase agar data transaksi/admin realtime
-  if (e.request.url.includes('supabase.co')) {
-    return; 
-  }
-
+  if (e.request.url.includes('supabase.co')) return;
   e.respondWith(
     caches.match(e.request).then((response) => {
       return response || fetch(e.request);
