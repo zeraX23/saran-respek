@@ -1,25 +1,19 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <!-- Script OneSignal Notifikasi -->
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   OneSignalDeferred.push(async function(OneSignal) {
     await OneSignal.init({
-      appId: "6752d413-9183-4e6c-a900-6a1ba79cd16c", 
+      appId: "6752d413-9183-4e6c-a900-6a1ba79cd16c",
       notifyButton: {
         enable: true,
-        position: 'bottom-left',
-        text: {
-            'tip.state.unsubscribed': 'Aktifkan notifikasi pemberitahuan',
-            'tip.state.subscribed': 'Anda berlangganan notifikasi',
-            'tip.state.blocked': 'Notifikasi diblokir'
-        }
-      }
+      },
     });
   });
 </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
