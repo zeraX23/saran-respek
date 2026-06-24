@@ -1,3 +1,5 @@
+importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js");
+
 const CACHE_NAME = 'respek-pwa-v1'; // Perbaikan typo: 'Const' menjadi 'const'
 
 // Daftar file yang akan disimpan di memori lokal HP/Browser
