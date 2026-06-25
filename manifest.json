@@ -8,6 +8,11 @@
   "display": "standalone",
   "background_color": "#F9FAFB",
   "theme_color": "#A62122",
+  "orientation": "portrait",
+  "lang": "id",
+  "dir": "ltr",
+  "categories": ["productivity", "utilities", "social"],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "logo.png",
@@ -20,19 +25,14 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
-    }
+    },
     {
-    "src": "icon-maskable.png",
-    "sizes": "512x512",
-    "type": "image/png",
-    "purpose": "maskable"
-  }
+      "src": "icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ],
-  "orientation": "portrait",
-  "categories": ["productivity", "utilities", "social"],
-  "prefer_related_applications": false,
-  "lang": "id",
-  "dir": "ltr",
   "screenshots": [
     {
       "src": "fotosampul.png",
