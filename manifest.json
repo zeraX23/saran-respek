@@ -11,12 +11,28 @@
     {
       "src": "logo.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "logo.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "orientation": "portrait",
+  "categories": ["productivity", "utilities", "social"],
+  "prefer_related_applications": false,
+  "lang": "id",
+  "dir": "ltr",
+  "screenshots": [
+    {
+      "src": "fotosampul.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Halaman Utama Aduan RESPEK"
     }
   ]
 }
