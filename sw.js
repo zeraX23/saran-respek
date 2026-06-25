@@ -1,4 +1,5 @@
-importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js");
+// Hapus OneSignal dan ganti dengan Pushwoosh Service Worker
+importScripts('https://cdn.pushwoosh.com/webpush/v3/pushwoosh-service-worker.js');
 
 const CACHE_NAME = 'respek-pwa-v1';
 const ASSETS_TO_CACHE = [
@@ -34,6 +35,7 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
+  // Biarkan request ke Supabase (API & Storage) lewat jaringan langsung
   if (e.request.url.includes('supabase.co')) return;
   e.respondWith(
     caches.match(e.request).then((response) => {
