@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.saran_respek.twa",
+      "sha256_cert_fingerprints": [
+        "60:5C:CC:08:CC:0D:BB:A0:54:2B:4D:08:42:F1:7F:CF:02:5A:AC:41:C9:7B:51:69:25:89:DB:65:43:C8:67:A3"
+      ]
+    }
+  }
+]
